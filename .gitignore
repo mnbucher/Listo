@@ -1,2 +1,18 @@
+# Dependency directory
 node_modules
+bower_components
+
+# Project
+.idea
+*.iml
+.DS_Store
+
+# Vagrant
+.vagrant
+
+# ShrinkWrap ?
+npm-shrinkwrap.json
+
+#Firebase
 _src/_public/firebase_credentials.js
+

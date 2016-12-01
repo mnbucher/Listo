@@ -1,0 +1,175 @@
+/* STYLESCREEN FOR LISTO APPLICATION
+
+Authors: Martin Bucher, David Haas, Marcel Bühler
+
+Copyright 2016. All rights reserved.
+
+*/
+
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
+/* HTML5 display-role reset for older browsers */
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  display: block; }
+
+body {
+  line-height: 1; }
+
+ol, ul {
+  list-style: none; }
+
+blockquote, q {
+  quotes: none; }
+
+blockquote {
+  &:before, &:after {
+    content: '';
+    content: none; } }
+
+q {
+  &:before, &:after {
+    content: '';
+    content: none; } }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+/* Colors */
+
+$navy: #354B61;
+$darknavy: #243342;
+
+/* General */
+
+body {
+  background-color: $navy;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", serif;
+}
+
+.nav, .seachfield, .content_wrapper, .item, .searchfield input {
+  box-sizing: border-box;
+}
+
+
+/* Navigation */
+
+.nav_wrapper {
+  background-color: #ffffff;
+  border-bottom: #e7e7e7;
+  overflow: hidden;
+}
+
+.nav {
+  width: 86.6666666666%;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.nav ul {
+  display: inline;
+}
+
+.nav ul li {
+  float: left;
+  width: 33.333333333%;
+  list-style: none;
+  font-size: 1em;
+  margin: 1em 0;
+}
+
+.menu span {
+  display: inline-block;
+  border: 2px solid #c2c2c2;
+  padding: 0.618em 1em;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.logo {
+  text-align: center;
+}
+
+.logo span {
+  display: inline-block;
+  padding: 0.618em 1em;
+}
+
+.collaborate {
+  cursor: pointer;
+  text-align: right;
+}
+
+.collaborate span {
+  display: inline-block;
+  padding: 0.618em 1em;
+}
+
+
+/* Main */
+
+.content_wrapper {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.searchfield {
+  width: 100%;
+}
+
+.searchfield input {
+  width: 96.6666666666%;
+  margin: 1em 1.6666666667% 0.618em;
+  font-size: 1.618em;
+  padding: 0.6em 1em;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  border: #e7e7e7;
+  background-color: $darknavy;
+}
+
+.item {
+  width: 30%;
+  float: left;
+  margin: 1.6666666667%;
+  padding: 2em;
+  background-color: #ffffff;
+  border: 1px solid #e7e7e7;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  text-align: center
+  //box-shadow:
+}
+
+.item h1 {
+  font-size: 1.618em;
+  margin-bottom: 0.309em;
+}
+
+.activeData, .frequentData, .allData, .searchData {
+  overflow: hidden;
+  width: 100%;
+  margin-bottom: 2em;
+}
+
+.frequentData h1, .allData h1 {
+  font-size: 1.2em;
+  margin-bottom: 1.618em;
+  letter-spacing: 2px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+}

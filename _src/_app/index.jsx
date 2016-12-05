@@ -5,14 +5,44 @@ import Firebase from 'firebase';
 // Stylesheets
 require('./style.scss');
 
+class Menu extends React.Component {
+
+  render(){
+    return(
+      <div className="overlayMenu">
+        <ul>
+          <li>🛍 Weekly shopping</li>
+          <li>🎉 New Year's party</li>
+          <li>⚽️ Champions League final</li>
+        </ul>
+      </div>
+    );
+  }
+
+}
+
 class Navigation extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      showMenu: false
+    }
+    this.handleMenu = this.handleMenu.bind(this);
+  }
+
+  handleMenu(e){
+    this.setState({ showMenu: !this.state.showMenu });
+  }
+
   render(){
     return(
       <div className="nav_wrapper">
+        {this.state.showMenu ? <Menu /> : null }
         <div className="nav">
           <ul>
-            <li className="menu"><span>Menu</span></li>
-            <li className="logo"><span>Listo</span></li>
+            <li className="menu" onClick={this.handleMenu}><span>Menu</span></li>
+            <li className="logo"><span><img src="../logo.png" /></span></li>
             <li className="collaborate"><span>Team</span></li>
           </ul>
         </div>
@@ -54,6 +84,22 @@ class Listing extends React.Component{
   }
 }
 
+class DetailPage extends React.Component {
+
+  constructor(props){
+    super(props);
+  }
+
+  render(){
+    return(
+      <div className="detailWrapper">
+
+      </div>
+    );
+  }
+
+}
+
 class Item extends React.Component {
 
   constructor(props){
@@ -62,6 +108,12 @@ class Item extends React.Component {
     this.handleEventClick = this.handleEventClick.bind(this);
     this.addItemToActiveList = this.addItemToActiveList.bind(this);
     this.deleteItemFromActiveList = this.deleteItemFromActiveList.bind(this);
+    this.fakeButton = this.fakeButton.bind(this);
+
+    this.state = {
+      showDetail: false
+    };
+
   }
 
   componentWillMount(){
@@ -95,11 +147,20 @@ class Item extends React.Component {
     }
   }
 
+  fakeButton(e){
+    this.setState({ showDetail: true });
+  }
+
   render(){
     return(
-      <div className="item" onClick={this.handleEventClick}>
-        <h1>{this.props.item.name}</h1>
-        <h2>{this.props.item.comment}</h2>
+      <div className="item_wrapper">
+        {this.state.showDetail ? <DetailPage item={this.props.item} /> : null}
+        <div className="item" onClick={this.handleEventClick}>
+          <h1>{this.props.item.name}</h1>
+          <img src={this.props.item.url} />
+          {this.props.item.comment? <h2>{this.props.item.comment}</h2> : <h2 className="emptyComment">empty</h2>}
+        </div>
+        <div className="fakeButton" onClick={this.fakeButton}>Press</div>
       </div>
     );
   }
@@ -116,7 +177,7 @@ class Main extends React.Component {
       searchData: [],
       activeData: [],
       frequentData: [],
-      allData: []
+      allData: [],
     }
 
     /* Binding all methods. ES16 FTW */
@@ -125,7 +186,6 @@ class Main extends React.Component {
     this.getFrequentData = this.getFrequentData.bind(this);
     this.getAllData = this.getAllData.bind(this);
     this.onChangeSearch = this.onChangeSearch.bind(this);
-
   }
 
   componentWillMount(){
@@ -198,6 +258,7 @@ class Main extends React.Component {
 
   render(){
     return (
+
       <div className="content_wrapper">
 
         <div className="searchfield">

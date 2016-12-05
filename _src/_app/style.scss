@@ -51,6 +51,7 @@ table {
 
 $navy: #354B61;
 $darknavy: #243342;
+$lightnavy: #8aa4be;
 
 /* General */
 
@@ -59,7 +60,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", serif;
 }
 
-.nav, .seachfield, .content_wrapper, .item, .searchfield input {
+.nav, .seachfield, .content_wrapper, .item_wrapper, .searchfield input {
   box-sizing: border-box;
 }
 
@@ -73,7 +74,7 @@ body {
 }
 
 .nav {
-  width: 86.6666666666%;
+  width: 91.6666666666%;
   overflow: hidden;
   margin: 0 auto;
 }
@@ -92,7 +93,8 @@ body {
 
 .menu span {
   display: inline-block;
-  border: 2px solid #c2c2c2;
+  box-sizing: border-box;
+  border: 1px solid $lightnavy;
   padding: 0.618em 1em;
   -webkit-border-radius: 5px;
   border-radius: 5px;
@@ -105,7 +107,11 @@ body {
 
 .logo span {
   display: inline-block;
-  padding: 0.618em 1em;
+  padding: 0.309em 1em;
+}
+
+.logo img {
+  height: 1.618em;
 }
 
 .collaborate {
@@ -116,13 +122,17 @@ body {
 .collaborate span {
   display: inline-block;
   padding: 0.618em 1em;
+  border: 1px solid $lightnavy;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 
 /* Main */
 
 .content_wrapper {
-  width: 90%;
+  width: 95%;
   margin: 0 auto;
 }
 
@@ -141,22 +151,51 @@ body {
   background-color: $darknavy;
 }
 
-.item {
+.item_wrapper {
   width: 30%;
   float: left;
   margin: 1.6666666667%;
-  padding: 2em;
+  padding: 1.5em 1em 1.25em;
   background-color: #ffffff;
   border: 1px solid #e7e7e7;
   -webkit-border-radius: 5px;
   border-radius: 5px;
-  text-align: center
-  //box-shadow:
+  text-align: center;
+  -webkit-box-shadow: 0 3px 6px 3px rgba(36,51,66,0.5);
+  box-shadow: 0 3px 6px 3px rgba(36,51,66,0.5);
+}
+
+.item {
+  width: 100%;
 }
 
 .item h1 {
-  font-size: 1.618em;
+  font-size: 1.1em;
+  //font-weight: bold;
+  color: $navy;
   margin-bottom: 0.309em;
+}
+
+.item h2 {
+  font-style: italic;
+  color: #86db85;
+}
+
+.item img {
+  height: 7em;
+  padding: 1em 0 0;
+}
+
+.fakeButton {
+  position: absolute;
+  color: white;
+  width: 6em;
+  height: 5em;
+  margin-top: -5em;
+}
+
+h2.emptyComment {
+  color: #fff;
 }
 
 .activeData, .frequentData, .allData, .searchData {
@@ -172,4 +211,28 @@ body {
   color: #fff;
   text-transform: uppercase;
   font-weight: bold;
+}
+
+.overlayMenu {
+  position: absolute;
+  z-index: 999999;
+  top: 4.3125em;
+  width: 90vw;
+  background-color: black;
+  opacity: 0.9;
+  height: calc(100vh - 4.3125em);
+}
+
+.overlayMenu ul {
+  margin-top: 2em;
+  width: 91.6666666666%;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.overlayMenu ul li {
+  color: #FFFFFF;
+  font-size: 1.618em;
+  margin: 1.618em 0 0;
+  line-height: 1.2;
 }

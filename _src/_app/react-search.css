@@ -22,6 +22,10 @@
 .autocomplete__items {
   margin: 0;
   padding: 0.4rem;
+  width: 96.6666666666%;
+  margin: 1em 1.6666666667% 0.618em;
+  font-size: 1.618em;
+  padding: 0;
 }
 .autocomplete__item {
   cursor: pointer;
@@ -32,8 +36,11 @@
   padding: 0.5rem;
 }
 .autocomplete__item--selected, .autocomplete__item:hover, .autocomplete__item:visited {
-  background-color: #ebebeb;
-  color: black;
+  background-color: #243342;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  border: #e7e7e7;
+  color: #e2e2e2;
 }
 .autocomplete__item--disabled {
   background-color: white;

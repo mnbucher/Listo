@@ -1,21 +1,41 @@
 import React from 'react';
+import Search from 'react-search';
+import Firebase from 'firebase';
 
-export default class SearchBar extends React.Component {
-     onChangeSearch(e){
-    if(e.target.value && e.target.value == " "){
-      this.setState({
-        searchString: e.target.value
-      });
-      //document.getElementById("content_optional_wrapper").addClassName = "hidden";
-      //console.log(document.getElementById("content_optional_wrapper"));
-    }
+export default class ListoSearch extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      items: [
+      ],
+    };
+    /* Bind methods */
   }
 
-    render(){
-        return(
-        <div className="searchfield">
-          <input onChange={this.onChangeSearch} placeholder="Search..." ></input>
-        </div>
-        );
-      }
+  componentWillMount() {
+    this.firebaseRef = Firebase.database().ref();
+
+    var newActiveData = [];
+
+    /* Adds all items from Firebase database once */
+    this.firebaseRef.child("activeItems").on("child_added", function(dataSnapshot){
+        var data = {};
+      data.value = dataSnapshot.val().name;
+        data.id = dataSnapshot.key;
+        newActiveData.push(data);
+      this.setState({items: newActiveData});
+    }.bind(this));
+  }
+
+  componentWillUnmount() {
+    this.firebaseRef.off();
+  }
+
+
+  render(){
+    return(
+         <Search items={this.state.items}  />
+    );
+  }
 }

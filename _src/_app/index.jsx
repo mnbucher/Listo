@@ -1,7 +1,7 @@
 import React from 'react';
 import {render} from 'react-dom';
 import Firebase from 'firebase';
-
+import ListoSearch from './search.jsx'
 // Stylesheets
 require('./style.scss');
 
@@ -198,6 +198,7 @@ class Main extends React.Component {
   componentWillUnmount() {
     Firebase.off();
   }
+  resolve(){console.log('test');}
 
   /* Get all items that the user have to buy */
   getActiveData(){
@@ -257,15 +258,14 @@ class Main extends React.Component {
   }
 
   render(){
+
     return (
 
       <div className="content_wrapper">
 
-        <div className="searchfield">
-          <input onChange={this.onChangeSearch} placeholder="Search..." ></input>
-        </div>
-
         <Listing items={this.state.searchData} category="searchData" title=""/>
+
+        <ListoSearch />
 
         <div id="content_optional_wrapper">
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import {render} from 'react-dom';
 import Firebase from 'firebase';
+import Search from 'react-search'
 
 // Stylesheets
 require('./style.scss');
@@ -105,6 +106,58 @@ class Item extends React.Component {
   }
 }
 
+
+
+class ListoSearch extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      items: [
+        {id: 0, value: 'ruby'},
+        {id: 1, value: 'javascript'},
+        {id: 2, value: 'lua'},
+        {id: 3, value: 'go'},
+        {id: 4, value: 'julia'}
+      ],
+    };
+    /* Bind methods */
+    this.handleEventClick = this.handleEventClick.bind(this);
+  }
+
+  componentWillMount() {
+    this.firebaseRef = Firebase.database().ref();
+
+    var newActiveData = [];
+
+    /* Adds all items from Firebase database once */
+    this.firebaseRef.child("activeItems").on("child_added", function(dataSnapshot){
+        var data = {};
+      data.value = dataSnapshot.val().name;
+        data.id = dataSnapshot.key;
+        newActiveData.push(data);
+      this.setState({items: newActiveData});
+    }.bind(this));
+  }
+
+  componentWillUnmount() {
+    this.firebaseRef.off();
+  }
+
+  handleEventClick(e) {
+    console.log('clicked');
+  }
+
+  render(){
+    return(
+         <Search items={this.state.items} />
+    );
+  }
+}
+
+
+
+
 class Main extends React.Component {
 
   constructor(props){
@@ -138,6 +191,7 @@ class Main extends React.Component {
   componentWillUnmount() {
     Firebase.off();
   }
+  resolve(){console.log('test');}
 
   /* Get all items that the user have to buy */
   getActiveData(){
@@ -197,14 +251,13 @@ class Main extends React.Component {
   }
 
   render(){
+
     return (
       <div className="content_wrapper">
 
-        <div className="searchfield">
-          <input onChange={this.onChangeSearch} placeholder="Search..." ></input>
-        </div>
-
         <Listing items={this.state.searchData} category="searchData" title=""/>
+
+        <ListoSearch />
 
         <div id="content_optional_wrapper">
 

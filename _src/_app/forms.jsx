@@ -1,6 +1,27 @@
 import React from 'react';
 
-export default class Select extends React.Component {
+class Input extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: this.props.value,
+            checkmarkVisible: false,
+    };
+       this.handleChange = this.handleChange.bind(this);
+    this.confirmChange = this.confirmChange.bind(this);
+  }
+
+    confirmChange() {
+        this.setState({checkmarkVisible: true});
+    }
+
+  handleChange(event) {
+  this.confirmChange();
+  }
+}
+
+
+export class Select extends React.Component {
     /**
      * needed props: options: [{}, {}]
      * @param props
@@ -13,10 +34,17 @@ export default class Select extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.confirmChange = this.confirmChange.bind(this);
+    this.hideCheckmark = this.hideCheckmark.bind(this);
   }
 
     confirmChange() {
         this.setState({checkmarkVisible: true});
+        setTimeout(this.hideCheckmark, 5000);
+    }
+
+    hideCheckmark() {
+        this.setState({checkmarkVisible: false});
     }
 
   handleChange(event) {
@@ -38,9 +66,19 @@ export default class Select extends React.Component {
                   <select value={this.state.value} onChange={this.handleChange}>
                       {this.getSelectOptions()}
                   </select>
-                    {this.state.checkmarkVisible ? <span className="glyphicon glyphicon-check"></span> : null}
+                    {this.state.checkmarkVisible ? <span className="fading" ><span className="glyphicon glyphicon-ok green"></span></span> : null}
                 </label>
             </div>
             );
         }
+}
+
+export class Username extends Input {
+    render(){
+        return ( <div>
+                <input placeholder="username" type="text"/>
+                {this.state.checkmarkVisible ? <span className="glyphicon glyphicon-ok green"></span> : null}
+            </div>
+    )
+    }
 }

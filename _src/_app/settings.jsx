@@ -1,4 +1,4 @@
-import Select from './forms.jsx';
+import {Select, Username} from './forms.jsx';
 import React from 'react';
 
 
@@ -26,9 +26,17 @@ export default class Settings extends React.Component {
 
   render(){
     return(
-         <div>
+         <div className="container-fluid">
              <h2>Settings</h2>
-             <Select label="Choose your preferred item ordering: " options={this.orderOptions} value={this.state.activeOrderOption} />
+             <div className="row">
+                 <div className="col-xs-12">Username</div>
+                 <Username />
+             </div>
+             <div className="row">
+                 <div className="col-xs-12">Choose your preferred item ordering: </div>
+                 <div className="col-xs-12"><Select  options={this.orderOptions} value={this.state.activeOrderOption} /></div>
+             </div>
+
          </div>
     );
   }

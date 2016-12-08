@@ -1,4 +1,4 @@
-import SimpleFormDemo from './forms.jsx';
+import Select from './forms.jsx';
 import React from 'react';
 
 
@@ -6,12 +6,13 @@ export default class Settings extends React.Component {
 
   constructor(props){
     super(props);
+
+    this.orderOptions = [
+        { value: 'manual', label: 'manual', description: 'You manually select the order (see below).'},
+        { value: 'automatic', label: 'automatic', description: 'The order is automatically adjusted when you enter a shop. For example, when you enter a COOP supermarket, the items are displayed in the correct order.'},
+        { value: 'alphabetical', label: 'alphabetical', description: 'Items are ordered in alphabetical order (ascending).'},
+    ],
     this.state = {
-        orderOptions: [
-            { name: 'manual', description: 'You manually select the order (see below).'},
-            { name: 'automatic', description: 'The order is automatically adjusted when you enter a shop. For example, when you enter a COOP supermarket, the items are displayed in the correct order.'},
-            { name: 'alphabetical', description: 'Items are ordered in alphabetical order (ascending).'},
-        ],
         activeOrderOption: 'alphabetical',
         userName: '',
         preferences: ['vegan', 'vegetarian', 'lactose intolerant']
@@ -26,8 +27,8 @@ export default class Settings extends React.Component {
   render(){
     return(
          <div>
-             hi
-             <SimpleFormDemo></SimpleFormDemo>
+             <h2>Settings</h2>
+             <Select label="Choose your preferred item ordering: " options={this.orderOptions} value={this.state.activeOrderOption} />
          </div>
     );
   }

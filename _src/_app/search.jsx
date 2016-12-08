@@ -19,7 +19,7 @@ export default class ListoSearch extends React.Component {
     var newActiveData = [];
 
     /* Adds all items from Firebase database once */
-    this.firebaseRef.child("activeItems").on("child_added", function(dataSnapshot){
+    this.firebaseRef.child("allItems").on("child_added", function(dataSnapshot){
         var data = {};
       data.value = dataSnapshot.val().name;
         data.id = dataSnapshot.key;

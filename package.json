@@ -18,7 +18,9 @@
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-search": "^2.0.5",
-    "webpack": "^1.13.3"
+    "webpack": "^1.13.3",
+    "interact": "0.0.3",
+    "react-modal": "~1.6.1"
   },
   "devDependencies": {
     "babel-core": "^6.18.2",

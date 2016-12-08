@@ -1,7 +1,8 @@
 import React from 'react';
 import {render} from 'react-dom';
 import Firebase from 'firebase';
-import ListoSearch from './search.jsx'
+import ListoSearch from './search.jsx';
+import Modal from 'react-modal';
 // Stylesheets
 require('./style.scss');
 
@@ -109,13 +110,22 @@ class Item extends React.Component {
     this.addItemToActiveList = this.addItemToActiveList.bind(this);
     this.deleteItemFromActiveList = this.deleteItemFromActiveList.bind(this);
     this.fakeButton = this.fakeButton.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
 
     this.state = {
-      showDetail: false
+      showDetail: false,
+      modalIsOpen: false,
     };
 
   }
 
+  openModal(){
+    this.setState({modalIsOpen: true});
+  }
+  closeModal(){
+    this.setState({modalIsOpen: false});
+  }
   componentWillMount(){
     this.firebaseRef = Firebase.database().ref();
   }
@@ -125,11 +135,16 @@ class Item extends React.Component {
   }
 
   handleEventClick(e) {
-    if(this.props.category.match("searchData|frequentData|allData")){
-      this.addItemToActiveList(this.props.item.id);
-    }
-    else {
-      this.deleteItemFromActiveList(this.props.item.id);
+    if(e.ctrlKey) {// Ctrl key has been pressed -> simulate long click
+      this.openModal();
+    } else {
+
+      if (this.props.category.match("searchData|frequentData|allData")) {
+        this.addItemToActiveList(this.props.item.id);
+      }
+      else {
+        this.deleteItemFromActiveList(this.props.item.id);
+      }
     }
   }
 
@@ -161,7 +176,23 @@ class Item extends React.Component {
           {this.props.item.comment? <h2>{this.props.item.comment}</h2> : <h2 className="emptyComment">empty</h2>}
         </div>
         <div className="fakeButton" onClick={this.fakeButton}>Press</div>
+
+        {/* Details about product */}
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={this.closeModal}
+          contentLabel="Example Modal"
+        ><h2 ref="subtitle">Details {this.props.item.name}</h2>
+          {/* fill here all other aspects */}
+          <p>Calories: {this.props.item.Calories}</p>
+          <p>Other aspect: {this.props.item.aspect2}</p>
+          <img src={this.props.item.url} />
+          <button onClick={this.closeModal}>close</button>
+        </Modal>
+
       </div>
+
+
     );
   }
 }
@@ -247,6 +278,7 @@ class Main extends React.Component {
 
   }
 
+
   onChangeSearch(e){
     if(e.target.value && e.target.value == " "){
       this.setState({
@@ -262,6 +294,7 @@ class Main extends React.Component {
     return (
 
       <div className="content_wrapper">
+
 
         <Listing items={this.state.searchData} category="searchData" title=""/>
 

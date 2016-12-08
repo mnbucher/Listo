@@ -3,6 +3,7 @@ import {render} from 'react-dom';
 import Firebase from 'firebase';
 import ListoSearch from './search.jsx';
 import Modal from 'react-modal';
+import Settings from './settings.jsx';
 // Stylesheets
 require('./style.scss');
 
@@ -27,13 +28,23 @@ class Navigation extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      showMenu: false
+      showMenu: false,
+      modalIsOpen: true,
     }
     this.handleMenu = this.handleMenu.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   handleMenu(e){
     this.setState({ showMenu: !this.state.showMenu });
+  }
+
+   openModal(){
+    this.setState({modalIsOpen: true});
+  }
+  closeModal(){
+    this.setState({modalIsOpen: false});
   }
 
   render(){
@@ -47,6 +58,14 @@ class Navigation extends React.Component {
             <li className="collaborate"><span>Team</span></li>
           </ul>
         </div>
+                <Modal
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={this.closeModal}
+          contentLabel="Example Modal"
+        >
+      <Settings />
+          <button onClick={this.closeModal}>close</button>
+        </Modal>
       </div>
     );
   }

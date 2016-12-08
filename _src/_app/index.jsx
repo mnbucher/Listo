@@ -20,7 +20,7 @@ class Menu extends React.Component {
                 </ul>
                 <hr/>
                 <ul>
-                    <li onClick={this.props.openSettings}>Personal Settings</li>
+                    <li role="button" onClick={this.props.openSettings}>Personal Settings</li>
                 </ul>
 
 

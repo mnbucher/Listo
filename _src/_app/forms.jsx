@@ -1,42 +1,22 @@
 import React from 'react';
 
 class Input extends React.Component {
+    /* inherit from this class in order to use the fading in and out checkmark
+    * after the input element insert:
+    * {this.state.checkmarkVisible ?  this.checkmark : null}
+    * */
     constructor(props) {
         super(props);
+
+        this.checkmark = <span className="fading"><span className="glyphicon glyphicon-ok green"></span></span>;
         this.state = {
-            value: this.props.value,
             checkmarkVisible: false,
-    };
-       this.handleChange = this.handleChange.bind(this);
-    this.confirmChange = this.confirmChange.bind(this);
-  }
 
-    confirmChange() {
-        this.setState({checkmarkVisible: true});
+        };
+        this.handleChange = this.handleChange.bind(this);
+        this.confirmChange = this.confirmChange.bind(this);
+        this.hideCheckmark = this.hideCheckmark.bind(this);
     }
-
-  handleChange(event) {
-  this.confirmChange();
-  }
-}
-
-
-export class Select extends React.Component {
-    /**
-     * needed props: options: [{}, {}]
-     * @param props
-     */
-    constructor(props) {
-    super(props);
-    this.state = {
-        value: this.props.value,
-        checkmarkVisible: false,
-    };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.confirmChange = this.confirmChange.bind(this);
-    this.hideCheckmark = this.hideCheckmark.bind(this);
-  }
 
     confirmChange() {
         this.setState({checkmarkVisible: true});
@@ -47,38 +27,60 @@ export class Select extends React.Component {
         this.setState({checkmarkVisible: false});
     }
 
-  handleChange(event) {
-    this.setState({value: event.target.value});
-  this.confirmChange();
-  }
+    handleChange(event) {
+        this.confirmChange();
+    }
+}
 
-    getSelectOptions(){
-        return this.props.options.map(function(object, i){
+
+export class Select extends Input {
+    /**
+     * needed props: options: [{}, {}]
+     * @param props
+     */
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: this.props.value,
+            //checkmarkVisible: false,
+        };
+
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(event) {
+        this.setState({value: event.target.value});
+        this.confirmChange();
+    }
+
+    getSelectOptions() {
+        return this.props.options.map(function (object, i) {
             return <option key={object.value}>{object.label}</option>;
         });
     }
 
-    render(){
+    render() {
         return (
             <div>
                 <label>
                     <p>{this.props.label}</p>
-                  <select value={this.state.value} onChange={this.handleChange}>
-                      {this.getSelectOptions()}
-                  </select>
-                    {this.state.checkmarkVisible ? <span className="fading" ><span className="glyphicon glyphicon-ok green"></span></span> : null}
+                    <select value={this.state.value} onChange={this.handleChange}>
+                        {this.getSelectOptions()}
+                    </select>
+                    {this.state.checkmarkVisible ?
+                        this.checkmark : null}
                 </label>
             </div>
-            );
-        }
+        );
+    }
 }
 
 export class Username extends Input {
-    render(){
+    render() {
         return ( <div>
-                <input placeholder="username" type="text"/>
+                <input placeholder="username" name="username" value={this.props.value} type="text"></input>
                 {this.state.checkmarkVisible ? <span className="glyphicon glyphicon-ok green"></span> : null}
             </div>
-    )
+        )
     }
 }

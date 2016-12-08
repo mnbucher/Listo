@@ -17,12 +17,7 @@ export default class Settings extends React.Component {
         userName: '',
         preferences: ['vegan', 'vegetarian', 'lactose intolerant']
     };
-    /* Bind methods */
   }
-
-    onOrderOptionsSelect(){
-
-    }
 
   render(){
     return(
@@ -30,7 +25,7 @@ export default class Settings extends React.Component {
              <h2>Settings</h2>
              <div className="row">
                  <div className="col-xs-12">Username</div>
-                 <Username />
+                 <Username value={this.state.userName} />
              </div>
              <div className="row">
                  <div className="col-xs-12">Choose your preferred item ordering: </div>

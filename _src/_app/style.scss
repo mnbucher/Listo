@@ -239,6 +239,11 @@ h2.emptyComment {
   line-height: 1.2;
 }
 
+.overlayMenu ul li:hover {
+  background-color: darkgray;
+  opacity: 0.9;
+}
+
 .green {
   color: green;
 }

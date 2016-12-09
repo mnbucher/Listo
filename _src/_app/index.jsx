@@ -8,45 +8,86 @@ import Settings from './settings.jsx';
 require('./style.scss');
 
 class Menu extends React.Component {
-
-
     render() {
         return (
-            <div className="overlayMenu">
+            <div className="overlayMenu slideInLeft">
                 <ul>
+                    <li className="menuTitle">Your lists</li>
                     <li>🛍 Weekly shopping</li>
-                    <li>🎉 New Year's party</li>
+                    <li>🎉 New Year's Eve</li>
                     <li>⚽️ Champions League final</li>
+                    <li className="menuNewList">+ Create New List</li>
                 </ul>
-                <hr/>
-                <ul>
-                    <li role="button" onClick={this.props.openSettings}>Personal Settings</li>
-                </ul>
-
-
             </div>
         );
     }
-
 }
 
-class Navigation extends React.Component {
+class NavTop extends React.Component {
+  render(){
+    return (
+        <div className="nav_wrapper_top">
+            <div className="nav_top">
+                <p>🎉 New Year's Eve</p>
+            </div>
+        </div>
+    );
+  }
+}
+
+class Team extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.closePopup = this.closePopup.bind(this);
+  }
+
+  closePopup(e){
+    this.props.closePopup();
+  }
+
+  render(){
+    return(
+      <div className="popup_wrapper">
+        <div className="popup_box bounceInUp">
+          <h1>Your Team</h1>
+          <button onClick={this.closePopup}>Close</button>
+        </div>
+      </div>
+    );
+  }
+}
+
+class NavBottom extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             showMenu: false,
+            showTeam: false,
+            showSettings: false,
             modalIsOpen: false,
         }
         this.handleMenu = this.handleMenu.bind(this);
+        this.handleTeam = this.handleTeam.bind(this);
+        this.handleSettings = this.handleSettings.bind(this);
+        /*
         this.displayModal = this.displayModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);*/
     }
 
     handleMenu(e) {
         this.setState({showMenu: !this.state.showMenu});
     }
 
+    handleTeam(e) {
+        this.setState({ showTeam: !this.state.showTeam });
+    }
+
+    handleSettings(e) {
+        this.setState({ showSettings: !this.state.showSettings });
+    }
+    /*
     displayModal() {
         this.handleMenu();
         this.setState({modalIsOpen: true});
@@ -54,33 +95,34 @@ class Navigation extends React.Component {
 
     closeModal() {
         this.setState({modalIsOpen: false});
-    }
+    }*/
 
     render() {
         return (
             <div className="nav_wrapper">
-                {this.state.showMenu ? <Menu openSettings={this.displayModal}/> : null }
+                {this.state.showMenu ? <Menu />: null }
+                {this.state.showTeam ? <Team closePopup={this.handleTeam} />: null }
+                {this.state.showSettings ? <Settings closePopup={this.handleSettings} /> : null }
                 <div className="nav">
                     <ul>
                         <li className="menu" onClick={this.handleMenu}><span>Menu</span></li>
-                        <li className="logo"><span><img src="../logo.png"/></span></li>
-                        <li className="collaborate"><span>Team</span></li>
+                        <li className="collaborate" onClick={this.handleTeam}><span>Team</span></li>
+                        <li className="menu" onClick={this.handleSettings}><span>Settings</span></li>
                     </ul>
                 </div>
-
-
-                <Modal
-                    isOpen={this.state.modalIsOpen}
-                    onRequestClose={this.closeModal}
-                    contentLabel="Example Modal"
-                >
-                    <Settings />
-                    <button onClick={this.closeModal}>close</button>
-                </Modal>
             </div>
         );
     }
 }
+
+/*
+<<Modal
+    isOpen={this.state.modalIsOpen}
+    onRequestClose={this.closeModal}
+    contentLabel="Example Modal"
+>
+    <button onClick={this.closeModal}>close</button>
+</Modal>*/
 
 class Listing extends React.Component {
 
@@ -90,11 +132,6 @@ class Listing extends React.Component {
 
     render() {
         var allElements = [];
-
-        /* Add H1 title if there is a title */
-        if (this.props.title != "") {
-            allElements.push(<h1 key={this.props.title}>{this.props.title}</h1>);
-        }
 
         /* Iterate through array and add DOM element for each item */
         for (var i = 0; i < this.props.items.length; i++) {
@@ -173,7 +210,7 @@ class Item extends React.Component {
             this.openModal();
         } else {
 
-            if (this.props.category.match("searchData|frequentData|allData")) {
+            if (this.props.category.match("searchData|allData")) {
                 this.addItemToActiveList(this.props.item.id);
             }
             else {
@@ -239,17 +276,14 @@ class Main extends React.Component {
 
         /* Initializing all States */
         this.state = {
-            searchString: null,
             searchData: [],
             activeData: [],
-            frequentData: [],
             allData: [],
         }
 
         /* Binding all methods. ES16 FTW */
         this.onChangeSearch = this.onChangeSearch.bind(this);
         this.getActiveData = this.getActiveData.bind(this);
-        this.getFrequentData = this.getFrequentData.bind(this);
         this.getAllData = this.getAllData.bind(this);
         this.onChangeSearch = this.onChangeSearch.bind(this);
     }
@@ -257,7 +291,6 @@ class Main extends React.Component {
     componentWillMount() {
         this.firebaseRef = Firebase.database().ref();
         this.getActiveData();
-        this.getFrequentData();
         this.getAllData();
     }
 
@@ -306,24 +339,56 @@ class Main extends React.Component {
 
     }
 
-    /* Get all items that the user adds often (in reality based on special algorithm, history, etc...) */
-    getFrequentData() {
-
-    }
-
-    /* Get all items to display in the app */
+    /* Get all items and store in array */
     getAllData() {
 
+      var newAllData = [];
+
+      /* Adds all items from Firebase database once */
+      this.firebaseRef.child("allItems").on("child_added", function (dataSnapshot) {
+          var data = dataSnapshot.val();
+          data.id = dataSnapshot.key;
+          newAllData.push(data);
+          this.setState({allData: newAllData});
+      }.bind(this));
+
+      /* Changes information about item if database was updates (realtime and blanzingly fast) */
+      this.firebaseRef.child("allItems").on("child_changed", function (dataSnapshot) {
+          for (var i in newAllData) {
+              if (newAllData[i].id == dataSnapshot.key) {
+                  var data = dataSnapshot.val();
+                  data.id = dataSnapshot.key;
+                  newAllData[i] = data;
+                  this.setState({allData: newAllData});
+              }
+          }
+      }.bind(this));
+
+      /* Removes item from the list in the app (for collaboration) */
+      this.firebaseRef.child("allItems").on("child_removed", function (dataSnapshot) {
+          for (var i in newAllData) {
+              if (newAllData[i].id == dataSnapshot.key) {
+                  newAllData.splice(i, 1);
+                  this.setState({allData: newAllData});
+              }
+          }
+      }.bind(this));
+
     }
 
-
     onChangeSearch(e) {
-        if (e.target.value && e.target.value == " ") {
-            this.setState({
-                searchString: e.target.value
-            });
-            //document.getElementById("content_optional_wrapper").addClassName = "hidden";
-            //console.log(document.getElementById("content_optional_wrapper"));
+        var newSearchResults = [];
+        if (e.target.value && e.target.value != " ") {
+            for(var i in this.state.allData){
+              if((this.state.allData[i].name.toLowerCase()).includes(e.target.value)){
+                newSearchResults.push(this.state.allData[i]);
+              }
+            }
+            this.setState({searchData: newSearchResults});
+        }
+        if (e.target.value == " " || e.target.value == ""){
+          var newSearchResults = [];
+          this.setState({searchData: newSearchResults});
         }
     }
 
@@ -333,21 +398,17 @@ class Main extends React.Component {
 
             <div className="content_wrapper">
 
+                <div className="searchfield">
+                <input className="serachBar" placeholder="Search..." onChange={this.onChangeSearch} />
+                <Listing items={this.state.searchData} category="searchData"/>
+                </div>
 
-                <Listing items={this.state.searchData} category="searchData" title=""/>
-
-                <ListoSearch />
+                {/* <ListoSearch /> */}
 
                 <div id="content_optional_wrapper">
 
                     {/* Show active Items */}
-                    <Listing items={this.state.activeData} category="activeData" title=""/>
-
-                    {/* Show frequent Items */}
-                    <Listing items={this.state.frequentData} category="frequentData" title="Recently added"/>
-
-                    {/* Show all Items */}
-                    <Listing items={this.state.allData} category="allData" title="All Products"/>
+                    {this.state.searchData.length == 0 ? <Listing items={this.state.activeData} category="activeData"/> : null}
 
                 </div>
 
@@ -373,8 +434,9 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <Navigation />
+                <NavTop />
                 <Main />
+                <NavBottom />
             </div>
         )
     }

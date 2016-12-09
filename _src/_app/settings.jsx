@@ -6,7 +6,6 @@ export default class Settings extends React.Component {
 
   constructor(props){
     super(props);
-
     this.orderOptions = [
         { value: 'manual', label: 'manual', description: 'You manually select the order (see below).'},
         { value: 'automatic', label: 'automatic', description: 'The order is automatically adjusted when you enter a shop. For example, when you enter a COOP supermarket, the items are displayed in the correct order.'},
@@ -17,11 +16,17 @@ export default class Settings extends React.Component {
         userName: '',
         preferences: ['vegan', 'vegetarian', 'lactose intolerant']
     };
+    this.closePopup = this.closePopup.bind(this);
+  }
+
+  closePopup(e){
+    this.props.closePopup();
   }
 
   render(){
     return(
-         <div className="container-fluid">
+      <div className="popup_wrapper">
+        <div className="popup_box bounceInUp">
              <h2>Settings</h2>
              <div className="row">
                  <div className="col-xs-12">Username</div>
@@ -31,8 +36,9 @@ export default class Settings extends React.Component {
                  <div className="col-xs-12">Choose your preferred item ordering: </div>
                  <div className="col-xs-12"><Select  options={this.orderOptions} value={this.state.activeOrderOption} /></div>
              </div>
-
-         </div>
+             <button onClick={this.closePopup}>Close</button>
+        </div>
+      </div>
     );
   }
 }

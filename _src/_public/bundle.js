@@ -57,9 +57,27 @@
 	
 	var _reactDom = __webpack_require__(/*! react-dom */ 32);
 	
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+	
 	var _firebase = __webpack_require__(/*! firebase */ 178);
 	
 	var _firebase2 = _interopRequireDefault(_firebase);
+	
+	var _search = __webpack_require__(/*! ./search.jsx */ 184);
+	
+	var _search2 = _interopRequireDefault(_search);
+	
+	var _reactModal = __webpack_require__(/*! react-modal */ 186);
+	
+	var _reactModal2 = _interopRequireDefault(_reactModal);
+	
+	var _settings = __webpack_require__(/*! ./settings.jsx */ 206);
+	
+	var _settings2 = _interopRequireDefault(_settings);
+	
+	var _reactAddonsCssTransitionGroup = __webpack_require__(/*! react-addons-css-transition-group */ 208);
+	
+	var _reactAddonsCssTransitionGroup2 = _interopRequireDefault(_reactAddonsCssTransitionGroup);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -70,345 +88,701 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	// Stylesheets
-	__webpack_require__(/*! ./style.scss */ 184);
+	__webpack_require__(/*! ./style.scss */ 221);
 	
-	var Navigation = function (_React$Component) {
-	  _inherits(Navigation, _React$Component);
+	var Menu = function (_React$Component) {
+	    _inherits(Menu, _React$Component);
 	
-	  function Navigation() {
-	    _classCallCheck(this, Navigation);
+	    function Menu() {
+	        _classCallCheck(this, Menu);
 	
-	    return _possibleConstructorReturn(this, (Navigation.__proto__ || Object.getPrototypeOf(Navigation)).apply(this, arguments));
-	  }
-	
-	  _createClass(Navigation, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'nav_wrapper' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'nav' },
-	          _react2.default.createElement(
-	            'ul',
-	            null,
-	            _react2.default.createElement(
-	              'li',
-	              { className: 'menu' },
-	              _react2.default.createElement(
-	                'span',
-	                null,
-	                'Menu'
-	              )
-	            ),
-	            _react2.default.createElement(
-	              'li',
-	              { className: 'logo' },
-	              _react2.default.createElement(
-	                'span',
-	                null,
-	                'Listo'
-	              )
-	            ),
-	            _react2.default.createElement(
-	              'li',
-	              { className: 'collaborate' },
-	              _react2.default.createElement(
-	                'span',
-	                null,
-	                'Team'
-	              )
-	            )
-	          )
-	        )
-	      );
+	        return _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).apply(this, arguments));
 	    }
-	  }]);
 	
-	  return Navigation;
-	}(_react2.default.Component);
-	
-	var Listing = function (_React$Component2) {
-	  _inherits(Listing, _React$Component2);
-	
-	  function Listing(props) {
-	    _classCallCheck(this, Listing);
-	
-	    return _possibleConstructorReturn(this, (Listing.__proto__ || Object.getPrototypeOf(Listing)).call(this, props));
-	  }
-	
-	  _createClass(Listing, [{
-	    key: 'render',
-	    value: function render() {
-	      var allElements = [];
-	
-	      /* Add H1 title if there is a title */
-	      if (this.props.title != "") {
-	        allElements.push(_react2.default.createElement(
-	          'h1',
-	          { key: this.props.title },
-	          this.props.title
-	        ));
-	      }
-	
-	      /* Iterate through array and add DOM element for each item */
-	      for (var i = 0; i < this.props.items.length; i++) {
-	        allElements.push(_react2.default.createElement(Item, { item: this.props.items[i], key: this.props.items[i].id, category: this.props.category }));
-	      }
-	
-	      if (!this.props.items || this.props.items.length == 0) {
-	        return null;
-	      } else {
-	        return _react2.default.createElement(
-	          'div',
-	          { className: this.props.category },
-	          allElements
-	        );
-	      }
-	    }
-	  }]);
-	
-	  return Listing;
-	}(_react2.default.Component);
-	
-	var Item = function (_React$Component3) {
-	  _inherits(Item, _React$Component3);
-	
-	  function Item(props) {
-	    _classCallCheck(this, Item);
-	
-	    /* Bind methods */
-	    var _this3 = _possibleConstructorReturn(this, (Item.__proto__ || Object.getPrototypeOf(Item)).call(this, props));
-	
-	    _this3.handleEventClick = _this3.handleEventClick.bind(_this3);
-	    _this3.addItemToActiveList = _this3.addItemToActiveList.bind(_this3);
-	    _this3.deleteItemFromActiveList = _this3.deleteItemFromActiveList.bind(_this3);
-	    return _this3;
-	  }
-	
-	  _createClass(Item, [{
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      this.firebaseRef = _firebase2.default.database().ref();
-	    }
-	  }, {
-	    key: 'componentWillUnmount',
-	    value: function componentWillUnmount() {
-	      this.firebaseRef.off();
-	    }
-	  }, {
-	    key: 'handleEventClick',
-	    value: function handleEventClick(e) {
-	      if (this.props.category.match("searchData|frequentData|allData")) {
-	        this.addItemToActiveList(this.props.item.id);
-	      } else {
-	        this.deleteItemFromActiveList(this.props.item.id);
-	      }
-	    }
-	  }, {
-	    key: 'addItemToActiveList',
-	    value: function addItemToActiveList(itemID) {
-	      console.log(item.id);
-	    }
-	  }, {
-	    key: 'deleteItemFromActiveList',
-	    value: function deleteItemFromActiveList(itemID) {
-	      var c = confirm("Wills du dieses Element wirklich löschen? (Wag es ja nicht...) ");
-	      if (c) {
-	        console.log(itemID);
-	        if (itemID) {
-	          this.firebaseRef.child("activeItems/" + itemID).remove();
+	    _createClass(Menu, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'overlayMenu slideInLeft' },
+	                _react2.default.createElement(
+	                    'ul',
+	                    null,
+	                    _react2.default.createElement(
+	                        'li',
+	                        { className: 'menuTitle' },
+	                        'Your lists'
+	                    ),
+	                    _react2.default.createElement(
+	                        'li',
+	                        null,
+	                        '\uD83D\uDECD Weekly shopping'
+	                    ),
+	                    _react2.default.createElement(
+	                        'li',
+	                        null,
+	                        '\uD83C\uDF89 New Year\'s Eve'
+	                    ),
+	                    _react2.default.createElement(
+	                        'li',
+	                        null,
+	                        '\u26BD\uFE0F Champions League final'
+	                    ),
+	                    _react2.default.createElement(
+	                        'li',
+	                        { className: 'menuNewList' },
+	                        '+ Create New List'
+	                    )
+	                )
+	            );
 	        }
-	      }
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'item', onClick: this.handleEventClick },
-	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          this.props.item.name
-	        ),
-	        _react2.default.createElement(
-	          'h2',
-	          null,
-	          this.props.item.comment
-	        )
-	      );
-	    }
-	  }]);
+	    }]);
 	
-	  return Item;
+	    return Menu;
 	}(_react2.default.Component);
 	
-	var Main = function (_React$Component4) {
-	  _inherits(Main, _React$Component4);
+	var NavTop = function (_React$Component2) {
+	    _inherits(NavTop, _React$Component2);
 	
-	  function Main(props) {
-	    _classCallCheck(this, Main);
+	    function NavTop() {
+	        _classCallCheck(this, NavTop);
 	
-	    /* Initializing all States */
-	    var _this4 = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
-	
-	    _this4.state = {
-	      searchString: null,
-	      searchData: [],
-	      activeData: [],
-	      frequentData: [],
-	      allData: []
-	    };
-	
-	    /* Binding all methods. ES16 FTW */
-	    _this4.onChangeSearch = _this4.onChangeSearch.bind(_this4);
-	    _this4.getActiveData = _this4.getActiveData.bind(_this4);
-	    _this4.getFrequentData = _this4.getFrequentData.bind(_this4);
-	    _this4.getAllData = _this4.getAllData.bind(_this4);
-	    _this4.onChangeSearch = _this4.onChangeSearch.bind(_this4);
-	
-	    return _this4;
-	  }
-	
-	  _createClass(Main, [{
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      this.firebaseRef = _firebase2.default.database().ref();
-	      this.getActiveData();
-	      this.getFrequentData();
-	      this.getAllData();
-	    }
-	  }, {
-	    key: 'componentWillUnmount',
-	    value: function componentWillUnmount() {
-	      _firebase2.default.off();
+	        return _possibleConstructorReturn(this, (NavTop.__proto__ || Object.getPrototypeOf(NavTop)).apply(this, arguments));
 	    }
 	
-	    /* Get all items that the user have to buy */
-	
-	  }, {
-	    key: 'getActiveData',
-	    value: function getActiveData() {
-	
-	      var newActiveData = [];
-	
-	      /* Adds all items from Firebase database once */
-	      this.firebaseRef.child("activeItems").on("child_added", function (dataSnapshot) {
-	        var data = dataSnapshot.val();
-	        data.id = dataSnapshot.key;
-	        newActiveData.push(data);
-	        this.setState({ activeData: newActiveData });
-	      }.bind(this));
-	
-	      /* Changes information about item if database was updates (realtime and blanzingly fast) */
-	      this.firebaseRef.child("activeItems").on("child_changed", function (dataSnapshot) {
-	        for (var i in newActiveData) {
-	          if (newActiveData[i].id == dataSnapshot.key) {
-	            var data = dataSnapshot.val();
-	            data.id = dataSnapshot.key;
-	            newActiveData[i] = data;
-	            this.setState({ activeData: newActiveData });
-	          }
+	    _createClass(NavTop, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'nav_wrapper_top' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'nav_top' },
+	                    _react2.default.createElement(
+	                        'p',
+	                        null,
+	                        '\uD83C\uDF89 New Year\'s Eve'
+	                    )
+	                )
+	            );
 	        }
-	      }.bind(this));
+	    }]);
 	
-	      /* Removes item from the list in the app (for collaboration) */
-	      this.firebaseRef.child("activeItems").on("child_removed", function (dataSnapshot) {
-	        for (var i in newActiveData) {
-	          if (newActiveData[i].id == dataSnapshot.key) {
-	            newActiveData.splice(i, 1);
-	            this.setState({ activeData: newActiveData });
-	          }
+	    return NavTop;
+	}(_react2.default.Component);
+	
+	var NavBottom = function (_React$Component3) {
+	    _inherits(NavBottom, _React$Component3);
+	
+	    function NavBottom(props) {
+	        _classCallCheck(this, NavBottom);
+	
+	        var _this3 = _possibleConstructorReturn(this, (NavBottom.__proto__ || Object.getPrototypeOf(NavBottom)).call(this, props));
+	
+	        _this3.state = {
+	            showMenu: false,
+	            showTeam: false,
+	            showSettings: false,
+	            modalIsOpen: false
+	        };
+	        _this3.handleMenu = _this3.handleMenu.bind(_this3);
+	        _this3.handleTeam = _this3.handleTeam.bind(_this3);
+	        _this3.handleSettings = _this3.handleSettings.bind(_this3);
+	        /*
+	        this.displayModal = this.displayModal.bind(this);
+	        this.closeModal = this.closeModal.bind(this);*/
+	        return _this3;
+	    }
+	
+	    _createClass(NavBottom, [{
+	        key: 'handleMenu',
+	        value: function handleMenu(e) {
+	            this.setState({ showMenu: !this.state.showMenu });
 	        }
-	      }.bind(this));
-	    }
+	    }, {
+	        key: 'handleTeam',
+	        value: function handleTeam(e) {
+	            this.setState({ showTeam: !this.state.showTeam });
+	        }
+	    }, {
+	        key: 'handleSettings',
+	        value: function handleSettings(e) {
+	            this.setState({ showSettings: !this.state.showSettings });
+	        }
+	        /*
+	        displayModal() {
+	            this.handleMenu();
+	            this.setState({modalIsOpen: true});
+	        }
+	         closeModal() {
+	            this.setState({modalIsOpen: false});
+	        }*/
 	
-	    /* Get all items that the user adds often (in reality based on special algorithm, history, etc...) */
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'nav_wrapper' },
+	                this.state.showMenu ? _react2.default.createElement(Menu, null) : null,
+	                this.state.showTeam ? _react2.default.createElement(Team, { closePopup: this.handleTeam }) : null,
+	                this.state.showSettings ? _react2.default.createElement(_settings2.default, { closePopup: this.handleSettings }) : null,
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'nav' },
+	                    _react2.default.createElement(
+	                        'ul',
+	                        null,
+	                        _react2.default.createElement(
+	                            'li',
+	                            { className: 'menu', onClick: this.handleMenu },
+	                            _react2.default.createElement(
+	                                'span',
+	                                null,
+	                                'Menu'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            { className: 'collaborate', onClick: this.handleTeam },
+	                            _react2.default.createElement(
+	                                'span',
+	                                null,
+	                                'Team'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            { className: 'menu', onClick: this.handleSettings },
+	                            _react2.default.createElement(
+	                                'span',
+	                                null,
+	                                'Settings'
+	                            )
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
 	
-	  }, {
-	    key: 'getFrequentData',
-	    value: function getFrequentData() {}
-	
-	    /* Get all items to display in the app */
-	
-	  }, {
-	    key: 'getAllData',
-	    value: function getAllData() {}
-	  }, {
-	    key: 'onChangeSearch',
-	    value: function onChangeSearch(e) {
-	      if (e.target.value && e.target.value == " ") {
-	        this.setState({
-	          searchString: e.target.value
-	        });
-	        //document.getElementById("content_optional_wrapper").addClassName = "hidden";
-	        //console.log(document.getElementById("content_optional_wrapper"));
-	      }
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'content_wrapper' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'searchfield' },
-	          _react2.default.createElement('input', { onChange: this.onChangeSearch, placeholder: 'Search...' })
-	        ),
-	        _react2.default.createElement(Listing, { items: this.state.searchData, category: 'searchData', title: '' }),
-	        _react2.default.createElement(
-	          'div',
-	          { id: 'content_optional_wrapper' },
-	          _react2.default.createElement(Listing, { items: this.state.activeData, category: 'activeData', title: '' }),
-	          _react2.default.createElement(Listing, { items: this.state.frequentData, category: 'frequentData', title: 'Recently added' }),
-	          _react2.default.createElement(Listing, { items: this.state.allData, category: 'allData', title: 'All Products' })
-	        )
-	      );
-	    }
-	  }]);
-	
-	  return Main;
+	    return NavBottom;
 	}(_react2.default.Component);
 	
-	var App = function (_React$Component5) {
-	  _inherits(App, _React$Component5);
+	var Team = function (_React$Component4) {
+	    _inherits(Team, _React$Component4);
 	
-	  function App() {
-	    _classCallCheck(this, App);
+	    function Team(props) {
+	        _classCallCheck(this, Team);
 	
-	    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
-	  }
+	        var _this4 = _possibleConstructorReturn(this, (Team.__proto__ || Object.getPrototypeOf(Team)).call(this, props));
 	
-	  _createClass(App, [{
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      this.initializeFirebase();
+	        _this4.closePopup = _this4.closePopup.bind(_this4);
+	        return _this4;
 	    }
-	  }, {
-	    key: 'initializeFirebase',
-	    value: function initializeFirebase() {
-	      // INITIALIZATION
-	      _firebase2.default.initializeApp(config);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(Navigation, null),
-	        _react2.default.createElement(Main, null)
-	      );
-	    }
-	  }]);
 	
-	  return App;
+	    _createClass(Team, [{
+	        key: 'closePopup',
+	        value: function closePopup(e) {
+	            this.props.closePopup();
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'popup_wrapper' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'popup_box bounceInUp' },
+	                    _react2.default.createElement(
+	                        'h1',
+	                        null,
+	                        'The Funky Kitchen Club'
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'team_wrapper' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'team_person' },
+	                            _react2.default.createElement('img', { src: '../basil_menz.png' }),
+	                            _react2.default.createElement(
+	                                'p',
+	                                null,
+	                                'You'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'team_person' },
+	                            _react2.default.createElement('img', { src: '../oliver_fischer.png' }),
+	                            _react2.default.createElement(
+	                                'p',
+	                                null,
+	                                'Marcel B\xFChler'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'team_person' },
+	                            _react2.default.createElement('img', { src: '../simeon_bieri.png' }),
+	                            _react2.default.createElement(
+	                                'p',
+	                                null,
+	                                'David Haas'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'team_person' },
+	                            _react2.default.createElement('img', { src: '../new_member.png' }),
+	                            _react2.default.createElement(
+	                                'p',
+	                                null,
+	                                '+ Add Member'
+	                            )
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'button',
+	                        { onClick: this.closePopup },
+	                        'Close'
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+	
+	    return Team;
 	}(_react2.default.Component);
 	
-	(0, _reactDom.render)(_react2.default.createElement(App, null), document.getElementById('app'));
+	var DetailPage = function (_React$Component5) {
+	    _inherits(DetailPage, _React$Component5);
+	
+	    function DetailPage(props) {
+	        _classCallCheck(this, DetailPage);
+	
+	        return _possibleConstructorReturn(this, (DetailPage.__proto__ || Object.getPrototypeOf(DetailPage)).call(this, props));
+	    }
+	
+	    _createClass(DetailPage, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement('div', { className: 'detailWrapper' });
+	        }
+	    }]);
+	
+	    return DetailPage;
+	}(_react2.default.Component);
+	
+	var Item = function (_React$Component6) {
+	    _inherits(Item, _React$Component6);
+	
+	    function Item(props) {
+	        _classCallCheck(this, Item);
+	
+	        /* Bind methods */
+	        var _this6 = _possibleConstructorReturn(this, (Item.__proto__ || Object.getPrototypeOf(Item)).call(this, props));
+	
+	        _this6.handleEventClick = _this6.handleEventClick.bind(_this6);
+	        _this6.addItemToActiveList = _this6.addItemToActiveList.bind(_this6);
+	        _this6.deleteItemFromActiveList = _this6.deleteItemFromActiveList.bind(_this6);
+	        _this6.fakeButton = _this6.fakeButton.bind(_this6);
+	        _this6.openModal = _this6.openModal.bind(_this6);
+	        _this6.closeModal = _this6.closeModal.bind(_this6);
+	
+	        _this6.state = {
+	            showDetail: false,
+	            modalIsOpen: false,
+	            wasAdded: false
+	        };
+	
+	        return _this6;
+	    }
+	
+	    _createClass(Item, [{
+	        key: 'openModal',
+	        value: function openModal() {
+	            this.setState({ modalIsOpen: true });
+	        }
+	    }, {
+	        key: 'closeModal',
+	        value: function closeModal() {
+	            this.setState({ modalIsOpen: false });
+	        }
+	    }, {
+	        key: 'componentWillMount',
+	        value: function componentWillMount() {
+	            this.firebaseRef = _firebase2.default.database().ref();
+	        }
+	    }, {
+	        key: 'componentWillUnmount',
+	        value: function componentWillUnmount() {
+	            this.firebaseRef.off();
+	        }
+	    }, {
+	        key: 'handleEventClick',
+	        value: function handleEventClick(e) {
+	            if (e.ctrlKey) {
+	                // Ctrl key has been pressed -> simulate long click
+	                this.openModal();
+	            } else {
+	                if (this.props.category.match("searchData")) {
+	                    if (!this.props.alreadyAdded) {
+	                        this.setState({ wasAdded: true });
+	                        this.addItemToActiveList(this.props.item);
+	                    } else if (this.props.alreadyAdded || this.state.wasAdded) {
+	                        this.deleteItemFromActiveList(this.props.item.id);
+	                    }
+	                } else {
+	                    this.deleteItemFromActiveList(this.props.item.id);
+	                }
+	            }
+	        }
+	    }, {
+	        key: 'addItemToActiveList',
+	        value: function addItemToActiveList(item) {
+	            //var key = this.firebaseRef.push().key;
+	            this.firebaseRef.child("activeItems/" + item.id).set({
+	                "name": item.name,
+	                "id": item.id,
+	                "url": item.url,
+	                "comment": item.comment ? item.comment : ""
+	            });
+	        }
+	    }, {
+	        key: 'deleteItemFromActiveList',
+	        value: function deleteItemFromActiveList(itemID) {
+	            if (itemID) {
+	                this.firebaseRef.child("activeItems/" + itemID).remove();
+	            }
+	        }
+	    }, {
+	        key: 'fakeButton',
+	        value: function fakeButton(e) {
+	            this.openModal();
+	            this.setState({ showDetail: true });
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: this.state.wasAdded || this.props.alreadyAdded ? "item_wrapper popIn wasAdded" : "item_wrapper popIn" },
+	                this.state.showDetail ? _react2.default.createElement(DetailPage, { item: this.props.item }) : null,
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'item', onClick: this.handleEventClick },
+	                    _react2.default.createElement(
+	                        'h1',
+	                        null,
+	                        this.props.item.name
+	                    ),
+	                    _react2.default.createElement('img', { src: this.props.item.url }),
+	                    this.props.item.comment ? _react2.default.createElement(
+	                        'h2',
+	                        null,
+	                        this.props.item.comment
+	                    ) : _react2.default.createElement(
+	                        'h2',
+	                        { className: 'emptyComment' },
+	                        'empty'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'fakeButton', onClick: this.fakeButton },
+	                    'Press'
+	                ),
+	                _react2.default.createElement(
+	                    _reactModal2.default,
+	                    {
+	                        isOpen: this.state.modalIsOpen,
+	                        onRequestClose: this.closeModal,
+	                        contentLabel: 'Example Modal'
+	                    },
+	                    _react2.default.createElement(
+	                        'h2',
+	                        { ref: 'subtitle' },
+	                        'Details ',
+	                        this.props.item.name
+	                    ),
+	                    _react2.default.createElement(
+	                        'p',
+	                        null,
+	                        'Calories: ',
+	                        this.props.item.Calories
+	                    ),
+	                    _react2.default.createElement(
+	                        'p',
+	                        null,
+	                        'Other aspect: ',
+	                        this.props.item.aspect2
+	                    ),
+	                    _react2.default.createElement('img', { src: this.props.item.url }),
+	                    _react2.default.createElement(
+	                        'button',
+	                        { onClick: this.closeModal },
+	                        'close'
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+	
+	    return Item;
+	}(_react2.default.Component);
+	
+	var Listing = function (_React$Component7) {
+	    _inherits(Listing, _React$Component7);
+	
+	    function Listing(props) {
+	        _classCallCheck(this, Listing);
+	
+	        return _possibleConstructorReturn(this, (Listing.__proto__ || Object.getPrototypeOf(Listing)).call(this, props));
+	    }
+	
+	    _createClass(Listing, [{
+	        key: 'render',
+	        value: function render() {
+	            var allElements = [];
+	
+	            /* Iterate through array and add DOM element for each item */
+	            for (var i = 0; i < this.props.items.length; i++) {
+	                if (this.props.category == "searchData") {
+	                    var alreadyAdded = false;
+	                    for (var j = 0; j < this.props.activeData.length; j++) {
+	                        if (this.props.activeData[j].name == this.props.items[i].name) {
+	                            alreadyAdded = true;
+	                        }
+	                    }
+	                    allElements.push(_react2.default.createElement(Item, { item: this.props.items[i], key: "search_" + this.props.items[i].id, category: this.props.category, alreadyAdded: alreadyAdded }));
+	                } else {
+	                    allElements.push(_react2.default.createElement(Item, { item: this.props.items[i], key: "active_" + this.props.items[i].id, category: this.props.category }));
+	                }
+	            }
+	
+	            if (!this.props.items || this.props.items.length == 0) {
+	                return null;
+	            } else {
+	                return _react2.default.createElement(
+	                    'div',
+	                    { className: this.props.category },
+	                    _react2.default.createElement(
+	                        _reactAddonsCssTransitionGroup2.default,
+	                        {
+	                            transitionName: 'example',
+	                            transitionEnterTimeout: 500,
+	                            transitionLeaveTimeout: 300 },
+	                        allElements
+	                    )
+	                );
+	            }
+	        }
+	    }]);
+	
+	    return Listing;
+	}(_react2.default.Component);
+	
+	var Main = function (_React$Component8) {
+	    _inherits(Main, _React$Component8);
+	
+	    function Main(props) {
+	        _classCallCheck(this, Main);
+	
+	        /* Initializing all States */
+	        var _this8 = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
+	
+	        _this8.state = {
+	            searchData: [],
+	            activeData: [],
+	            allData: []
+	        };
+	
+	        /* Binding all methods. ES16 FTW */
+	        _this8.onChangeSearch = _this8.onChangeSearch.bind(_this8);
+	        _this8.getActiveData = _this8.getActiveData.bind(_this8);
+	        _this8.getAllData = _this8.getAllData.bind(_this8);
+	        return _this8;
+	    }
+	
+	    _createClass(Main, [{
+	        key: 'componentWillMount',
+	        value: function componentWillMount() {
+	            this.firebaseRef = _firebase2.default.database().ref();
+	            this.getActiveData();
+	            this.getAllData();
+	        }
+	    }, {
+	        key: 'componentWillUnmount',
+	        value: function componentWillUnmount() {
+	            _firebase2.default.off();
+	        }
+	    }, {
+	        key: 'resolve',
+	        value: function resolve() {
+	            console.log('test');
+	        }
+	
+	        /* Get all items that the user have to buy */
+	
+	    }, {
+	        key: 'getActiveData',
+	        value: function getActiveData() {
+	
+	            var newActiveData = [];
+	
+	            /* Adds all items from Firebase database once */
+	            this.firebaseRef.child("activeItems").on("child_added", function (dataSnapshot) {
+	                var data = dataSnapshot.val();
+	                data.id = dataSnapshot.key;
+	                newActiveData.push(data);
+	                this.setState({ activeData: newActiveData });
+	            }.bind(this));
+	
+	            /* Changes information about item if database was updates (realtime and blanzingly fast) */
+	            this.firebaseRef.child("activeItems").on("child_changed", function (dataSnapshot) {
+	                for (var i in newActiveData) {
+	                    if (newActiveData[i].id == dataSnapshot.key) {
+	                        var data = dataSnapshot.val();
+	                        data.id = dataSnapshot.key;
+	                        newActiveData[i] = data;
+	                        this.setState({ activeData: newActiveData });
+	                    }
+	                }
+	            }.bind(this));
+	
+	            /* Removes item from the list in the app (for collaboration) */
+	            this.firebaseRef.child("activeItems").on("child_removed", function (dataSnapshot) {
+	                for (var i in newActiveData) {
+	                    if (newActiveData[i].id == dataSnapshot.key) {
+	                        newActiveData.splice(i, 1);
+	                        this.setState({ activeData: newActiveData });
+	                    }
+	                }
+	            }.bind(this));
+	        }
+	
+	        /* Get all items and store in array */
+	
+	    }, {
+	        key: 'getAllData',
+	        value: function getAllData() {
+	
+	            var newAllData = [];
+	
+	            /* Adds all items from Firebase database once */
+	            this.firebaseRef.child("allItems").on("child_added", function (dataSnapshot) {
+	                var data = dataSnapshot.val();
+	                data.id = dataSnapshot.key;
+	                newAllData.push(data);
+	                this.setState({ allData: newAllData });
+	            }.bind(this));
+	
+	            /* Changes information about item if database was updates (realtime and blanzingly fast) */
+	            this.firebaseRef.child("allItems").on("child_changed", function (dataSnapshot) {
+	                for (var i in newAllData) {
+	                    if (newAllData[i].id == dataSnapshot.key) {
+	                        var data = dataSnapshot.val();
+	                        data.id = dataSnapshot.key;
+	                        newAllData[i] = data;
+	                        this.setState({ allData: newAllData });
+	                    }
+	                }
+	            }.bind(this));
+	
+	            /* Removes item from the list in the app (for collaboration) */
+	            this.firebaseRef.child("allItems").on("child_removed", function (dataSnapshot) {
+	                for (var i in newAllData) {
+	                    if (newAllData[i].id == dataSnapshot.key) {
+	                        newAllData.splice(i, 1);
+	                        this.setState({ allData: newAllData });
+	                    }
+	                }
+	            }.bind(this));
+	        }
+	    }, {
+	        key: 'onChangeSearch',
+	        value: function onChangeSearch(e) {
+	            var newSearchResults = [];
+	            if (e.target.value && e.target.value != " ") {
+	                for (var i in this.state.allData) {
+	                    if (this.state.allData[i].name.toLowerCase().includes(e.target.value)) {
+	                        newSearchResults.push(this.state.allData[i]);
+	                    }
+	                }
+	                this.setState({ searchData: newSearchResults });
+	            }
+	            if (e.target.value == " " || e.target.value == "") {
+	                var newSearchResults = [];
+	                this.setState({ searchData: newSearchResults });
+	            }
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'content_wrapper' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'searchfield' },
+	                    _react2.default.createElement('input', { className: 'serachBar', placeholder: 'Search...', onChange: this.onChangeSearch }),
+	                    _react2.default.createElement(Listing, { items: this.state.searchData, category: 'searchData', activeData: this.state.activeData })
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { id: 'content_optional_wrapper' },
+	                    this.state.searchData.length == 0 ? _react2.default.createElement(Listing, { items: this.state.activeData, category: 'activeData' }) : null
+	                )
+	            );
+	        }
+	    }]);
+	
+	    return Main;
+	}(_react2.default.Component);
+	
+	var App = function (_React$Component9) {
+	    _inherits(App, _React$Component9);
+	
+	    function App() {
+	        _classCallCheck(this, App);
+	
+	        return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
+	    }
+	
+	    _createClass(App, [{
+	        key: 'componentWillMount',
+	        value: function componentWillMount() {
+	            this.initializeFirebase();
+	        }
+	    }, {
+	        key: 'initializeFirebase',
+	        value: function initializeFirebase() {
+	            /* Firebase Initialization
+	             The config variable is stored in another file (see HTML header) and is not stored over Github */
+	            _firebase2.default.initializeApp(config);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(NavTop, null),
+	                _react2.default.createElement(Main, null),
+	                _react2.default.createElement(NavBottom, null)
+	            );
+	        }
+	    }]);
+	
+	    return App;
+	}(_react2.default.Component);
+	
+	_reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('app'));
 
 /***/ },
 /* 1 */
@@ -23016,6 +23390,5034 @@
 /***/ },
 /* 184 */
 /*!******************************!*\
+  !*** ./_src/_app/search.jsx ***!
+  \******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactSearch = __webpack_require__(/*! react-search */ 185);
+	
+	var _reactSearch2 = _interopRequireDefault(_reactSearch);
+	
+	var _firebase = __webpack_require__(/*! firebase */ 178);
+	
+	var _firebase2 = _interopRequireDefault(_firebase);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ListoSearch = function (_React$Component) {
+	  _inherits(ListoSearch, _React$Component);
+	
+	  function ListoSearch(props) {
+	    _classCallCheck(this, ListoSearch);
+	
+	    var _this = _possibleConstructorReturn(this, (ListoSearch.__proto__ || Object.getPrototypeOf(ListoSearch)).call(this, props));
+	
+	    _this.state = {
+	      items: []
+	    };
+	    /* Bind methods */
+	    return _this;
+	  }
+	
+	  _createClass(ListoSearch, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.firebaseRef = _firebase2.default.database().ref();
+	
+	      var newActiveData = [];
+	
+	      /* Adds all items from Firebase database once */
+	      this.firebaseRef.child("allItems").on("child_added", function (dataSnapshot) {
+	        var data = {};
+	        data.value = dataSnapshot.val().name;
+	        data.id = dataSnapshot.key;
+	        newActiveData.push(data);
+	        this.setState({ items: newActiveData });
+	      }.bind(this));
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.firebaseRef.off();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(_reactSearch2.default, { items: this.state.items });
+	    }
+	  }]);
+	
+	  return ListoSearch;
+	}(_react2.default.Component);
+	
+	exports.default = ListoSearch;
+
+/***/ },
+/* 185 */
+/*!**************************************!*\
+  !*** ./~/react-search/lib/Search.js ***!
+  \**************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactDom = __webpack_require__(/*! react-dom */ 32);
+	
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Autocomplete Search component
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               **/
+	
+	
+	var Search = function (_Component) {
+	  _inherits(Search, _Component);
+	
+	  _createClass(Search, null, [{
+	    key: 'defaultProps',
+	    get: function get() {
+	      return {
+	        initialSelected: [],
+	        placeholder: '— None',
+	        NotFoundPlaceholder: 'Please search for some items...',
+	        maxSelected: 100,
+	        multiple: false
+	      };
+	    }
+	  }, {
+	    key: 'propTypes',
+	    get: function get() {
+	      return {
+	        items: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.object).isRequired,
+	        initialSelected: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.object, _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.object)]),
+	        onItemsChanged: _react2.default.PropTypes.func,
+	        placeholder: _react2.default.PropTypes.string,
+	        NotFoundPlaceholder: _react2.default.PropTypes.string,
+	        maxSelected: _react2.default.PropTypes.number,
+	        multiple: _react2.default.PropTypes.bool,
+	        onKeyChange: _react2.default.PropTypes.func,
+	        getItemsAsync: _react2.default.PropTypes.func
+	      };
+	    }
+	  }]);
+	
+	  function Search(props) {
+	    _classCallCheck(this, Search);
+	
+	    var _this = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
+	
+	    _this.state = {
+	      menuItems: [],
+	      selectedItems: [],
+	      searchValue: '',
+	      menuVisible: false
+	    };
+	    return _this;
+	  }
+	
+	  _createClass(Search, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var initialSelected = this.props.initialSelected;
+	
+	      if (initialSelected instanceof Array) {
+	        this.setSelected(initialSelected);
+	      } else {
+	        this.addSelected(initialSelected);
+	      }
+	    }
+	  }, {
+	    key: 'SearchItemInArrayObjects',
+	    value: function SearchItemInArrayObjects(items, input, searchKey) {
+	      var reg = new RegExp(input.split('').join('\\w*').replace(/\W/, ''), 'i');
+	      return items.filter(function (item) {
+	        if (reg.test(item[searchKey])) {
+	          return item;
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'selectMenuItem',
+	    value: function selectMenuItem(item) {
+	      var multiple = this.props.multiple;
+	
+	      multiple ? this.addSelected(item) : this.setSelected([item]);
+	      this.hideMenu();
+	    }
+	  }, {
+	    key: 'showMenu',
+	    value: function showMenu() {
+	      this.setState({ menuVisible: true });
+	    }
+	  }, {
+	    key: 'hideMenu',
+	    value: function hideMenu() {
+	      this.setState({ menuVisible: false });
+	      this.resetPlaceholder();
+	    }
+	  }, {
+	    key: 'triggerItemsChanged',
+	    value: function triggerItemsChanged() {
+	      if (this.props.onItemsChanged !== undefined) {
+	        this.props.onItemsChanged(this.state.selectedItems);
+	      }
+	    }
+	  }, {
+	    key: 'triggerKeyChange',
+	    value: function triggerKeyChange(searchValue) {
+	      if (this.props.onKeyChange !== undefined) {
+	        this.props.onKeyChange(searchValue);
+	      }
+	    }
+	  }, {
+	    key: 'triggerGetItemsAsync',
+	    value: function triggerGetItemsAsync(searchValue) {
+	      var _this2 = this;
+	
+	      if (this.props.getItemsAsync !== undefined) {
+	        this.props.getItemsAsync(searchValue, function () {
+	          _this2.updateSearchValue(searchValue);
+	        });
+	      }
+	    }
+	  }, {
+	    key: 'setSelected',
+	    value: function setSelected(selected) {
+	      var _this3 = this;
+	
+	      this.setState({ selectedItems: selected }, function () {
+	        _this3.triggerItemsChanged();
+	      });
+	    }
+	  }, {
+	    key: 'addSelected',
+	    value: function addSelected(selected) {
+	      var _this4 = this;
+	
+	      var items = this.state.selectedItems;
+	      items.push(selected);
+	      this.setState({ selectedItems: items }, function () {
+	        _this4.triggerItemsChanged();
+	      });
+	    }
+	  }, {
+	    key: 'removeSelected',
+	    value: function removeSelected(itemId) {
+	      var _this5 = this;
+	
+	      var items = this.state.selectedItems;
+	      var itemsUpdated = items.filter(function (i) {
+	        return i.id != itemId;
+	      });
+	      this.setState({ selectedItems: itemsUpdated }, function () {
+	        _this5.triggerItemsChanged();
+	      });
+	    }
+	  }, {
+	    key: 'updateSearchValue',
+	    value: function updateSearchValue(value) {
+	      var _this6 = this;
+	
+	      var items = this.props.items;
+	
+	      this.setState({ searchValue: value }, function () {
+	        var menuItems = _this6.SearchItemInArrayObjects(items, _this6.state.searchValue, 'value');
+	        _this6.setMenuItems(menuItems);
+	      });
+	    }
+	  }, {
+	    key: 'showAllMenuItems',
+	    value: function showAllMenuItems() {
+	      var items = this.props.items;
+	
+	      this.setState({ searchValue: '' });
+	      var menuItems = this.SearchItemInArrayObjects(items, '', 'value');
+	      this.setMenuItems(menuItems);
+	    }
+	  }, {
+	    key: 'setMenuItems',
+	    value: function setMenuItems(items) {
+	      var getItemsAsync = this.props.getItemsAsync;
+	
+	      this.setState({ menuItems: items });
+	      if (items.length || getItemsAsync != undefined) {
+	        this.showMenu();
+	      } else {
+	        this.hideMenu();
+	      }
+	    }
+	  }, {
+	    key: 'itemSelected',
+	    value: function itemSelected(itemId) {
+	      var selectedItems = this.state.selectedItems;
+	
+	      var item = selectedItems.find(function (s) {
+	        return s.id === itemId;
+	      });
+	      return item != undefined ? true : false;
+	    }
+	  }, {
+	    key: 'focusInput',
+	    value: function focusInput() {
+	      var _this7 = this;
+	
+	      this.showAllMenuItems();
+	      _reactDom2.default.findDOMNode(this.refs.searchInput).placeholder = '';
+	      _reactDom2.default.findDOMNode(this.refs.searchInput).value = '';
+	      this.blurTimeout = setTimeout(function () {
+	        _reactDom2.default.findDOMNode(_this7.refs.searchInput).focus();
+	      }, 100);
+	    }
+	  }, {
+	    key: 'blurInput',
+	    value: function blurInput() {
+	      var _this8 = this;
+	
+	      this.blurTimeout = setTimeout(function () {
+	        _reactDom2.default.findDOMNode(_this8.refs.searchInput).blur();
+	        _this8.hideMenu();
+	      }, 100);
+	    }
+	  }, {
+	    key: 'resetPlaceholder',
+	    value: function resetPlaceholder() {
+	      var placeholder = _reactDom2.default.findDOMNode(this.refs.placeholder);
+	      placeholder = this.props.placeholder;
+	    }
+	  }, {
+	    key: 'handleRemove',
+	    value: function handleRemove(e) {
+	      e.preventDefault();
+	      e.stopPropagation();
+	      this.removeSelected(e.target.dataset.id);
+	    }
+	  }, {
+	    key: 'handleFocus',
+	    value: function handleFocus(e) {
+	      this.focusInput();
+	    }
+	  }, {
+	    key: 'handleBlur',
+	    value: function handleBlur(e) {
+	      this.blurInput();
+	    }
+	  }, {
+	    key: 'handleClick',
+	    value: function handleClick(e) {
+	      this.focusInput();
+	    }
+	  }, {
+	    key: 'handleItemClick',
+	    value: function handleItemClick(e) {
+	      this.focusInput();
+	    }
+	  }, {
+	    key: 'handleSelect',
+	    value: function handleSelect(e) {
+	      var element = e.currentTarget.children[0];
+	      var item = { id: parseInt(element.dataset.id), value: element.innerHTML.replace(/&amp;/g, '&') };
+	      this.selectMenuItem(item);
+	    }
+	  }, {
+	    key: 'handleKeyChange',
+	    value: function handleKeyChange(e) {
+	      var getItemsAsync = this.props.getItemsAsync;
+	
+	      var value = this.refs.searchInput.value;
+	      this.triggerKeyChange(value);
+	      if (getItemsAsync != undefined) {
+	        this.triggerGetItemsAsync(value);
+	      } else {
+	        this.updateSearchValue(value);
+	      }
+	    }
+	  }, {
+	    key: 'renderMenuItems',
+	    value: function renderMenuItems() {
+	      var _this9 = this;
+	
+	      var _state = this.state,
+	          menuItems = _state.menuItems,
+	          selectedItems = _state.selectedItems;
+	      var NotFoundPlaceholder = this.props.NotFoundPlaceholder;
+	
+	      if (!menuItems.length) {
+	        return _react2.default.createElement(
+	          'li',
+	          { className: 'autocomplete__item autocomplete__item--disabled' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'data-id': 0 },
+	            NotFoundPlaceholder
+	          )
+	        );
+	      }
+	
+	      var items = menuItems.map(function (item, i) {
+	        if (_this9.itemSelected(item.id)) {
+	          return _react2.default.createElement(
+	            'li',
+	            { key: i, className: 'autocomplete__item autocomplete__item--disabled' },
+	            _react2.default.createElement('span', { key: i, 'data-id': item.id, dangerouslySetInnerHTML: { __html: item.value } })
+	          );
+	        } else {
+	          return _react2.default.createElement(
+	            'li',
+	            { key: i, className: 'autocomplete__item', onClick: _this9.handleSelect.bind(_this9) },
+	            _react2.default.createElement('span', { key: i, 'data-id': item.id, dangerouslySetInnerHTML: { __html: item.value } })
+	          );
+	        }
+	      });
+	      return items;
+	    }
+	  }, {
+	    key: 'renderSelectedItems',
+	    value: function renderSelectedItems() {
+	      var _this10 = this;
+	
+	      var selectedItems = this.state.selectedItems;
+	      var _props = this.props,
+	          multiple = _props.multiple,
+	          placeholder = _props.placeholder;
+	
+	      if (!selectedItems.length && multiple) return;
+	
+	      if (!selectedItems.length && !multiple) {
+	        return _react2.default.createElement(
+	          'li',
+	          { className: 'autocomplete__item autocomplete__item--selected autocomplete__item__dropdown',
+	            onClick: this.handleItemClick.bind(this) },
+	          _react2.default.createElement('span', { dangerouslySetInnerHTML: { __html: placeholder } }),
+	          _react2.default.createElement('span', { className: 'autocomplete__dropdown' })
+	        );
+	      }
+	
+	      var items = selectedItems.map(function (item, i) {
+	        var itemClass = 'autocomplete__item autocomplete__item--selected autocomplete__item__dropdown';
+	        var dropDown = _react2.default.createElement('span', { className: 'autocomplete__dropdown' });
+	        var icon = _react2.default.createElement('span', { 'data-id': item.id, className: 'autocomplete__close',
+	          onClick: _this10.handleRemove.bind(_this10) });
+	
+	        if (multiple) {
+	          dropDown = null;
+	          itemClass = 'autocomplete__item autocomplete__item--selected';
+	        }
+	
+	        return _react2.default.createElement(
+	          'li',
+	          { key: i, className: itemClass, onClick: _this10.handleItemClick.bind(_this10) },
+	          _react2.default.createElement('span', { 'data-id': item.id, dangerouslySetInnerHTML: { __html: item.value } }),
+	          icon,
+	          dropDown
+	        );
+	      });
+	      return items;
+	    }
+	  }, {
+	    key: 'renderInput',
+	    value: function renderInput() {
+	      var _props2 = this.props,
+	          maxSelected = _props2.maxSelected,
+	          multiple = _props2.multiple;
+	      var selectedItems = this.state.selectedItems;
+	
+	      var inputClass = 'autocomplete__input';
+	      if (multiple && selectedItems.length >= maxSelected) {
+	        inputClass = 'autocomplete__input autocomplete__input--hidden';
+	      }
+	
+	      return _react2.default.createElement('input', { type: 'text',
+	        className: inputClass,
+	        ref: 'searchInput',
+	        placeholder: this.props.placeholder,
+	        onClick: this.handleClick.bind(this),
+	        onFocus: this.handleFocus.bind(this),
+	        onBlur: this.handleBlur.bind(this),
+	        onKeyUp: this.handleKeyChange.bind(this) });
+	    }
+	  }, {
+	    key: 'getMenuClass',
+	    value: function getMenuClass() {
+	      var _props3 = this.props,
+	          maxSelected = _props3.maxSelected,
+	          multiple = _props3.multiple;
+	      var _state2 = this.state,
+	          menuVisible = _state2.menuVisible,
+	          selectedItems = _state2.selectedItems;
+	
+	      var menuClass = 'autocomplete__menu autocomplete__menu--hidden';
+	      if (menuVisible && !multiple) {
+	        menuClass = 'autocomplete__menu';
+	      }
+	      if (menuVisible && selectedItems.length < maxSelected) {
+	        menuClass = 'autocomplete__menu';
+	      }
+	      return menuClass;
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var multiple = this.props.multiple;
+	
+	      var menuClass = this.getMenuClass();
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'autocomplete' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'autocomplete__selected' },
+	          _react2.default.createElement(
+	            'ul',
+	            { className: 'autocomplete__items' },
+	            this.renderSelectedItems()
+	          )
+	        ),
+	        multiple && this.renderInput(),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'autocomplete__menu--wrap' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: menuClass, ref: 'autocomplete' },
+	            !multiple && this.renderInput(),
+	            _react2.default.createElement(
+	              'ul',
+	              { className: 'autocomplete__items' },
+	              this.renderMenuItems()
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Search;
+	}(_react.Component);
+	
+	exports.default = Search;
+
+/***/ },
+/* 186 */
+/*!************************************!*\
+  !*** ./~/react-modal/lib/index.js ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(/*! ./components/Modal */ 187);
+	
+
+
+/***/ },
+/* 187 */
+/*!***********************************************!*\
+  !*** ./~/react-modal/lib/components/Modal.js ***!
+  \***********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {var React = __webpack_require__(/*! react */ 1);
+	var ReactDOM = __webpack_require__(/*! react-dom */ 32);
+	var ExecutionEnvironment = __webpack_require__(/*! exenv */ 188);
+	var ModalPortal = React.createFactory(__webpack_require__(/*! ./ModalPortal */ 189));
+	var ariaAppHider = __webpack_require__(/*! ../helpers/ariaAppHider */ 204);
+	var elementClass = __webpack_require__(/*! element-class */ 205);
+	var renderSubtreeIntoContainer = __webpack_require__(/*! react-dom */ 32).unstable_renderSubtreeIntoContainer;
+	var Assign = __webpack_require__(/*! lodash.assign */ 193);
+	
+	var SafeHTMLElement = ExecutionEnvironment.canUseDOM ? window.HTMLElement : {};
+	var AppElement = ExecutionEnvironment.canUseDOM ? document.body : {appendChild: function() {}};
+	
+	function getParentElement(parentSelector) {
+	  return parentSelector();
+	}
+	
+	var Modal = React.createClass({
+	
+	  displayName: 'Modal',
+	  statics: {
+	    setAppElement: function(element) {
+	        AppElement = ariaAppHider.setElement(element);
+	    },
+	    injectCSS: function() {
+	      "production" !== process.env.NODE_ENV
+	        && console.warn('React-Modal: injectCSS has been deprecated ' +
+	                        'and no longer has any effect. It will be removed in a later version');
+	    }
+	  },
+	
+	  propTypes: {
+	    isOpen: React.PropTypes.bool.isRequired,
+	    style: React.PropTypes.shape({
+	      content: React.PropTypes.object,
+	      overlay: React.PropTypes.object
+	    }),
+	    portalClassName: React.PropTypes.string,
+	    appElement: React.PropTypes.instanceOf(SafeHTMLElement),
+	    onAfterOpen: React.PropTypes.func,
+	    onRequestClose: React.PropTypes.func,
+	    closeTimeoutMS: React.PropTypes.number,
+	    ariaHideApp: React.PropTypes.bool,
+	    shouldCloseOnOverlayClick: React.PropTypes.bool,
+	    parentSelector: React.PropTypes.func,
+	    role: React.PropTypes.string,
+	    contentLabel: React.PropTypes.string.isRequired
+	  },
+	
+	  getDefaultProps: function () {
+	    return {
+	      isOpen: false,
+	      portalClassName: 'ReactModalPortal',
+	      ariaHideApp: true,
+	      closeTimeoutMS: 0,
+	      shouldCloseOnOverlayClick: true,
+	      parentSelector: function () { return document.body; }
+	    };
+	  },
+	
+	  componentDidMount: function() {
+	    this.node = document.createElement('div');
+	    this.node.className = this.props.portalClassName;
+	
+	    var parent = getParentElement(this.props.parentSelector);
+	    parent.appendChild(this.node);
+	    this.renderPortal(this.props);
+	  },
+	
+	  componentWillReceiveProps: function(newProps) {
+	    var currentParent = getParentElement(this.props.parentSelector);
+	    var newParent = getParentElement(newProps.parentSelector);
+	
+	    if(newParent !== currentParent) {
+	      currentParent.removeChild(this.node);
+	      newParent.appendChild(this.node);
+	    }
+	
+	    this.renderPortal(newProps);
+	  },
+	
+	  componentWillUnmount: function() {
+	    if (this.props.ariaHideApp) {
+	      ariaAppHider.show(this.props.appElement);
+	    }
+	
+	    ReactDOM.unmountComponentAtNode(this.node);
+	    var parent = getParentElement(this.props.parentSelector);
+	    parent.removeChild(this.node);
+	    elementClass(document.body).remove('ReactModal__Body--open');
+	  },
+	
+	  renderPortal: function(props) {
+	    if (props.isOpen) {
+	      elementClass(document.body).add('ReactModal__Body--open');
+	    } else {
+	      elementClass(document.body).remove('ReactModal__Body--open');
+	    }
+	
+	    if (props.ariaHideApp) {
+	      ariaAppHider.toggle(props.isOpen, props.appElement);
+	    }
+	
+	    this.portal = renderSubtreeIntoContainer(this, ModalPortal(Assign({}, props, {defaultStyles: Modal.defaultStyles})), this.node);
+	  },
+	
+	  render: function () {
+	    return React.DOM.noscript();
+	  }
+	});
+	
+	Modal.defaultStyles = {
+	  overlay: {
+	    position        : 'fixed',
+	    top             : 0,
+	    left            : 0,
+	    right           : 0,
+	    bottom          : 0,
+	    backgroundColor : 'rgba(255, 255, 255, 0.75)'
+	  },
+	  content: {
+	    position                : 'absolute',
+	    top                     : '40px',
+	    left                    : '40px',
+	    right                   : '40px',
+	    bottom                  : '40px',
+	    border                  : '1px solid #ccc',
+	    background              : '#fff',
+	    overflow                : 'auto',
+	    WebkitOverflowScrolling : 'touch',
+	    borderRadius            : '4px',
+	    outline                 : 'none',
+	    padding                 : '20px'
+	  }
+	}
+	
+	module.exports = Modal
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/process/browser.js */ 3)))
+
+/***/ },
+/* 188 */
+/*!**************************!*\
+  !*** ./~/exenv/index.js ***!
+  \**************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	  Copyright (c) 2015 Jed Watson.
+	  Based on code that is Copyright 2013-2015, Facebook, Inc.
+	  All rights reserved.
+	*/
+	
+	(function () {
+		'use strict';
+	
+		var canUseDOM = !!(
+			typeof window !== 'undefined' &&
+			window.document &&
+			window.document.createElement
+		);
+	
+		var ExecutionEnvironment = {
+	
+			canUseDOM: canUseDOM,
+	
+			canUseWorkers: typeof Worker !== 'undefined',
+	
+			canUseEventListeners:
+				canUseDOM && !!(window.addEventListener || window.attachEvent),
+	
+			canUseViewport: canUseDOM && !!window.screen
+	
+		};
+	
+		if (true) {
+			!(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
+				return ExecutionEnvironment;
+			}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else if (typeof module !== 'undefined' && module.exports) {
+			module.exports = ExecutionEnvironment;
+		} else {
+			window.ExecutionEnvironment = ExecutionEnvironment;
+		}
+	
+	}());
+
+
+/***/ },
+/* 189 */
+/*!*****************************************************!*\
+  !*** ./~/react-modal/lib/components/ModalPortal.js ***!
+  \*****************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(/*! react */ 1);
+	var div = React.DOM.div;
+	var focusManager = __webpack_require__(/*! ../helpers/focusManager */ 190);
+	var scopeTab = __webpack_require__(/*! ../helpers/scopeTab */ 192);
+	var Assign = __webpack_require__(/*! lodash.assign */ 193);
+	
+	// so that our CSS is statically analyzable
+	var CLASS_NAMES = {
+	  overlay: {
+	    base: 'ReactModal__Overlay',
+	    afterOpen: 'ReactModal__Overlay--after-open',
+	    beforeClose: 'ReactModal__Overlay--before-close'
+	  },
+	  content: {
+	    base: 'ReactModal__Content',
+	    afterOpen: 'ReactModal__Content--after-open',
+	    beforeClose: 'ReactModal__Content--before-close'
+	  }
+	};
+	
+	var ModalPortal = module.exports = React.createClass({
+	
+	  displayName: 'ModalPortal',
+	  shouldClose: null,
+	
+	  getDefaultProps: function() {
+	    return {
+	      style: {
+	        overlay: {},
+	        content: {}
+	      }
+	    };
+	  },
+	
+	  getInitialState: function() {
+	    return {
+	      afterOpen: false,
+	      beforeClose: false
+	    };
+	  },
+	
+	  componentDidMount: function() {
+	    // Focus needs to be set when mounting and already open
+	    if (this.props.isOpen) {
+	      this.setFocusAfterRender(true);
+	      this.open();
+	    }
+	  },
+	
+	  componentWillUnmount: function() {
+	    clearTimeout(this.closeTimer);
+	  },
+	
+	  componentWillReceiveProps: function(newProps) {
+	    // Focus only needs to be set once when the modal is being opened
+	    if (!this.props.isOpen && newProps.isOpen) {
+	      this.setFocusAfterRender(true);
+	      this.open();
+	    } else if (this.props.isOpen && !newProps.isOpen) {
+	      this.close();
+	    }
+	  },
+	
+	  componentDidUpdate: function () {
+	    if (this.focusAfterRender) {
+	      this.focusContent();
+	      this.setFocusAfterRender(false);
+	    }
+	  },
+	
+	  setFocusAfterRender: function (focus) {
+	    this.focusAfterRender = focus;
+	  },
+	
+	  open: function() {
+	    if (this.state.afterOpen && this.state.beforeClose) {
+	      clearTimeout(this.closeTimer);
+	      this.setState({ beforeClose: false });
+	    } else {
+	      focusManager.setupScopedFocus(this.node);
+	      focusManager.markForFocusLater();
+	      this.setState({isOpen: true}, function() {
+	        this.setState({afterOpen: true});
+	
+	        if (this.props.isOpen && this.props.onAfterOpen) {
+	          this.props.onAfterOpen();
+	        }
+	      }.bind(this));
+	    }
+	  },
+	
+	  close: function() {
+	    if (!this.ownerHandlesClose())
+	      return;
+	    if (this.props.closeTimeoutMS > 0)
+	      this.closeWithTimeout();
+	    else
+	      this.closeWithoutTimeout();
+	  },
+	
+	  focusContent: function() {
+	    // Don't steal focus from inner elements
+	    if (!this.contentHasFocus()) {
+	      this.refs.content.focus();
+	    }
+	  },
+	
+	  closeWithTimeout: function() {
+	    this.setState({beforeClose: true}, function() {
+	      this.closeTimer = setTimeout(this.closeWithoutTimeout, this.props.closeTimeoutMS);
+	    }.bind(this));
+	  },
+	
+	  closeWithoutTimeout: function() {
+	    this.setState({
+	      beforeClose: false,
+	      isOpen: false,
+	      afterOpen: false,
+	    }, this.afterClose);
+	  },
+	
+	  afterClose: function() {
+	    focusManager.returnFocus();
+	    focusManager.teardownScopedFocus();
+	  },
+	
+	  handleKeyDown: function(event) {
+	    if (event.keyCode == 9 /*tab*/) scopeTab(this.refs.content, event);
+	    if (event.keyCode == 27 /*esc*/) {
+	      event.preventDefault();
+	      this.requestClose(event);
+	    }
+	  },
+	
+	  handleOverlayMouseDown: function(event) {
+	    if (this.shouldClose === null) {
+	      this.shouldClose = true;
+	    }
+	  },
+	
+	  handleOverlayMouseUp: function(event) {
+	    if (this.shouldClose && this.props.shouldCloseOnOverlayClick) {
+	      if (this.ownerHandlesClose())
+	        this.requestClose(event);
+	      else
+	        this.focusContent();
+	    }
+	    this.shouldClose = null;
+	  },
+	
+	  handleContentMouseDown: function(event) {
+	    this.shouldClose = false;
+	  },
+	
+	  handleContentMouseUp: function(event) {
+	    this.shouldClose = false;
+	  },
+	
+	  requestClose: function(event) {
+	    if (this.ownerHandlesClose())
+	      this.props.onRequestClose(event);
+	  },
+	
+	  ownerHandlesClose: function() {
+	    return this.props.onRequestClose;
+	  },
+	
+	  shouldBeClosed: function() {
+	    return !this.props.isOpen && !this.state.beforeClose;
+	  },
+	
+	  contentHasFocus: function() {
+	    return document.activeElement === this.refs.content || this.refs.content.contains(document.activeElement);
+	  },
+	
+	  buildClassName: function(which, additional) {
+	    var className = CLASS_NAMES[which].base;
+	    if (this.state.afterOpen)
+	      className += ' '+CLASS_NAMES[which].afterOpen;
+	    if (this.state.beforeClose)
+	      className += ' '+CLASS_NAMES[which].beforeClose;
+	    return additional ? className + ' ' + additional : className;
+	  },
+	
+	  render: function() {
+	    var contentStyles = (this.props.className) ? {} : this.props.defaultStyles.content;
+	    var overlayStyles = (this.props.overlayClassName) ? {} : this.props.defaultStyles.overlay;
+	
+	    return this.shouldBeClosed() ? div() : (
+	      div({
+	        ref: "overlay",
+	        className: this.buildClassName('overlay', this.props.overlayClassName),
+	        style: Assign({}, overlayStyles, this.props.style.overlay || {}),
+	        onMouseDown: this.handleOverlayMouseDown,
+	        onMouseUp: this.handleOverlayMouseUp
+	      },
+	        div({
+	          ref: "content",
+	          style: Assign({}, contentStyles, this.props.style.content || {}),
+	          className: this.buildClassName('content', this.props.className),
+	          tabIndex: "-1",
+	          onKeyDown: this.handleKeyDown,
+	          onMouseDown: this.handleContentMouseDown,
+	          onMouseUp: this.handleContentMouseUp,
+	          role: this.props.role,
+	          "aria-label": this.props.contentLabel
+	        },
+	          this.props.children
+	        )
+	      )
+	    );
+	  }
+	});
+
+
+/***/ },
+/* 190 */
+/*!***************************************************!*\
+  !*** ./~/react-modal/lib/helpers/focusManager.js ***!
+  \***************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var findTabbable = __webpack_require__(/*! ../helpers/tabbable */ 191);
+	var modalElement = null;
+	var focusLaterElement = null;
+	var needToFocus = false;
+	
+	function handleBlur(event) {
+	  needToFocus = true;
+	}
+	
+	function handleFocus(event) {
+	  if (needToFocus) {
+	    needToFocus = false;
+	    if (!modalElement) {
+	      return;
+	    }
+	    // need to see how jQuery shims document.on('focusin') so we don't need the
+	    // setTimeout, firefox doesn't support focusin, if it did, we could focus
+	    // the element outside of a setTimeout. Side-effect of this implementation 
+	    // is that the document.body gets focus, and then we focus our element right 
+	    // after, seems fine.
+	    setTimeout(function() {
+	      if (modalElement.contains(document.activeElement))
+	        return;
+	      var el = (findTabbable(modalElement)[0] || modalElement);
+	      el.focus();
+	    }, 0);
+	  }
+	}
+	
+	exports.markForFocusLater = function() {
+	  focusLaterElement = document.activeElement;
+	};
+	
+	exports.returnFocus = function() {
+	  try {
+	    focusLaterElement.focus();
+	  }
+	  catch (e) {
+	    console.warn('You tried to return focus to '+focusLaterElement+' but it is not in the DOM anymore');
+	  }
+	  focusLaterElement = null;
+	};
+	
+	exports.setupScopedFocus = function(element) {
+	  modalElement = element;
+	
+	  if (window.addEventListener) {
+	    window.addEventListener('blur', handleBlur, false);
+	    document.addEventListener('focus', handleFocus, true);
+	  } else {
+	    window.attachEvent('onBlur', handleBlur);
+	    document.attachEvent('onFocus', handleFocus);
+	  }
+	};
+	
+	exports.teardownScopedFocus = function() {
+	  modalElement = null;
+	
+	  if (window.addEventListener) {
+	    window.removeEventListener('blur', handleBlur);
+	    document.removeEventListener('focus', handleFocus);
+	  } else {
+	    window.detachEvent('onBlur', handleBlur);
+	    document.detachEvent('onFocus', handleFocus);
+	  }
+	};
+	
+	
+
+
+/***/ },
+/* 191 */
+/*!***********************************************!*\
+  !*** ./~/react-modal/lib/helpers/tabbable.js ***!
+  \***********************************************/
+/***/ function(module, exports) {
+
+	/*!
+	 * Adapted from jQuery UI core
+	 *
+	 * http://jqueryui.com
+	 *
+	 * Copyright 2014 jQuery Foundation and other contributors
+	 * Released under the MIT license.
+	 * http://jquery.org/license
+	 *
+	 * http://api.jqueryui.com/category/ui-core/
+	 */
+	
+	function focusable(element, isTabIndexNotNaN) {
+	  var nodeName = element.nodeName.toLowerCase();
+	  return (/input|select|textarea|button|object/.test(nodeName) ?
+	    !element.disabled :
+	    "a" === nodeName ?
+	      element.href || isTabIndexNotNaN :
+	      isTabIndexNotNaN) && visible(element);
+	}
+	
+	function hidden(el) {
+	  return (el.offsetWidth <= 0 && el.offsetHeight <= 0) ||
+	    el.style.display === 'none';
+	}
+	
+	function visible(element) {
+	  while (element) {
+	    if (element === document.body) break;
+	    if (hidden(element)) return false;
+	    element = element.parentNode;
+	  }
+	  return true;
+	}
+	
+	function tabbable(element) {
+	  var tabIndex = element.getAttribute('tabindex');
+	  if (tabIndex === null) tabIndex = undefined;
+	  var isTabIndexNaN = isNaN(tabIndex);
+	  return (isTabIndexNaN || tabIndex >= 0) && focusable(element, !isTabIndexNaN);
+	}
+	
+	function findTabbableDescendants(element) {
+	  return [].slice.call(element.querySelectorAll('*'), 0).filter(function(el) {
+	    return tabbable(el);
+	  });
+	}
+	
+	module.exports = findTabbableDescendants;
+	
+
+
+/***/ },
+/* 192 */
+/*!***********************************************!*\
+  !*** ./~/react-modal/lib/helpers/scopeTab.js ***!
+  \***********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var findTabbable = __webpack_require__(/*! ../helpers/tabbable */ 191);
+	
+	module.exports = function(node, event) {
+	  var tabbable = findTabbable(node);
+	  if (!tabbable.length) {
+	      event.preventDefault();
+	      return;
+	  }
+	  var finalTabbable = tabbable[event.shiftKey ? 0 : tabbable.length - 1];
+	  var leavingFinalTabbable = (
+	    finalTabbable === document.activeElement ||
+	    // handle immediate shift+tab after opening with mouse
+	    node === document.activeElement
+	  );
+	  if (!leavingFinalTabbable) return;
+	  event.preventDefault();
+	  var target = tabbable[event.shiftKey ? tabbable.length - 1 : 0];
+	  target.focus();
+	};
+
+
+/***/ },
+/* 193 */
+/*!************************************************!*\
+  !*** ./~/react-modal/~/lodash.assign/index.js ***!
+  \************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * lodash 3.2.0 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	var baseAssign = __webpack_require__(/*! lodash._baseassign */ 194),
+	    createAssigner = __webpack_require__(/*! lodash._createassigner */ 200),
+	    keys = __webpack_require__(/*! lodash.keys */ 196);
+	
+	/**
+	 * A specialized version of `_.assign` for customizing assigned values without
+	 * support for argument juggling, multiple sources, and `this` binding `customizer`
+	 * functions.
+	 *
+	 * @private
+	 * @param {Object} object The destination object.
+	 * @param {Object} source The source object.
+	 * @param {Function} customizer The function to customize assigned values.
+	 * @returns {Object} Returns `object`.
+	 */
+	function assignWith(object, source, customizer) {
+	  var index = -1,
+	      props = keys(source),
+	      length = props.length;
+	
+	  while (++index < length) {
+	    var key = props[index],
+	        value = object[key],
+	        result = customizer(value, source[key], key, object, source);
+	
+	    if ((result === result ? (result !== value) : (value === value)) ||
+	        (value === undefined && !(key in object))) {
+	      object[key] = result;
+	    }
+	  }
+	  return object;
+	}
+	
+	/**
+	 * Assigns own enumerable properties of source object(s) to the destination
+	 * object. Subsequent sources overwrite property assignments of previous sources.
+	 * If `customizer` is provided it is invoked to produce the assigned values.
+	 * The `customizer` is bound to `thisArg` and invoked with five arguments:
+	 * (objectValue, sourceValue, key, object, source).
+	 *
+	 * **Note:** This method mutates `object` and is based on
+	 * [`Object.assign`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-object.assign).
+	 *
+	 * @static
+	 * @memberOf _
+	 * @alias extend
+	 * @category Object
+	 * @param {Object} object The destination object.
+	 * @param {...Object} [sources] The source objects.
+	 * @param {Function} [customizer] The function to customize assigned values.
+	 * @param {*} [thisArg] The `this` binding of `customizer`.
+	 * @returns {Object} Returns `object`.
+	 * @example
+	 *
+	 * _.assign({ 'user': 'barney' }, { 'age': 40 }, { 'user': 'fred' });
+	 * // => { 'user': 'fred', 'age': 40 }
+	 *
+	 * // using a customizer callback
+	 * var defaults = _.partialRight(_.assign, function(value, other) {
+	 *   return _.isUndefined(value) ? other : value;
+	 * });
+	 *
+	 * defaults({ 'user': 'barney' }, { 'age': 36 }, { 'user': 'fred' });
+	 * // => { 'user': 'barney', 'age': 36 }
+	 */
+	var assign = createAssigner(function(object, source, customizer) {
+	  return customizer
+	    ? assignWith(object, source, customizer)
+	    : baseAssign(object, source);
+	});
+	
+	module.exports = assign;
+
+
+/***/ },
+/* 194 */
+/*!***************************************!*\
+  !*** ./~/lodash._baseassign/index.js ***!
+  \***************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * lodash 3.2.0 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	var baseCopy = __webpack_require__(/*! lodash._basecopy */ 195),
+	    keys = __webpack_require__(/*! lodash.keys */ 196);
+	
+	/**
+	 * The base implementation of `_.assign` without support for argument juggling,
+	 * multiple sources, and `customizer` functions.
+	 *
+	 * @private
+	 * @param {Object} object The destination object.
+	 * @param {Object} source The source object.
+	 * @returns {Object} Returns `object`.
+	 */
+	function baseAssign(object, source) {
+	  return source == null
+	    ? object
+	    : baseCopy(source, keys(source), object);
+	}
+	
+	module.exports = baseAssign;
+
+
+/***/ },
+/* 195 */
+/*!*************************************!*\
+  !*** ./~/lodash._basecopy/index.js ***!
+  \*************************************/
+/***/ function(module, exports) {
+
+	/**
+	 * lodash 3.0.1 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	
+	/**
+	 * Copies properties of `source` to `object`.
+	 *
+	 * @private
+	 * @param {Object} source The object to copy properties from.
+	 * @param {Array} props The property names to copy.
+	 * @param {Object} [object={}] The object to copy properties to.
+	 * @returns {Object} Returns `object`.
+	 */
+	function baseCopy(source, props, object) {
+	  object || (object = {});
+	
+	  var index = -1,
+	      length = props.length;
+	
+	  while (++index < length) {
+	    var key = props[index];
+	    object[key] = source[key];
+	  }
+	  return object;
+	}
+	
+	module.exports = baseCopy;
+
+
+/***/ },
+/* 196 */
+/*!********************************!*\
+  !*** ./~/lodash.keys/index.js ***!
+  \********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * lodash 3.1.2 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	var getNative = __webpack_require__(/*! lodash._getnative */ 197),
+	    isArguments = __webpack_require__(/*! lodash.isarguments */ 198),
+	    isArray = __webpack_require__(/*! lodash.isarray */ 199);
+	
+	/** Used to detect unsigned integer values. */
+	var reIsUint = /^\d+$/;
+	
+	/** Used for native method references. */
+	var objectProto = Object.prototype;
+	
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+	
+	/* Native method references for those with the same name as other `lodash` methods. */
+	var nativeKeys = getNative(Object, 'keys');
+	
+	/**
+	 * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
+	 * of an array-like value.
+	 */
+	var MAX_SAFE_INTEGER = 9007199254740991;
+	
+	/**
+	 * The base implementation of `_.property` without support for deep paths.
+	 *
+	 * @private
+	 * @param {string} key The key of the property to get.
+	 * @returns {Function} Returns the new function.
+	 */
+	function baseProperty(key) {
+	  return function(object) {
+	    return object == null ? undefined : object[key];
+	  };
+	}
+	
+	/**
+	 * Gets the "length" property value of `object`.
+	 *
+	 * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
+	 * that affects Safari on at least iOS 8.1-8.3 ARM64.
+	 *
+	 * @private
+	 * @param {Object} object The object to query.
+	 * @returns {*} Returns the "length" value.
+	 */
+	var getLength = baseProperty('length');
+	
+	/**
+	 * Checks if `value` is array-like.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+	 */
+	function isArrayLike(value) {
+	  return value != null && isLength(getLength(value));
+	}
+	
+	/**
+	 * Checks if `value` is a valid array-like index.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+	 * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+	 */
+	function isIndex(value, length) {
+	  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
+	  length = length == null ? MAX_SAFE_INTEGER : length;
+	  return value > -1 && value % 1 == 0 && value < length;
+	}
+	
+	/**
+	 * Checks if `value` is a valid array-like length.
+	 *
+	 * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+	 */
+	function isLength(value) {
+	  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+	}
+	
+	/**
+	 * A fallback implementation of `Object.keys` which creates an array of the
+	 * own enumerable property names of `object`.
+	 *
+	 * @private
+	 * @param {Object} object The object to query.
+	 * @returns {Array} Returns the array of property names.
+	 */
+	function shimKeys(object) {
+	  var props = keysIn(object),
+	      propsLength = props.length,
+	      length = propsLength && object.length;
+	
+	  var allowIndexes = !!length && isLength(length) &&
+	    (isArray(object) || isArguments(object));
+	
+	  var index = -1,
+	      result = [];
+	
+	  while (++index < propsLength) {
+	    var key = props[index];
+	    if ((allowIndexes && isIndex(key, length)) || hasOwnProperty.call(object, key)) {
+	      result.push(key);
+	    }
+	  }
+	  return result;
+	}
+	
+	/**
+	 * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+	 * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+	 * @example
+	 *
+	 * _.isObject({});
+	 * // => true
+	 *
+	 * _.isObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObject(1);
+	 * // => false
+	 */
+	function isObject(value) {
+	  // Avoid a V8 JIT bug in Chrome 19-20.
+	  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+	  var type = typeof value;
+	  return !!value && (type == 'object' || type == 'function');
+	}
+	
+	/**
+	 * Creates an array of the own enumerable property names of `object`.
+	 *
+	 * **Note:** Non-object values are coerced to objects. See the
+	 * [ES spec](http://ecma-international.org/ecma-262/6.0/#sec-object.keys)
+	 * for more details.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Object
+	 * @param {Object} object The object to query.
+	 * @returns {Array} Returns the array of property names.
+	 * @example
+	 *
+	 * function Foo() {
+	 *   this.a = 1;
+	 *   this.b = 2;
+	 * }
+	 *
+	 * Foo.prototype.c = 3;
+	 *
+	 * _.keys(new Foo);
+	 * // => ['a', 'b'] (iteration order is not guaranteed)
+	 *
+	 * _.keys('hi');
+	 * // => ['0', '1']
+	 */
+	var keys = !nativeKeys ? shimKeys : function(object) {
+	  var Ctor = object == null ? undefined : object.constructor;
+	  if ((typeof Ctor == 'function' && Ctor.prototype === object) ||
+	      (typeof object != 'function' && isArrayLike(object))) {
+	    return shimKeys(object);
+	  }
+	  return isObject(object) ? nativeKeys(object) : [];
+	};
+	
+	/**
+	 * Creates an array of the own and inherited enumerable property names of `object`.
+	 *
+	 * **Note:** Non-object values are coerced to objects.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Object
+	 * @param {Object} object The object to query.
+	 * @returns {Array} Returns the array of property names.
+	 * @example
+	 *
+	 * function Foo() {
+	 *   this.a = 1;
+	 *   this.b = 2;
+	 * }
+	 *
+	 * Foo.prototype.c = 3;
+	 *
+	 * _.keysIn(new Foo);
+	 * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
+	 */
+	function keysIn(object) {
+	  if (object == null) {
+	    return [];
+	  }
+	  if (!isObject(object)) {
+	    object = Object(object);
+	  }
+	  var length = object.length;
+	  length = (length && isLength(length) &&
+	    (isArray(object) || isArguments(object)) && length) || 0;
+	
+	  var Ctor = object.constructor,
+	      index = -1,
+	      isProto = typeof Ctor == 'function' && Ctor.prototype === object,
+	      result = Array(length),
+	      skipIndexes = length > 0;
+	
+	  while (++index < length) {
+	    result[index] = (index + '');
+	  }
+	  for (var key in object) {
+	    if (!(skipIndexes && isIndex(key, length)) &&
+	        !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
+	      result.push(key);
+	    }
+	  }
+	  return result;
+	}
+	
+	module.exports = keys;
+
+
+/***/ },
+/* 197 */
+/*!**************************************!*\
+  !*** ./~/lodash._getnative/index.js ***!
+  \**************************************/
+/***/ function(module, exports) {
+
+	/**
+	 * lodash 3.9.1 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	
+	/** `Object#toString` result references. */
+	var funcTag = '[object Function]';
+	
+	/** Used to detect host constructors (Safari > 5). */
+	var reIsHostCtor = /^\[object .+?Constructor\]$/;
+	
+	/**
+	 * Checks if `value` is object-like.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+	 */
+	function isObjectLike(value) {
+	  return !!value && typeof value == 'object';
+	}
+	
+	/** Used for native method references. */
+	var objectProto = Object.prototype;
+	
+	/** Used to resolve the decompiled source of functions. */
+	var fnToString = Function.prototype.toString;
+	
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+	
+	/**
+	 * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+	 * of values.
+	 */
+	var objToString = objectProto.toString;
+	
+	/** Used to detect if a method is native. */
+	var reIsNative = RegExp('^' +
+	  fnToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
+	  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+	);
+	
+	/**
+	 * Gets the native function at `key` of `object`.
+	 *
+	 * @private
+	 * @param {Object} object The object to query.
+	 * @param {string} key The key of the method to get.
+	 * @returns {*} Returns the function if it's native, else `undefined`.
+	 */
+	function getNative(object, key) {
+	  var value = object == null ? undefined : object[key];
+	  return isNative(value) ? value : undefined;
+	}
+	
+	/**
+	 * Checks if `value` is classified as a `Function` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+	 * @example
+	 *
+	 * _.isFunction(_);
+	 * // => true
+	 *
+	 * _.isFunction(/abc/);
+	 * // => false
+	 */
+	function isFunction(value) {
+	  // The use of `Object#toString` avoids issues with the `typeof` operator
+	  // in older versions of Chrome and Safari which return 'function' for regexes
+	  // and Safari 8 equivalents which return 'object' for typed array constructors.
+	  return isObject(value) && objToString.call(value) == funcTag;
+	}
+	
+	/**
+	 * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+	 * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+	 * @example
+	 *
+	 * _.isObject({});
+	 * // => true
+	 *
+	 * _.isObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObject(1);
+	 * // => false
+	 */
+	function isObject(value) {
+	  // Avoid a V8 JIT bug in Chrome 19-20.
+	  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+	  var type = typeof value;
+	  return !!value && (type == 'object' || type == 'function');
+	}
+	
+	/**
+	 * Checks if `value` is a native function.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a native function, else `false`.
+	 * @example
+	 *
+	 * _.isNative(Array.prototype.push);
+	 * // => true
+	 *
+	 * _.isNative(_);
+	 * // => false
+	 */
+	function isNative(value) {
+	  if (value == null) {
+	    return false;
+	  }
+	  if (isFunction(value)) {
+	    return reIsNative.test(fnToString.call(value));
+	  }
+	  return isObjectLike(value) && reIsHostCtor.test(value);
+	}
+	
+	module.exports = getNative;
+
+
+/***/ },
+/* 198 */
+/*!***************************************!*\
+  !*** ./~/lodash.isarguments/index.js ***!
+  \***************************************/
+/***/ function(module, exports) {
+
+	/**
+	 * lodash (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modularize exports="npm" -o ./`
+	 * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+	 * Released under MIT license <https://lodash.com/license>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 */
+	
+	/** Used as references for various `Number` constants. */
+	var MAX_SAFE_INTEGER = 9007199254740991;
+	
+	/** `Object#toString` result references. */
+	var argsTag = '[object Arguments]',
+	    funcTag = '[object Function]',
+	    genTag = '[object GeneratorFunction]';
+	
+	/** Used for built-in method references. */
+	var objectProto = Object.prototype;
+	
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+	
+	/**
+	 * Used to resolve the
+	 * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+	 * of values.
+	 */
+	var objectToString = objectProto.toString;
+	
+	/** Built-in value references. */
+	var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+	
+	/**
+	 * Checks if `value` is likely an `arguments` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 0.1.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+	 *  else `false`.
+	 * @example
+	 *
+	 * _.isArguments(function() { return arguments; }());
+	 * // => true
+	 *
+	 * _.isArguments([1, 2, 3]);
+	 * // => false
+	 */
+	function isArguments(value) {
+	  // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
+	  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
+	    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
+	}
+	
+	/**
+	 * Checks if `value` is array-like. A value is considered array-like if it's
+	 * not a function and has a `value.length` that's an integer greater than or
+	 * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+	 * @example
+	 *
+	 * _.isArrayLike([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isArrayLike(document.body.children);
+	 * // => true
+	 *
+	 * _.isArrayLike('abc');
+	 * // => true
+	 *
+	 * _.isArrayLike(_.noop);
+	 * // => false
+	 */
+	function isArrayLike(value) {
+	  return value != null && isLength(value.length) && !isFunction(value);
+	}
+	
+	/**
+	 * This method is like `_.isArrayLike` except that it also checks if `value`
+	 * is an object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an array-like object,
+	 *  else `false`.
+	 * @example
+	 *
+	 * _.isArrayLikeObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isArrayLikeObject(document.body.children);
+	 * // => true
+	 *
+	 * _.isArrayLikeObject('abc');
+	 * // => false
+	 *
+	 * _.isArrayLikeObject(_.noop);
+	 * // => false
+	 */
+	function isArrayLikeObject(value) {
+	  return isObjectLike(value) && isArrayLike(value);
+	}
+	
+	/**
+	 * Checks if `value` is classified as a `Function` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 0.1.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+	 * @example
+	 *
+	 * _.isFunction(_);
+	 * // => true
+	 *
+	 * _.isFunction(/abc/);
+	 * // => false
+	 */
+	function isFunction(value) {
+	  // The use of `Object#toString` avoids issues with the `typeof` operator
+	  // in Safari 8-9 which returns 'object' for typed array and other constructors.
+	  var tag = isObject(value) ? objectToString.call(value) : '';
+	  return tag == funcTag || tag == genTag;
+	}
+	
+	/**
+	 * Checks if `value` is a valid array-like length.
+	 *
+	 * **Note:** This method is loosely based on
+	 * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+	 * @example
+	 *
+	 * _.isLength(3);
+	 * // => true
+	 *
+	 * _.isLength(Number.MIN_VALUE);
+	 * // => false
+	 *
+	 * _.isLength(Infinity);
+	 * // => false
+	 *
+	 * _.isLength('3');
+	 * // => false
+	 */
+	function isLength(value) {
+	  return typeof value == 'number' &&
+	    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+	}
+	
+	/**
+	 * Checks if `value` is the
+	 * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+	 * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 0.1.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+	 * @example
+	 *
+	 * _.isObject({});
+	 * // => true
+	 *
+	 * _.isObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObject(_.noop);
+	 * // => true
+	 *
+	 * _.isObject(null);
+	 * // => false
+	 */
+	function isObject(value) {
+	  var type = typeof value;
+	  return !!value && (type == 'object' || type == 'function');
+	}
+	
+	/**
+	 * Checks if `value` is object-like. A value is object-like if it's not `null`
+	 * and has a `typeof` result of "object".
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+	 * @example
+	 *
+	 * _.isObjectLike({});
+	 * // => true
+	 *
+	 * _.isObjectLike([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObjectLike(_.noop);
+	 * // => false
+	 *
+	 * _.isObjectLike(null);
+	 * // => false
+	 */
+	function isObjectLike(value) {
+	  return !!value && typeof value == 'object';
+	}
+	
+	module.exports = isArguments;
+
+
+/***/ },
+/* 199 */
+/*!***********************************!*\
+  !*** ./~/lodash.isarray/index.js ***!
+  \***********************************/
+/***/ function(module, exports) {
+
+	/**
+	 * lodash 3.0.4 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	
+	/** `Object#toString` result references. */
+	var arrayTag = '[object Array]',
+	    funcTag = '[object Function]';
+	
+	/** Used to detect host constructors (Safari > 5). */
+	var reIsHostCtor = /^\[object .+?Constructor\]$/;
+	
+	/**
+	 * Checks if `value` is object-like.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+	 */
+	function isObjectLike(value) {
+	  return !!value && typeof value == 'object';
+	}
+	
+	/** Used for native method references. */
+	var objectProto = Object.prototype;
+	
+	/** Used to resolve the decompiled source of functions. */
+	var fnToString = Function.prototype.toString;
+	
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+	
+	/**
+	 * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+	 * of values.
+	 */
+	var objToString = objectProto.toString;
+	
+	/** Used to detect if a method is native. */
+	var reIsNative = RegExp('^' +
+	  fnToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
+	  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+	);
+	
+	/* Native method references for those with the same name as other `lodash` methods. */
+	var nativeIsArray = getNative(Array, 'isArray');
+	
+	/**
+	 * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
+	 * of an array-like value.
+	 */
+	var MAX_SAFE_INTEGER = 9007199254740991;
+	
+	/**
+	 * Gets the native function at `key` of `object`.
+	 *
+	 * @private
+	 * @param {Object} object The object to query.
+	 * @param {string} key The key of the method to get.
+	 * @returns {*} Returns the function if it's native, else `undefined`.
+	 */
+	function getNative(object, key) {
+	  var value = object == null ? undefined : object[key];
+	  return isNative(value) ? value : undefined;
+	}
+	
+	/**
+	 * Checks if `value` is a valid array-like length.
+	 *
+	 * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+	 */
+	function isLength(value) {
+	  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+	}
+	
+	/**
+	 * Checks if `value` is classified as an `Array` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+	 * @example
+	 *
+	 * _.isArray([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isArray(function() { return arguments; }());
+	 * // => false
+	 */
+	var isArray = nativeIsArray || function(value) {
+	  return isObjectLike(value) && isLength(value.length) && objToString.call(value) == arrayTag;
+	};
+	
+	/**
+	 * Checks if `value` is classified as a `Function` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+	 * @example
+	 *
+	 * _.isFunction(_);
+	 * // => true
+	 *
+	 * _.isFunction(/abc/);
+	 * // => false
+	 */
+	function isFunction(value) {
+	  // The use of `Object#toString` avoids issues with the `typeof` operator
+	  // in older versions of Chrome and Safari which return 'function' for regexes
+	  // and Safari 8 equivalents which return 'object' for typed array constructors.
+	  return isObject(value) && objToString.call(value) == funcTag;
+	}
+	
+	/**
+	 * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+	 * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+	 * @example
+	 *
+	 * _.isObject({});
+	 * // => true
+	 *
+	 * _.isObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObject(1);
+	 * // => false
+	 */
+	function isObject(value) {
+	  // Avoid a V8 JIT bug in Chrome 19-20.
+	  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+	  var type = typeof value;
+	  return !!value && (type == 'object' || type == 'function');
+	}
+	
+	/**
+	 * Checks if `value` is a native function.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a native function, else `false`.
+	 * @example
+	 *
+	 * _.isNative(Array.prototype.push);
+	 * // => true
+	 *
+	 * _.isNative(_);
+	 * // => false
+	 */
+	function isNative(value) {
+	  if (value == null) {
+	    return false;
+	  }
+	  if (isFunction(value)) {
+	    return reIsNative.test(fnToString.call(value));
+	  }
+	  return isObjectLike(value) && reIsHostCtor.test(value);
+	}
+	
+	module.exports = isArray;
+
+
+/***/ },
+/* 200 */
+/*!*******************************************!*\
+  !*** ./~/lodash._createassigner/index.js ***!
+  \*******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * lodash 3.1.1 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	var bindCallback = __webpack_require__(/*! lodash._bindcallback */ 201),
+	    isIterateeCall = __webpack_require__(/*! lodash._isiterateecall */ 202),
+	    restParam = __webpack_require__(/*! lodash.restparam */ 203);
+	
+	/**
+	 * Creates a function that assigns properties of source object(s) to a given
+	 * destination object.
+	 *
+	 * **Note:** This function is used to create `_.assign`, `_.defaults`, and `_.merge`.
+	 *
+	 * @private
+	 * @param {Function} assigner The function to assign values.
+	 * @returns {Function} Returns the new assigner function.
+	 */
+	function createAssigner(assigner) {
+	  return restParam(function(object, sources) {
+	    var index = -1,
+	        length = object == null ? 0 : sources.length,
+	        customizer = length > 2 ? sources[length - 2] : undefined,
+	        guard = length > 2 ? sources[2] : undefined,
+	        thisArg = length > 1 ? sources[length - 1] : undefined;
+	
+	    if (typeof customizer == 'function') {
+	      customizer = bindCallback(customizer, thisArg, 5);
+	      length -= 2;
+	    } else {
+	      customizer = typeof thisArg == 'function' ? thisArg : undefined;
+	      length -= (customizer ? 1 : 0);
+	    }
+	    if (guard && isIterateeCall(sources[0], sources[1], guard)) {
+	      customizer = length < 3 ? undefined : customizer;
+	      length = 1;
+	    }
+	    while (++index < length) {
+	      var source = sources[index];
+	      if (source) {
+	        assigner(object, source, customizer);
+	      }
+	    }
+	    return object;
+	  });
+	}
+	
+	module.exports = createAssigner;
+
+
+/***/ },
+/* 201 */
+/*!*****************************************!*\
+  !*** ./~/lodash._bindcallback/index.js ***!
+  \*****************************************/
+/***/ function(module, exports) {
+
+	/**
+	 * lodash 3.0.1 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	
+	/**
+	 * A specialized version of `baseCallback` which only supports `this` binding
+	 * and specifying the number of arguments to provide to `func`.
+	 *
+	 * @private
+	 * @param {Function} func The function to bind.
+	 * @param {*} thisArg The `this` binding of `func`.
+	 * @param {number} [argCount] The number of arguments to provide to `func`.
+	 * @returns {Function} Returns the callback.
+	 */
+	function bindCallback(func, thisArg, argCount) {
+	  if (typeof func != 'function') {
+	    return identity;
+	  }
+	  if (thisArg === undefined) {
+	    return func;
+	  }
+	  switch (argCount) {
+	    case 1: return function(value) {
+	      return func.call(thisArg, value);
+	    };
+	    case 3: return function(value, index, collection) {
+	      return func.call(thisArg, value, index, collection);
+	    };
+	    case 4: return function(accumulator, value, index, collection) {
+	      return func.call(thisArg, accumulator, value, index, collection);
+	    };
+	    case 5: return function(value, other, key, object, source) {
+	      return func.call(thisArg, value, other, key, object, source);
+	    };
+	  }
+	  return function() {
+	    return func.apply(thisArg, arguments);
+	  };
+	}
+	
+	/**
+	 * This method returns the first argument provided to it.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Utility
+	 * @param {*} value Any value.
+	 * @returns {*} Returns `value`.
+	 * @example
+	 *
+	 * var object = { 'user': 'fred' };
+	 *
+	 * _.identity(object) === object;
+	 * // => true
+	 */
+	function identity(value) {
+	  return value;
+	}
+	
+	module.exports = bindCallback;
+
+
+/***/ },
+/* 202 */
+/*!*******************************************!*\
+  !*** ./~/lodash._isiterateecall/index.js ***!
+  \*******************************************/
+/***/ function(module, exports) {
+
+	/**
+	 * lodash 3.0.9 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	
+	/** Used to detect unsigned integer values. */
+	var reIsUint = /^\d+$/;
+	
+	/**
+	 * Used as the [maximum length](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.max_safe_integer)
+	 * of an array-like value.
+	 */
+	var MAX_SAFE_INTEGER = 9007199254740991;
+	
+	/**
+	 * The base implementation of `_.property` without support for deep paths.
+	 *
+	 * @private
+	 * @param {string} key The key of the property to get.
+	 * @returns {Function} Returns the new function.
+	 */
+	function baseProperty(key) {
+	  return function(object) {
+	    return object == null ? undefined : object[key];
+	  };
+	}
+	
+	/**
+	 * Gets the "length" property value of `object`.
+	 *
+	 * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
+	 * that affects Safari on at least iOS 8.1-8.3 ARM64.
+	 *
+	 * @private
+	 * @param {Object} object The object to query.
+	 * @returns {*} Returns the "length" value.
+	 */
+	var getLength = baseProperty('length');
+	
+	/**
+	 * Checks if `value` is array-like.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+	 */
+	function isArrayLike(value) {
+	  return value != null && isLength(getLength(value));
+	}
+	
+	/**
+	 * Checks if `value` is a valid array-like index.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+	 * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+	 */
+	function isIndex(value, length) {
+	  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
+	  length = length == null ? MAX_SAFE_INTEGER : length;
+	  return value > -1 && value % 1 == 0 && value < length;
+	}
+	
+	/**
+	 * Checks if the provided arguments are from an iteratee call.
+	 *
+	 * @private
+	 * @param {*} value The potential iteratee value argument.
+	 * @param {*} index The potential iteratee index or key argument.
+	 * @param {*} object The potential iteratee object argument.
+	 * @returns {boolean} Returns `true` if the arguments are from an iteratee call, else `false`.
+	 */
+	function isIterateeCall(value, index, object) {
+	  if (!isObject(object)) {
+	    return false;
+	  }
+	  var type = typeof index;
+	  if (type == 'number'
+	      ? (isArrayLike(object) && isIndex(index, object.length))
+	      : (type == 'string' && index in object)) {
+	    var other = object[index];
+	    return value === value ? (value === other) : (other !== other);
+	  }
+	  return false;
+	}
+	
+	/**
+	 * Checks if `value` is a valid array-like length.
+	 *
+	 * **Note:** This function is based on [`ToLength`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength).
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+	 */
+	function isLength(value) {
+	  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+	}
+	
+	/**
+	 * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+	 * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+	 * @example
+	 *
+	 * _.isObject({});
+	 * // => true
+	 *
+	 * _.isObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObject(1);
+	 * // => false
+	 */
+	function isObject(value) {
+	  // Avoid a V8 JIT bug in Chrome 19-20.
+	  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+	  var type = typeof value;
+	  return !!value && (type == 'object' || type == 'function');
+	}
+	
+	module.exports = isIterateeCall;
+
+
+/***/ },
+/* 203 */
+/*!*************************************!*\
+  !*** ./~/lodash.restparam/index.js ***!
+  \*************************************/
+/***/ function(module, exports) {
+
+	/**
+	 * lodash 3.6.1 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	
+	/** Used as the `TypeError` message for "Functions" methods. */
+	var FUNC_ERROR_TEXT = 'Expected a function';
+	
+	/* Native method references for those with the same name as other `lodash` methods. */
+	var nativeMax = Math.max;
+	
+	/**
+	 * Creates a function that invokes `func` with the `this` binding of the
+	 * created function and arguments from `start` and beyond provided as an array.
+	 *
+	 * **Note:** This method is based on the [rest parameter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters).
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Function
+	 * @param {Function} func The function to apply a rest parameter to.
+	 * @param {number} [start=func.length-1] The start position of the rest parameter.
+	 * @returns {Function} Returns the new function.
+	 * @example
+	 *
+	 * var say = _.restParam(function(what, names) {
+	 *   return what + ' ' + _.initial(names).join(', ') +
+	 *     (_.size(names) > 1 ? ', & ' : '') + _.last(names);
+	 * });
+	 *
+	 * say('hello', 'fred', 'barney', 'pebbles');
+	 * // => 'hello fred, barney, & pebbles'
+	 */
+	function restParam(func, start) {
+	  if (typeof func != 'function') {
+	    throw new TypeError(FUNC_ERROR_TEXT);
+	  }
+	  start = nativeMax(start === undefined ? (func.length - 1) : (+start || 0), 0);
+	  return function() {
+	    var args = arguments,
+	        index = -1,
+	        length = nativeMax(args.length - start, 0),
+	        rest = Array(length);
+	
+	    while (++index < length) {
+	      rest[index] = args[start + index];
+	    }
+	    switch (start) {
+	      case 0: return func.call(this, rest);
+	      case 1: return func.call(this, args[0], rest);
+	      case 2: return func.call(this, args[0], args[1], rest);
+	    }
+	    var otherArgs = Array(start + 1);
+	    index = -1;
+	    while (++index < start) {
+	      otherArgs[index] = args[index];
+	    }
+	    otherArgs[start] = rest;
+	    return func.apply(this, otherArgs);
+	  };
+	}
+	
+	module.exports = restParam;
+
+
+/***/ },
+/* 204 */
+/*!***************************************************!*\
+  !*** ./~/react-modal/lib/helpers/ariaAppHider.js ***!
+  \***************************************************/
+/***/ function(module, exports) {
+
+	var _element = typeof document !== 'undefined' ? document.body : null;
+	
+	function setElement(element) {
+	  if (typeof element === 'string') {
+	    var el = document.querySelectorAll(element);
+	    element = 'length' in el ? el[0] : el;
+	  }
+	  _element = element || _element;
+	  return _element;
+	}
+	
+	function hide(appElement) {
+	  validateElement(appElement);
+	  (appElement || _element).setAttribute('aria-hidden', 'true');
+	}
+	
+	function show(appElement) {
+	  validateElement(appElement);
+	  (appElement || _element).removeAttribute('aria-hidden');
+	}
+	
+	function toggle(shouldHide, appElement) {
+	  if (shouldHide)
+	    hide(appElement);
+	  else
+	    show(appElement);
+	}
+	
+	function validateElement(appElement) {
+	  if (!appElement && !_element)
+	    throw new Error('react-modal: You must set an element with `Modal.setAppElement(el)` to make this accessible');
+	}
+	
+	function resetForTesting() {
+	  _element = document.body;
+	}
+	
+	exports.toggle = toggle;
+	exports.setElement = setElement;
+	exports.show = show;
+	exports.hide = hide;
+	exports.resetForTesting = resetForTesting;
+
+
+/***/ },
+/* 205 */
+/*!**********************************!*\
+  !*** ./~/element-class/index.js ***!
+  \**********************************/
+/***/ function(module, exports) {
+
+	module.exports = function(opts) {
+	  return new ElementClass(opts)
+	}
+	
+	function indexOf(arr, prop) {
+	  if (arr.indexOf) return arr.indexOf(prop)
+	  for (var i = 0, len = arr.length; i < len; i++)
+	    if (arr[i] === prop) return i
+	  return -1
+	}
+	
+	function ElementClass(opts) {
+	  if (!(this instanceof ElementClass)) return new ElementClass(opts)
+	  var self = this
+	  if (!opts) opts = {}
+	
+	  // similar doing instanceof HTMLElement but works in IE8
+	  if (opts.nodeType) opts = {el: opts}
+	
+	  this.opts = opts
+	  this.el = opts.el || document.body
+	  if (typeof this.el !== 'object') this.el = document.querySelector(this.el)
+	}
+	
+	ElementClass.prototype.add = function(className) {
+	  var el = this.el
+	  if (!el) return
+	  if (el.className === "") return el.className = className
+	  var classes = el.className.split(' ')
+	  if (indexOf(classes, className) > -1) return classes
+	  classes.push(className)
+	  el.className = classes.join(' ')
+	  return classes
+	}
+	
+	ElementClass.prototype.remove = function(className) {
+	  var el = this.el
+	  if (!el) return
+	  if (el.className === "") return
+	  var classes = el.className.split(' ')
+	  var idx = indexOf(classes, className)
+	  if (idx > -1) classes.splice(idx, 1)
+	  el.className = classes.join(' ')
+	  return classes
+	}
+	
+	ElementClass.prototype.has = function(className) {
+	  var el = this.el
+	  if (!el) return
+	  var classes = el.className.split(' ')
+	  return indexOf(classes, className) > -1
+	}
+	
+	ElementClass.prototype.toggle = function(className) {
+	  var el = this.el
+	  if (!el) return
+	  if (this.has(className)) this.remove(className)
+	  else this.add(className)
+	}
+
+
+/***/ },
+/* 206 */
+/*!********************************!*\
+  !*** ./_src/_app/settings.jsx ***!
+  \********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _forms = __webpack_require__(/*! ./forms.jsx */ 207);
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Settings = function (_React$Component) {
+	  _inherits(Settings, _React$Component);
+	
+	  function Settings(props) {
+	    _classCallCheck(this, Settings);
+	
+	    var _this = _possibleConstructorReturn(this, (Settings.__proto__ || Object.getPrototypeOf(Settings)).call(this, props));
+	
+	    _this.orderOptions = [{ value: 'manual', label: 'manual', description: 'You manually select the order (see below).' }, { value: 'automatic', label: 'automatic', description: 'The order is automatically adjusted when you enter a shop. For example, when you enter a COOP supermarket, the items are displayed in the correct order.' }, { value: 'alphabetical', label: 'alphabetical', description: 'Items are ordered in alphabetical order (ascending).' }], _this.state = {
+	      activeOrderOption: 'alphabetical',
+	      userName: '',
+	      preferences: ['vegan', 'vegetarian', 'lactose intolerant']
+	    };
+	    _this.closePopup = _this.closePopup.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(Settings, [{
+	    key: 'closePopup',
+	    value: function closePopup(e) {
+	      this.props.closePopup();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'popup_wrapper' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'popup_box bounceInUp popup_settings' },
+	          _react2.default.createElement(
+	            'h1',
+	            null,
+	            'Settings'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'settings_wrapper' },
+	            _react2.default.createElement(
+	              'p',
+	              null,
+	              'Name:'
+	            ),
+	            _react2.default.createElement('input', { value: 'Jamie Oliver' })
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'settings_wrapper' },
+	            _react2.default.createElement(
+	              'p',
+	              null,
+	              'Choose your preferred item ordering: '
+	            ),
+	            _react2.default.createElement(_forms.Select, { options: this.orderOptions, value: this.state.activeOrderOption })
+	          ),
+	          _react2.default.createElement(
+	            'button',
+	            { onClick: this.closePopup },
+	            'Close'
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Settings;
+	}(_react2.default.Component);
+	
+	exports.default = Settings;
+
+/***/ },
+/* 207 */
+/*!*****************************!*\
+  !*** ./_src/_app/forms.jsx ***!
+  \*****************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.Username = exports.Select = undefined;
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Input = function (_React$Component) {
+	    _inherits(Input, _React$Component);
+	
+	    /* inherit from this class in order to use the fading in and out checkmark
+	    * after the input element insert:
+	    * {this.state.checkmarkVisible ?  this.checkmark : null}
+	    * */
+	    function Input(props) {
+	        _classCallCheck(this, Input);
+	
+	        var _this = _possibleConstructorReturn(this, (Input.__proto__ || Object.getPrototypeOf(Input)).call(this, props));
+	
+	        _this.checkmark = _react2.default.createElement(
+	            "span",
+	            { className: "fading" },
+	            _react2.default.createElement("span", { className: "glyphicon glyphicon-ok green" })
+	        );
+	        _this.state = {
+	            checkmarkVisible: false
+	
+	        };
+	        _this.handleChange = _this.handleChange.bind(_this);
+	        _this.confirmChange = _this.confirmChange.bind(_this);
+	        _this.hideCheckmark = _this.hideCheckmark.bind(_this);
+	        return _this;
+	    }
+	
+	    _createClass(Input, [{
+	        key: "confirmChange",
+	        value: function confirmChange() {
+	            this.setState({ checkmarkVisible: true });
+	            setTimeout(this.hideCheckmark, 5000);
+	        }
+	    }, {
+	        key: "hideCheckmark",
+	        value: function hideCheckmark() {
+	            this.setState({ checkmarkVisible: false });
+	        }
+	    }, {
+	        key: "handleChange",
+	        value: function handleChange(event) {
+	            this.confirmChange();
+	        }
+	    }]);
+	
+	    return Input;
+	}(_react2.default.Component);
+	
+	var Select = exports.Select = function (_Input) {
+	    _inherits(Select, _Input);
+	
+	    /**
+	     * needed props: options: [{}, {}]
+	     * @param props
+	     */
+	    function Select(props) {
+	        _classCallCheck(this, Select);
+	
+	        var _this2 = _possibleConstructorReturn(this, (Select.__proto__ || Object.getPrototypeOf(Select)).call(this, props));
+	
+	        _this2.state = {
+	            value: _this2.props.value
+	        };
+	
+	        _this2.handleChange = _this2.handleChange.bind(_this2);
+	        return _this2;
+	    }
+	
+	    _createClass(Select, [{
+	        key: "handleChange",
+	        value: function handleChange(event) {
+	            this.setState({ value: event.target.value });
+	            this.confirmChange();
+	        }
+	    }, {
+	        key: "getSelectOptions",
+	        value: function getSelectOptions() {
+	            return this.props.options.map(function (object, i) {
+	                return _react2.default.createElement(
+	                    "option",
+	                    { key: object.value },
+	                    object.label
+	                );
+	            });
+	        }
+	    }, {
+	        key: "render",
+	        value: function render() {
+	            return _react2.default.createElement(
+	                "div",
+	                null,
+	                _react2.default.createElement(
+	                    "label",
+	                    null,
+	                    _react2.default.createElement(
+	                        "p",
+	                        null,
+	                        this.props.label
+	                    ),
+	                    _react2.default.createElement(
+	                        "select",
+	                        { value: this.state.value, onChange: this.handleChange },
+	                        this.getSelectOptions()
+	                    ),
+	                    this.state.checkmarkVisible ? this.checkmark : null
+	                )
+	            );
+	        }
+	    }]);
+	
+	    return Select;
+	}(Input);
+	
+	var Username = exports.Username = function (_Input2) {
+	    _inherits(Username, _Input2);
+	
+	    function Username() {
+	        _classCallCheck(this, Username);
+	
+	        return _possibleConstructorReturn(this, (Username.__proto__ || Object.getPrototypeOf(Username)).apply(this, arguments));
+	    }
+	
+	    _createClass(Username, [{
+	        key: "render",
+	        value: function render() {
+	            return _react2.default.createElement(
+	                "div",
+	                null,
+	                _react2.default.createElement("input", { placeholder: "username", name: "username", value: this.props.value, type: "text" }),
+	                this.state.checkmarkVisible ? _react2.default.createElement("span", { className: "glyphicon glyphicon-ok green" }) : null
+	            );
+	        }
+	    }]);
+	
+	    return Username;
+	}(Input);
+
+/***/ },
+/* 208 */
+/*!******************************************************!*\
+  !*** ./~/react-addons-css-transition-group/index.js ***!
+  \******************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(/*! react/lib/ReactCSSTransitionGroup */ 209);
+
+/***/ },
+/* 209 */
+/*!************************************************!*\
+  !*** ./~/react/lib/ReactCSSTransitionGroup.js ***!
+  \************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 */
+	
+	'use strict';
+	
+	var _assign = __webpack_require__(/*! object-assign */ 4);
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var React = __webpack_require__(/*! ./React */ 2);
+	
+	var ReactTransitionGroup = __webpack_require__(/*! ./ReactTransitionGroup */ 210);
+	var ReactCSSTransitionGroupChild = __webpack_require__(/*! ./ReactCSSTransitionGroupChild */ 218);
+	
+	function createTransitionTimeoutPropValidator(transitionType) {
+	  var timeoutPropName = 'transition' + transitionType + 'Timeout';
+	  var enabledPropName = 'transition' + transitionType;
+	
+	  return function (props) {
+	    // If the transition is enabled
+	    if (props[enabledPropName]) {
+	      // If no timeout duration is provided
+	      if (props[timeoutPropName] == null) {
+	        return new Error(timeoutPropName + ' wasn\'t supplied to ReactCSSTransitionGroup: ' + 'this can cause unreliable animations and won\'t be supported in ' + 'a future version of React. See ' + 'https://fb.me/react-animation-transition-group-timeout for more ' + 'information.');
+	
+	        // If the duration isn't a number
+	      } else if (typeof props[timeoutPropName] !== 'number') {
+	        return new Error(timeoutPropName + ' must be a number (in milliseconds)');
+	      }
+	    }
+	  };
+	}
+	
+	/**
+	 * An easy way to perform CSS transitions and animations when a React component
+	 * enters or leaves the DOM.
+	 * See https://facebook.github.io/react/docs/animation.html#high-level-api-reactcsstransitiongroup
+	 */
+	
+	var ReactCSSTransitionGroup = function (_React$Component) {
+	  _inherits(ReactCSSTransitionGroup, _React$Component);
+	
+	  function ReactCSSTransitionGroup() {
+	    var _temp, _this, _ret;
+	
+	    _classCallCheck(this, ReactCSSTransitionGroup);
+	
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+	
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _React$Component.call.apply(_React$Component, [this].concat(args))), _this), _this._wrapChild = function (child) {
+	      // We need to provide this childFactory so that
+	      // ReactCSSTransitionGroupChild can receive updates to name, enter, and
+	      // leave while it is leaving.
+	      return React.createElement(ReactCSSTransitionGroupChild, {
+	        name: _this.props.transitionName,
+	        appear: _this.props.transitionAppear,
+	        enter: _this.props.transitionEnter,
+	        leave: _this.props.transitionLeave,
+	        appearTimeout: _this.props.transitionAppearTimeout,
+	        enterTimeout: _this.props.transitionEnterTimeout,
+	        leaveTimeout: _this.props.transitionLeaveTimeout
+	      }, child);
+	    }, _temp), _possibleConstructorReturn(_this, _ret);
+	  }
+	
+	  ReactCSSTransitionGroup.prototype.render = function render() {
+	    return React.createElement(ReactTransitionGroup, _assign({}, this.props, { childFactory: this._wrapChild }));
+	  };
+	
+	  return ReactCSSTransitionGroup;
+	}(React.Component);
+	
+	ReactCSSTransitionGroup.displayName = 'ReactCSSTransitionGroup';
+	ReactCSSTransitionGroup.propTypes = {
+	  transitionName: ReactCSSTransitionGroupChild.propTypes.name,
+	
+	  transitionAppear: React.PropTypes.bool,
+	  transitionEnter: React.PropTypes.bool,
+	  transitionLeave: React.PropTypes.bool,
+	  transitionAppearTimeout: createTransitionTimeoutPropValidator('Appear'),
+	  transitionEnterTimeout: createTransitionTimeoutPropValidator('Enter'),
+	  transitionLeaveTimeout: createTransitionTimeoutPropValidator('Leave')
+	};
+	ReactCSSTransitionGroup.defaultProps = {
+	  transitionAppear: false,
+	  transitionEnter: true,
+	  transitionLeave: true
+	};
+	
+	
+	module.exports = ReactCSSTransitionGroup;
+
+/***/ },
+/* 210 */
+/*!*********************************************!*\
+  !*** ./~/react/lib/ReactTransitionGroup.js ***!
+  \*********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 */
+	
+	'use strict';
+	
+	var _assign = __webpack_require__(/*! object-assign */ 4);
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var React = __webpack_require__(/*! ./React */ 2);
+	var ReactAddonsDOMDependencies = __webpack_require__(/*! ./ReactAddonsDOMDependencies */ 211);
+	var ReactTransitionChildMapping = __webpack_require__(/*! ./ReactTransitionChildMapping */ 216);
+	
+	var emptyFunction = __webpack_require__(/*! fbjs/lib/emptyFunction */ 12);
+	
+	/**
+	 * A basis for animations. When children are declaratively added or removed,
+	 * special lifecycle hooks are called.
+	 * See https://facebook.github.io/react/docs/animation.html#low-level-api-reacttransitiongroup
+	 */
+	
+	var ReactTransitionGroup = function (_React$Component) {
+	  _inherits(ReactTransitionGroup, _React$Component);
+	
+	  function ReactTransitionGroup() {
+	    var _temp, _this, _ret;
+	
+	    _classCallCheck(this, ReactTransitionGroup);
+	
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+	
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _React$Component.call.apply(_React$Component, [this].concat(args))), _this), _this.state = {
+	      // TODO: can we get useful debug information to show at this point?
+	      children: ReactTransitionChildMapping.getChildMapping(_this.props.children)
+	    }, _this.performAppear = function (key) {
+	      _this.currentlyTransitioningKeys[key] = true;
+	
+	      var component = _this.refs[key];
+	
+	      if (component.componentWillAppear) {
+	        component.componentWillAppear(_this._handleDoneAppearing.bind(_this, key));
+	      } else {
+	        _this._handleDoneAppearing(key);
+	      }
+	    }, _this._handleDoneAppearing = function (key) {
+	      var component = _this.refs[key];
+	      if (component.componentDidAppear) {
+	        component.componentDidAppear();
+	      }
+	
+	      delete _this.currentlyTransitioningKeys[key];
+	
+	      var currentChildMapping;
+	      if (process.env.NODE_ENV !== 'production') {
+	        currentChildMapping = ReactTransitionChildMapping.getChildMapping(_this.props.children, ReactAddonsDOMDependencies.getReactInstanceMap().get(_this)._debugID);
+	      } else {
+	        currentChildMapping = ReactTransitionChildMapping.getChildMapping(_this.props.children);
+	      }
+	
+	      if (!currentChildMapping || !currentChildMapping.hasOwnProperty(key)) {
+	        // This was removed before it had fully appeared. Remove it.
+	        _this.performLeave(key);
+	      }
+	    }, _this.performEnter = function (key) {
+	      _this.currentlyTransitioningKeys[key] = true;
+	
+	      var component = _this.refs[key];
+	
+	      if (component.componentWillEnter) {
+	        component.componentWillEnter(_this._handleDoneEntering.bind(_this, key));
+	      } else {
+	        _this._handleDoneEntering(key);
+	      }
+	    }, _this._handleDoneEntering = function (key) {
+	      var component = _this.refs[key];
+	      if (component.componentDidEnter) {
+	        component.componentDidEnter();
+	      }
+	
+	      delete _this.currentlyTransitioningKeys[key];
+	
+	      var currentChildMapping;
+	      if (process.env.NODE_ENV !== 'production') {
+	        currentChildMapping = ReactTransitionChildMapping.getChildMapping(_this.props.children, ReactAddonsDOMDependencies.getReactInstanceMap().get(_this)._debugID);
+	      } else {
+	        currentChildMapping = ReactTransitionChildMapping.getChildMapping(_this.props.children);
+	      }
+	
+	      if (!currentChildMapping || !currentChildMapping.hasOwnProperty(key)) {
+	        // This was removed before it had fully entered. Remove it.
+	        _this.performLeave(key);
+	      }
+	    }, _this.performLeave = function (key) {
+	      _this.currentlyTransitioningKeys[key] = true;
+	
+	      var component = _this.refs[key];
+	      if (component.componentWillLeave) {
+	        component.componentWillLeave(_this._handleDoneLeaving.bind(_this, key));
+	      } else {
+	        // Note that this is somewhat dangerous b/c it calls setState()
+	        // again, effectively mutating the component before all the work
+	        // is done.
+	        _this._handleDoneLeaving(key);
+	      }
+	    }, _this._handleDoneLeaving = function (key) {
+	      var component = _this.refs[key];
+	
+	      if (component.componentDidLeave) {
+	        component.componentDidLeave();
+	      }
+	
+	      delete _this.currentlyTransitioningKeys[key];
+	
+	      var currentChildMapping;
+	      if (process.env.NODE_ENV !== 'production') {
+	        currentChildMapping = ReactTransitionChildMapping.getChildMapping(_this.props.children, ReactAddonsDOMDependencies.getReactInstanceMap().get(_this)._debugID);
+	      } else {
+	        currentChildMapping = ReactTransitionChildMapping.getChildMapping(_this.props.children);
+	      }
+	
+	      if (currentChildMapping && currentChildMapping.hasOwnProperty(key)) {
+	        // This entered again before it fully left. Add it again.
+	        _this.performEnter(key);
+	      } else {
+	        _this.setState(function (state) {
+	          var newChildren = _assign({}, state.children);
+	          delete newChildren[key];
+	          return { children: newChildren };
+	        });
+	      }
+	    }, _temp), _possibleConstructorReturn(_this, _ret);
+	  }
+	
+	  ReactTransitionGroup.prototype.componentWillMount = function componentWillMount() {
+	    this.currentlyTransitioningKeys = {};
+	    this.keysToEnter = [];
+	    this.keysToLeave = [];
+	  };
+	
+	  ReactTransitionGroup.prototype.componentDidMount = function componentDidMount() {
+	    var initialChildMapping = this.state.children;
+	    for (var key in initialChildMapping) {
+	      if (initialChildMapping[key]) {
+	        this.performAppear(key);
+	      }
+	    }
+	  };
+	
+	  ReactTransitionGroup.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+	    var nextChildMapping;
+	    if (process.env.NODE_ENV !== 'production') {
+	      nextChildMapping = ReactTransitionChildMapping.getChildMapping(nextProps.children, ReactAddonsDOMDependencies.getReactInstanceMap().get(this)._debugID);
+	    } else {
+	      nextChildMapping = ReactTransitionChildMapping.getChildMapping(nextProps.children);
+	    }
+	    var prevChildMapping = this.state.children;
+	
+	    this.setState({
+	      children: ReactTransitionChildMapping.mergeChildMappings(prevChildMapping, nextChildMapping)
+	    });
+	
+	    var key;
+	
+	    for (key in nextChildMapping) {
+	      var hasPrev = prevChildMapping && prevChildMapping.hasOwnProperty(key);
+	      if (nextChildMapping[key] && !hasPrev && !this.currentlyTransitioningKeys[key]) {
+	        this.keysToEnter.push(key);
+	      }
+	    }
+	
+	    for (key in prevChildMapping) {
+	      var hasNext = nextChildMapping && nextChildMapping.hasOwnProperty(key);
+	      if (prevChildMapping[key] && !hasNext && !this.currentlyTransitioningKeys[key]) {
+	        this.keysToLeave.push(key);
+	      }
+	    }
+	
+	    // If we want to someday check for reordering, we could do it here.
+	  };
+	
+	  ReactTransitionGroup.prototype.componentDidUpdate = function componentDidUpdate() {
+	    var keysToEnter = this.keysToEnter;
+	    this.keysToEnter = [];
+	    keysToEnter.forEach(this.performEnter);
+	
+	    var keysToLeave = this.keysToLeave;
+	    this.keysToLeave = [];
+	    keysToLeave.forEach(this.performLeave);
+	  };
+	
+	  ReactTransitionGroup.prototype.render = function render() {
+	    // TODO: we could get rid of the need for the wrapper node
+	    // by cloning a single child
+	    var childrenToRender = [];
+	    for (var key in this.state.children) {
+	      var child = this.state.children[key];
+	      if (child) {
+	        // You may need to apply reactive updates to a child as it is leaving.
+	        // The normal React way to do it won't work since the child will have
+	        // already been removed. In case you need this behavior you can provide
+	        // a childFactory function to wrap every child, even the ones that are
+	        // leaving.
+	        childrenToRender.push(React.cloneElement(this.props.childFactory(child), { ref: key, key: key }));
+	      }
+	    }
+	
+	    // Do not forward ReactTransitionGroup props to primitive DOM nodes
+	    var props = _assign({}, this.props);
+	    delete props.transitionLeave;
+	    delete props.transitionName;
+	    delete props.transitionAppear;
+	    delete props.transitionEnter;
+	    delete props.childFactory;
+	    delete props.transitionLeaveTimeout;
+	    delete props.transitionEnterTimeout;
+	    delete props.transitionAppearTimeout;
+	    delete props.component;
+	
+	    return React.createElement(this.props.component, props, childrenToRender);
+	  };
+	
+	  return ReactTransitionGroup;
+	}(React.Component);
+	
+	ReactTransitionGroup.displayName = 'ReactTransitionGroup';
+	ReactTransitionGroup.propTypes = {
+	  component: React.PropTypes.any,
+	  childFactory: React.PropTypes.func
+	};
+	ReactTransitionGroup.defaultProps = {
+	  component: 'span',
+	  childFactory: emptyFunction.thatReturnsArgument
+	};
+	
+	
+	module.exports = ReactTransitionGroup;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/process/browser.js */ 3)))
+
+/***/ },
+/* 211 */
+/*!***************************************************!*\
+  !*** ./~/react/lib/ReactAddonsDOMDependencies.js ***!
+  \***************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 */
+	
+	'use strict';
+	
+	var ReactDOM = __webpack_require__(/*! react-dom/lib/ReactDOM */ 33);
+	var ReactInstanceMap = __webpack_require__(/*! react-dom/lib/ReactInstanceMap */ 116);
+	
+	exports.getReactDOM = function () {
+	  return ReactDOM;
+	};
+	
+	exports.getReactInstanceMap = function () {
+	  return ReactInstanceMap;
+	};
+	
+	if (process.env.NODE_ENV !== 'production') {
+	  var ReactPerf = __webpack_require__(/*! react-dom/lib/ReactPerf */ 212);
+	  var ReactTestUtils = __webpack_require__(/*! react-dom/lib/ReactTestUtils */ 213);
+	
+	  exports.getReactPerf = function () {
+	    return ReactPerf;
+	  };
+	
+	  exports.getReactTestUtils = function () {
+	    return ReactTestUtils;
+	  };
+	}
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/process/browser.js */ 3)))
+
+/***/ },
+/* 212 */
+/*!**************************************!*\
+  !*** ./~/react-dom/lib/ReactPerf.js ***!
+  \**************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2016-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * 
+	 */
+	
+	'use strict';
+	
+	var _assign = __webpack_require__(/*! object-assign */ 4);
+	
+	var _extends = _assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var ReactDebugTool = __webpack_require__(/*! ./ReactDebugTool */ 63);
+	var warning = __webpack_require__(/*! fbjs/lib/warning */ 11);
+	var alreadyWarned = false;
+	
+	function roundFloat(val) {
+	  var base = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2;
+	
+	  var n = Math.pow(10, base);
+	  return Math.floor(val * n) / n;
+	}
+	
+	// Flow type definition of console.table is too strict right now, see
+	// https://github.com/facebook/flow/pull/2353 for updates
+	function consoleTable(table) {
+	  console.table(table);
+	}
+	
+	function warnInProduction() {
+	  if (alreadyWarned) {
+	    return;
+	  }
+	  alreadyWarned = true;
+	  if (typeof console !== 'undefined') {
+	    console.error('ReactPerf is not supported in the production builds of React. ' + 'To collect measurements, please use the development build of React instead.');
+	  }
+	}
+	
+	function getLastMeasurements() {
+	  if (!(process.env.NODE_ENV !== 'production')) {
+	    warnInProduction();
+	    return [];
+	  }
+	
+	  return ReactDebugTool.getFlushHistory();
+	}
+	
+	function getExclusive() {
+	  var flushHistory = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : getLastMeasurements();
+	
+	  if (!(process.env.NODE_ENV !== 'production')) {
+	    warnInProduction();
+	    return [];
+	  }
+	
+	  var aggregatedStats = {};
+	  var affectedIDs = {};
+	
+	  function updateAggregatedStats(treeSnapshot, instanceID, timerType, applyUpdate) {
+	    var displayName = treeSnapshot[instanceID].displayName;
+	
+	    var key = displayName;
+	    var stats = aggregatedStats[key];
+	    if (!stats) {
+	      affectedIDs[key] = {};
+	      stats = aggregatedStats[key] = {
+	        key: key,
+	        instanceCount: 0,
+	        counts: {},
+	        durations: {},
+	        totalDuration: 0
+	      };
+	    }
+	    if (!stats.durations[timerType]) {
+	      stats.durations[timerType] = 0;
+	    }
+	    if (!stats.counts[timerType]) {
+	      stats.counts[timerType] = 0;
+	    }
+	    affectedIDs[key][instanceID] = true;
+	    applyUpdate(stats);
+	  }
+	
+	  flushHistory.forEach(function (flush) {
+	    var measurements = flush.measurements,
+	        treeSnapshot = flush.treeSnapshot;
+	
+	    measurements.forEach(function (measurement) {
+	      var duration = measurement.duration,
+	          instanceID = measurement.instanceID,
+	          timerType = measurement.timerType;
+	
+	      updateAggregatedStats(treeSnapshot, instanceID, timerType, function (stats) {
+	        stats.totalDuration += duration;
+	        stats.durations[timerType] += duration;
+	        stats.counts[timerType]++;
+	      });
+	    });
+	  });
+	
+	  return Object.keys(aggregatedStats).map(function (key) {
+	    return _extends({}, aggregatedStats[key], {
+	      instanceCount: Object.keys(affectedIDs[key]).length
+	    });
+	  }).sort(function (a, b) {
+	    return b.totalDuration - a.totalDuration;
+	  });
+	}
+	
+	function getInclusive() {
+	  var flushHistory = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : getLastMeasurements();
+	
+	  if (!(process.env.NODE_ENV !== 'production')) {
+	    warnInProduction();
+	    return [];
+	  }
+	
+	  var aggregatedStats = {};
+	  var affectedIDs = {};
+	
+	  function updateAggregatedStats(treeSnapshot, instanceID, applyUpdate) {
+	    var _treeSnapshot$instanc = treeSnapshot[instanceID],
+	        displayName = _treeSnapshot$instanc.displayName,
+	        ownerID = _treeSnapshot$instanc.ownerID;
+	
+	    var owner = treeSnapshot[ownerID];
+	    var key = (owner ? owner.displayName + ' > ' : '') + displayName;
+	    var stats = aggregatedStats[key];
+	    if (!stats) {
+	      affectedIDs[key] = {};
+	      stats = aggregatedStats[key] = {
+	        key: key,
+	        instanceCount: 0,
+	        inclusiveRenderDuration: 0,
+	        renderCount: 0
+	      };
+	    }
+	    affectedIDs[key][instanceID] = true;
+	    applyUpdate(stats);
+	  }
+	
+	  var isCompositeByID = {};
+	  flushHistory.forEach(function (flush) {
+	    var measurements = flush.measurements;
+	
+	    measurements.forEach(function (measurement) {
+	      var instanceID = measurement.instanceID,
+	          timerType = measurement.timerType;
+	
+	      if (timerType !== 'render') {
+	        return;
+	      }
+	      isCompositeByID[instanceID] = true;
+	    });
+	  });
+	
+	  flushHistory.forEach(function (flush) {
+	    var measurements = flush.measurements,
+	        treeSnapshot = flush.treeSnapshot;
+	
+	    measurements.forEach(function (measurement) {
+	      var duration = measurement.duration,
+	          instanceID = measurement.instanceID,
+	          timerType = measurement.timerType;
+	
+	      if (timerType !== 'render') {
+	        return;
+	      }
+	      updateAggregatedStats(treeSnapshot, instanceID, function (stats) {
+	        stats.renderCount++;
+	      });
+	      var nextParentID = instanceID;
+	      while (nextParentID) {
+	        // As we traverse parents, only count inclusive time towards composites.
+	        // We know something is a composite if its render() was called.
+	        if (isCompositeByID[nextParentID]) {
+	          updateAggregatedStats(treeSnapshot, nextParentID, function (stats) {
+	            stats.inclusiveRenderDuration += duration;
+	          });
+	        }
+	        nextParentID = treeSnapshot[nextParentID].parentID;
+	      }
+	    });
+	  });
+	
+	  return Object.keys(aggregatedStats).map(function (key) {
+	    return _extends({}, aggregatedStats[key], {
+	      instanceCount: Object.keys(affectedIDs[key]).length
+	    });
+	  }).sort(function (a, b) {
+	    return b.inclusiveRenderDuration - a.inclusiveRenderDuration;
+	  });
+	}
+	
+	function getWasted() {
+	  var flushHistory = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : getLastMeasurements();
+	
+	  if (!(process.env.NODE_ENV !== 'production')) {
+	    warnInProduction();
+	    return [];
+	  }
+	
+	  var aggregatedStats = {};
+	  var affectedIDs = {};
+	
+	  function updateAggregatedStats(treeSnapshot, instanceID, applyUpdate) {
+	    var _treeSnapshot$instanc2 = treeSnapshot[instanceID],
+	        displayName = _treeSnapshot$instanc2.displayName,
+	        ownerID = _treeSnapshot$instanc2.ownerID;
+	
+	    var owner = treeSnapshot[ownerID];
+	    var key = (owner ? owner.displayName + ' > ' : '') + displayName;
+	    var stats = aggregatedStats[key];
+	    if (!stats) {
+	      affectedIDs[key] = {};
+	      stats = aggregatedStats[key] = {
+	        key: key,
+	        instanceCount: 0,
+	        inclusiveRenderDuration: 0,
+	        renderCount: 0
+	      };
+	    }
+	    affectedIDs[key][instanceID] = true;
+	    applyUpdate(stats);
+	  }
+	
+	  flushHistory.forEach(function (flush) {
+	    var measurements = flush.measurements,
+	        treeSnapshot = flush.treeSnapshot,
+	        operations = flush.operations;
+	
+	    var isDefinitelyNotWastedByID = {};
+	
+	    // Find host components associated with an operation in this batch.
+	    // Mark all components in their parent tree as definitely not wasted.
+	    operations.forEach(function (operation) {
+	      var instanceID = operation.instanceID;
+	
+	      var nextParentID = instanceID;
+	      while (nextParentID) {
+	        isDefinitelyNotWastedByID[nextParentID] = true;
+	        nextParentID = treeSnapshot[nextParentID].parentID;
+	      }
+	    });
+	
+	    // Find composite components that rendered in this batch.
+	    // These are potential candidates for being wasted renders.
+	    var renderedCompositeIDs = {};
+	    measurements.forEach(function (measurement) {
+	      var instanceID = measurement.instanceID,
+	          timerType = measurement.timerType;
+	
+	      if (timerType !== 'render') {
+	        return;
+	      }
+	      renderedCompositeIDs[instanceID] = true;
+	    });
+	
+	    measurements.forEach(function (measurement) {
+	      var duration = measurement.duration,
+	          instanceID = measurement.instanceID,
+	          timerType = measurement.timerType;
+	
+	      if (timerType !== 'render') {
+	        return;
+	      }
+	
+	      // If there was a DOM update below this component, or it has just been
+	      // mounted, its render() is not considered wasted.
+	      var updateCount = treeSnapshot[instanceID].updateCount;
+	
+	      if (isDefinitelyNotWastedByID[instanceID] || updateCount === 0) {
+	        return;
+	      }
+	
+	      // We consider this render() wasted.
+	      updateAggregatedStats(treeSnapshot, instanceID, function (stats) {
+	        stats.renderCount++;
+	      });
+	
+	      var nextParentID = instanceID;
+	      while (nextParentID) {
+	        // Any parents rendered during this batch are considered wasted
+	        // unless we previously marked them as dirty.
+	        var isWasted = renderedCompositeIDs[nextParentID] && !isDefinitelyNotWastedByID[nextParentID];
+	        if (isWasted) {
+	          updateAggregatedStats(treeSnapshot, nextParentID, function (stats) {
+	            stats.inclusiveRenderDuration += duration;
+	          });
+	        }
+	        nextParentID = treeSnapshot[nextParentID].parentID;
+	      }
+	    });
+	  });
+	
+	  return Object.keys(aggregatedStats).map(function (key) {
+	    return _extends({}, aggregatedStats[key], {
+	      instanceCount: Object.keys(affectedIDs[key]).length
+	    });
+	  }).sort(function (a, b) {
+	    return b.inclusiveRenderDuration - a.inclusiveRenderDuration;
+	  });
+	}
+	
+	function getOperations() {
+	  var flushHistory = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : getLastMeasurements();
+	
+	  if (!(process.env.NODE_ENV !== 'production')) {
+	    warnInProduction();
+	    return [];
+	  }
+	
+	  var stats = [];
+	  flushHistory.forEach(function (flush, flushIndex) {
+	    var operations = flush.operations,
+	        treeSnapshot = flush.treeSnapshot;
+	
+	    operations.forEach(function (operation) {
+	      var instanceID = operation.instanceID,
+	          type = operation.type,
+	          payload = operation.payload;
+	      var _treeSnapshot$instanc3 = treeSnapshot[instanceID],
+	          displayName = _treeSnapshot$instanc3.displayName,
+	          ownerID = _treeSnapshot$instanc3.ownerID;
+	
+	      var owner = treeSnapshot[ownerID];
+	      var key = (owner ? owner.displayName + ' > ' : '') + displayName;
+	
+	      stats.push({
+	        flushIndex: flushIndex,
+	        instanceID: instanceID,
+	        key: key,
+	        type: type,
+	        ownerID: ownerID,
+	        payload: payload
+	      });
+	    });
+	  });
+	  return stats;
+	}
+	
+	function printExclusive(flushHistory) {
+	  if (!(process.env.NODE_ENV !== 'production')) {
+	    warnInProduction();
+	    return;
+	  }
+	
+	  var stats = getExclusive(flushHistory);
+	  var table = stats.map(function (item) {
+	    var key = item.key,
+	        instanceCount = item.instanceCount,
+	        totalDuration = item.totalDuration;
+	
+	    var renderCount = item.counts.render || 0;
+	    var renderDuration = item.durations.render || 0;
+	    return {
+	      'Component': key,
+	      'Total time (ms)': roundFloat(totalDuration),
+	      'Instance count': instanceCount,
+	      'Total render time (ms)': roundFloat(renderDuration),
+	      'Average render time (ms)': renderCount ? roundFloat(renderDuration / renderCount) : undefined,
+	      'Render count': renderCount,
+	      'Total lifecycle time (ms)': roundFloat(totalDuration - renderDuration)
+	    };
+	  });
+	  consoleTable(table);
+	}
+	
+	function printInclusive(flushHistory) {
+	  if (!(process.env.NODE_ENV !== 'production')) {
+	    warnInProduction();
+	    return;
+	  }
+	
+	  var stats = getInclusive(flushHistory);
+	  var table = stats.map(function (item) {
+	    var key = item.key,
+	        instanceCount = item.instanceCount,
+	        inclusiveRenderDuration = item.inclusiveRenderDuration,
+	        renderCount = item.renderCount;
+	
+	    return {
+	      'Owner > Component': key,
+	      'Inclusive render time (ms)': roundFloat(inclusiveRenderDuration),
+	      'Instance count': instanceCount,
+	      'Render count': renderCount
+	    };
+	  });
+	  consoleTable(table);
+	}
+	
+	function printWasted(flushHistory) {
+	  if (!(process.env.NODE_ENV !== 'production')) {
+	    warnInProduction();
+	    return;
+	  }
+	
+	  var stats = getWasted(flushHistory);
+	  var table = stats.map(function (item) {
+	    var key = item.key,
+	        instanceCount = item.instanceCount,
+	        inclusiveRenderDuration = item.inclusiveRenderDuration,
+	        renderCount = item.renderCount;
+	
+	    return {
+	      'Owner > Component': key,
+	      'Inclusive wasted time (ms)': roundFloat(inclusiveRenderDuration),
+	      'Instance count': instanceCount,
+	      'Render count': renderCount
+	    };
+	  });
+	  consoleTable(table);
+	}
+	
+	function printOperations(flushHistory) {
+	  if (!(process.env.NODE_ENV !== 'production')) {
+	    warnInProduction();
+	    return;
+	  }
+	
+	  var stats = getOperations(flushHistory);
+	  var table = stats.map(function (stat) {
+	    return {
+	      'Owner > Node': stat.key,
+	      'Operation': stat.type,
+	      'Payload': typeof stat.payload === 'object' ? JSON.stringify(stat.payload) : stat.payload,
+	      'Flush index': stat.flushIndex,
+	      'Owner Component ID': stat.ownerID,
+	      'DOM Component ID': stat.instanceID
+	    };
+	  });
+	  consoleTable(table);
+	}
+	
+	var warnedAboutPrintDOM = false;
+	function printDOM(measurements) {
+	  process.env.NODE_ENV !== 'production' ? warning(warnedAboutPrintDOM, '`ReactPerf.printDOM(...)` is deprecated. Use ' + '`ReactPerf.printOperations(...)` instead.') : void 0;
+	  warnedAboutPrintDOM = true;
+	  return printOperations(measurements);
+	}
+	
+	var warnedAboutGetMeasurementsSummaryMap = false;
+	function getMeasurementsSummaryMap(measurements) {
+	  process.env.NODE_ENV !== 'production' ? warning(warnedAboutGetMeasurementsSummaryMap, '`ReactPerf.getMeasurementsSummaryMap(...)` is deprecated. Use ' + '`ReactPerf.getWasted(...)` instead.') : void 0;
+	  warnedAboutGetMeasurementsSummaryMap = true;
+	  return getWasted(measurements);
+	}
+	
+	function start() {
+	  if (!(process.env.NODE_ENV !== 'production')) {
+	    warnInProduction();
+	    return;
+	  }
+	
+	  ReactDebugTool.beginProfiling();
+	}
+	
+	function stop() {
+	  if (!(process.env.NODE_ENV !== 'production')) {
+	    warnInProduction();
+	    return;
+	  }
+	
+	  ReactDebugTool.endProfiling();
+	}
+	
+	function isRunning() {
+	  if (!(process.env.NODE_ENV !== 'production')) {
+	    warnInProduction();
+	    return false;
+	  }
+	
+	  return ReactDebugTool.isProfiling();
+	}
+	
+	var ReactPerfAnalysis = {
+	  getLastMeasurements: getLastMeasurements,
+	  getExclusive: getExclusive,
+	  getInclusive: getInclusive,
+	  getWasted: getWasted,
+	  getOperations: getOperations,
+	  printExclusive: printExclusive,
+	  printInclusive: printInclusive,
+	  printWasted: printWasted,
+	  printOperations: printOperations,
+	  start: start,
+	  stop: stop,
+	  isRunning: isRunning,
+	  // Deprecated:
+	  printDOM: printDOM,
+	  getMeasurementsSummaryMap: getMeasurementsSummaryMap
+	};
+	
+	module.exports = ReactPerfAnalysis;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/process/browser.js */ 3)))
+
+/***/ },
+/* 213 */
+/*!*******************************************!*\
+  !*** ./~/react-dom/lib/ReactTestUtils.js ***!
+  \*******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 */
+	
+	'use strict';
+	
+	var _prodInvariant = __webpack_require__(/*! ./reactProdInvariant */ 35),
+	    _assign = __webpack_require__(/*! object-assign */ 4);
+	
+	var EventConstants = __webpack_require__(/*! ./EventConstants */ 214);
+	var EventPluginHub = __webpack_require__(/*! ./EventPluginHub */ 42);
+	var EventPluginRegistry = __webpack_require__(/*! ./EventPluginRegistry */ 43);
+	var EventPropagators = __webpack_require__(/*! ./EventPropagators */ 41);
+	var React = __webpack_require__(/*! react/lib/React */ 2);
+	var ReactDOM = __webpack_require__(/*! ./ReactDOM */ 33);
+	var ReactDOMComponentTree = __webpack_require__(/*! ./ReactDOMComponentTree */ 34);
+	var ReactBrowserEventEmitter = __webpack_require__(/*! ./ReactBrowserEventEmitter */ 105);
+	var ReactInstanceMap = __webpack_require__(/*! ./ReactInstanceMap */ 116);
+	var ReactUpdates = __webpack_require__(/*! ./ReactUpdates */ 56);
+	var SyntheticEvent = __webpack_require__(/*! ./SyntheticEvent */ 53);
+	var ReactShallowRenderer = __webpack_require__(/*! ./ReactShallowRenderer */ 215);
+	
+	var findDOMNode = __webpack_require__(/*! ./findDOMNode */ 172);
+	var invariant = __webpack_require__(/*! fbjs/lib/invariant */ 8);
+	
+	var topLevelTypes = EventConstants.topLevelTypes;
+	
+	function Event(suffix) {}
+	
+	/**
+	 * @class ReactTestUtils
+	 */
+	
+	function findAllInRenderedTreeInternal(inst, test) {
+	  if (!inst || !inst.getPublicInstance) {
+	    return [];
+	  }
+	  var publicInst = inst.getPublicInstance();
+	  var ret = test(publicInst) ? [publicInst] : [];
+	  var currentElement = inst._currentElement;
+	  if (ReactTestUtils.isDOMComponent(publicInst)) {
+	    var renderedChildren = inst._renderedChildren;
+	    var key;
+	    for (key in renderedChildren) {
+	      if (!renderedChildren.hasOwnProperty(key)) {
+	        continue;
+	      }
+	      ret = ret.concat(findAllInRenderedTreeInternal(renderedChildren[key], test));
+	    }
+	  } else if (React.isValidElement(currentElement) && typeof currentElement.type === 'function') {
+	    ret = ret.concat(findAllInRenderedTreeInternal(inst._renderedComponent, test));
+	  }
+	  return ret;
+	}
+	
+	/**
+	 * Utilities for making it easy to test React components.
+	 *
+	 * See https://facebook.github.io/react/docs/test-utils.html
+	 *
+	 * Todo: Support the entire DOM.scry query syntax. For now, these simple
+	 * utilities will suffice for testing purposes.
+	 * @lends ReactTestUtils
+	 */
+	var ReactTestUtils = {
+	  renderIntoDocument: function (element) {
+	    var div = document.createElement('div');
+	    // None of our tests actually require attaching the container to the
+	    // DOM, and doing so creates a mess that we rely on test isolation to
+	    // clean up, so we're going to stop honoring the name of this method
+	    // (and probably rename it eventually) if no problems arise.
+	    // document.documentElement.appendChild(div);
+	    return ReactDOM.render(element, div);
+	  },
+	
+	  isElement: function (element) {
+	    return React.isValidElement(element);
+	  },
+	
+	  isElementOfType: function (inst, convenienceConstructor) {
+	    return React.isValidElement(inst) && inst.type === convenienceConstructor;
+	  },
+	
+	  isDOMComponent: function (inst) {
+	    return !!(inst && inst.nodeType === 1 && inst.tagName);
+	  },
+	
+	  isDOMComponentElement: function (inst) {
+	    return !!(inst && React.isValidElement(inst) && !!inst.tagName);
+	  },
+	
+	  isCompositeComponent: function (inst) {
+	    if (ReactTestUtils.isDOMComponent(inst)) {
+	      // Accessing inst.setState warns; just return false as that'll be what
+	      // this returns when we have DOM nodes as refs directly
+	      return false;
+	    }
+	    return inst != null && typeof inst.render === 'function' && typeof inst.setState === 'function';
+	  },
+	
+	  isCompositeComponentWithType: function (inst, type) {
+	    if (!ReactTestUtils.isCompositeComponent(inst)) {
+	      return false;
+	    }
+	    var internalInstance = ReactInstanceMap.get(inst);
+	    var constructor = internalInstance._currentElement.type;
+	
+	    return constructor === type;
+	  },
+	
+	  isCompositeComponentElement: function (inst) {
+	    if (!React.isValidElement(inst)) {
+	      return false;
+	    }
+	    // We check the prototype of the type that will get mounted, not the
+	    // instance itself. This is a future proof way of duck typing.
+	    var prototype = inst.type.prototype;
+	    return typeof prototype.render === 'function' && typeof prototype.setState === 'function';
+	  },
+	
+	  isCompositeComponentElementWithType: function (inst, type) {
+	    var internalInstance = ReactInstanceMap.get(inst);
+	    var constructor = internalInstance._currentElement.type;
+	
+	    return !!(ReactTestUtils.isCompositeComponentElement(inst) && constructor === type);
+	  },
+	
+	  getRenderedChildOfCompositeComponent: function (inst) {
+	    if (!ReactTestUtils.isCompositeComponent(inst)) {
+	      return null;
+	    }
+	    var internalInstance = ReactInstanceMap.get(inst);
+	    return internalInstance._renderedComponent.getPublicInstance();
+	  },
+	
+	  findAllInRenderedTree: function (inst, test) {
+	    if (!inst) {
+	      return [];
+	    }
+	    !ReactTestUtils.isCompositeComponent(inst) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'findAllInRenderedTree(...): instance must be a composite component') : _prodInvariant('10') : void 0;
+	    return findAllInRenderedTreeInternal(ReactInstanceMap.get(inst), test);
+	  },
+	
+	  /**
+	   * Finds all instance of components in the rendered tree that are DOM
+	   * components with the class name matching `className`.
+	   * @return {array} an array of all the matches.
+	   */
+	  scryRenderedDOMComponentsWithClass: function (root, classNames) {
+	    return ReactTestUtils.findAllInRenderedTree(root, function (inst) {
+	      if (ReactTestUtils.isDOMComponent(inst)) {
+	        var className = inst.className;
+	        if (typeof className !== 'string') {
+	          // SVG, probably.
+	          className = inst.getAttribute('class') || '';
+	        }
+	        var classList = className.split(/\s+/);
+	
+	        if (!Array.isArray(classNames)) {
+	          !(classNames !== undefined) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'TestUtils.scryRenderedDOMComponentsWithClass expects a className as a second argument.') : _prodInvariant('11') : void 0;
+	          classNames = classNames.split(/\s+/);
+	        }
+	        return classNames.every(function (name) {
+	          return classList.indexOf(name) !== -1;
+	        });
+	      }
+	      return false;
+	    });
+	  },
+	
+	  /**
+	   * Like scryRenderedDOMComponentsWithClass but expects there to be one result,
+	   * and returns that one result, or throws exception if there is any other
+	   * number of matches besides one.
+	   * @return {!ReactDOMComponent} The one match.
+	   */
+	  findRenderedDOMComponentWithClass: function (root, className) {
+	    var all = ReactTestUtils.scryRenderedDOMComponentsWithClass(root, className);
+	    if (all.length !== 1) {
+	      throw new Error('Did not find exactly one match (found: ' + all.length + ') ' + 'for class:' + className);
+	    }
+	    return all[0];
+	  },
+	
+	  /**
+	   * Finds all instance of components in the rendered tree that are DOM
+	   * components with the tag name matching `tagName`.
+	   * @return {array} an array of all the matches.
+	   */
+	  scryRenderedDOMComponentsWithTag: function (root, tagName) {
+	    return ReactTestUtils.findAllInRenderedTree(root, function (inst) {
+	      return ReactTestUtils.isDOMComponent(inst) && inst.tagName.toUpperCase() === tagName.toUpperCase();
+	    });
+	  },
+	
+	  /**
+	   * Like scryRenderedDOMComponentsWithTag but expects there to be one result,
+	   * and returns that one result, or throws exception if there is any other
+	   * number of matches besides one.
+	   * @return {!ReactDOMComponent} The one match.
+	   */
+	  findRenderedDOMComponentWithTag: function (root, tagName) {
+	    var all = ReactTestUtils.scryRenderedDOMComponentsWithTag(root, tagName);
+	    if (all.length !== 1) {
+	      throw new Error('Did not find exactly one match (found: ' + all.length + ') ' + 'for tag:' + tagName);
+	    }
+	    return all[0];
+	  },
+	
+	  /**
+	   * Finds all instances of components with type equal to `componentType`.
+	   * @return {array} an array of all the matches.
+	   */
+	  scryRenderedComponentsWithType: function (root, componentType) {
+	    return ReactTestUtils.findAllInRenderedTree(root, function (inst) {
+	      return ReactTestUtils.isCompositeComponentWithType(inst, componentType);
+	    });
+	  },
+	
+	  /**
+	   * Same as `scryRenderedComponentsWithType` but expects there to be one result
+	   * and returns that one result, or throws exception if there is any other
+	   * number of matches besides one.
+	   * @return {!ReactComponent} The one match.
+	   */
+	  findRenderedComponentWithType: function (root, componentType) {
+	    var all = ReactTestUtils.scryRenderedComponentsWithType(root, componentType);
+	    if (all.length !== 1) {
+	      throw new Error('Did not find exactly one match (found: ' + all.length + ') ' + 'for componentType:' + componentType);
+	    }
+	    return all[0];
+	  },
+	
+	  /**
+	   * Pass a mocked component module to this method to augment it with
+	   * useful methods that allow it to be used as a dummy React component.
+	   * Instead of rendering as usual, the component will become a simple
+	   * <div> containing any provided children.
+	   *
+	   * @param {object} module the mock function object exported from a
+	   *                        module that defines the component to be mocked
+	   * @param {?string} mockTagName optional dummy root tag name to return
+	   *                              from render method (overrides
+	   *                              module.mockTagName if provided)
+	   * @return {object} the ReactTestUtils object (for chaining)
+	   */
+	  mockComponent: function (module, mockTagName) {
+	    mockTagName = mockTagName || module.mockTagName || 'div';
+	
+	    module.prototype.render.mockImplementation(function () {
+	      return React.createElement(mockTagName, null, this.props.children);
+	    });
+	
+	    return this;
+	  },
+	
+	  /**
+	   * Simulates a top level event being dispatched from a raw event that occurred
+	   * on an `Element` node.
+	   * @param {Object} topLevelType A type from `EventConstants.topLevelTypes`
+	   * @param {!Element} node The dom to simulate an event occurring on.
+	   * @param {?Event} fakeNativeEvent Fake native event to use in SyntheticEvent.
+	   */
+	  simulateNativeEventOnNode: function (topLevelType, node, fakeNativeEvent) {
+	    fakeNativeEvent.target = node;
+	    ReactBrowserEventEmitter.ReactEventListener.dispatchEvent(topLevelType, fakeNativeEvent);
+	  },
+	
+	  /**
+	   * Simulates a top level event being dispatched from a raw event that occurred
+	   * on the `ReactDOMComponent` `comp`.
+	   * @param {Object} topLevelType A type from `EventConstants.topLevelTypes`.
+	   * @param {!ReactDOMComponent} comp
+	   * @param {?Event} fakeNativeEvent Fake native event to use in SyntheticEvent.
+	   */
+	  simulateNativeEventOnDOMComponent: function (topLevelType, comp, fakeNativeEvent) {
+	    ReactTestUtils.simulateNativeEventOnNode(topLevelType, findDOMNode(comp), fakeNativeEvent);
+	  },
+	
+	  nativeTouchData: function (x, y) {
+	    return {
+	      touches: [{ pageX: x, pageY: y }]
+	    };
+	  },
+	
+	  createRenderer: function () {
+	    return new ReactShallowRenderer();
+	  },
+	
+	  Simulate: null,
+	  SimulateNative: {}
+	};
+	
+	/**
+	 * Exports:
+	 *
+	 * - `ReactTestUtils.Simulate.click(Element/ReactDOMComponent)`
+	 * - `ReactTestUtils.Simulate.mouseMove(Element/ReactDOMComponent)`
+	 * - `ReactTestUtils.Simulate.change(Element/ReactDOMComponent)`
+	 * - ... (All keys from event plugin `eventTypes` objects)
+	 */
+	function makeSimulator(eventType) {
+	  return function (domComponentOrNode, eventData) {
+	    var node;
+	    !!React.isValidElement(domComponentOrNode) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'TestUtils.Simulate expects a component instance and not a ReactElement.TestUtils.Simulate will not work if you are using shallow rendering.') : _prodInvariant('14') : void 0;
+	    if (ReactTestUtils.isDOMComponent(domComponentOrNode)) {
+	      node = findDOMNode(domComponentOrNode);
+	    } else if (domComponentOrNode.tagName) {
+	      node = domComponentOrNode;
+	    }
+	
+	    var dispatchConfig = EventPluginRegistry.eventNameDispatchConfigs[eventType];
+	
+	    var fakeNativeEvent = new Event();
+	    fakeNativeEvent.target = node;
+	    fakeNativeEvent.type = eventType.toLowerCase();
+	
+	    // We don't use SyntheticEvent.getPooled in order to not have to worry about
+	    // properly destroying any properties assigned from `eventData` upon release
+	    var event = new SyntheticEvent(dispatchConfig, ReactDOMComponentTree.getInstanceFromNode(node), fakeNativeEvent, node);
+	    // Since we aren't using pooling, always persist the event. This will make
+	    // sure it's marked and won't warn when setting additional properties.
+	    event.persist();
+	    _assign(event, eventData);
+	
+	    if (dispatchConfig.phasedRegistrationNames) {
+	      EventPropagators.accumulateTwoPhaseDispatches(event);
+	    } else {
+	      EventPropagators.accumulateDirectDispatches(event);
+	    }
+	
+	    ReactUpdates.batchedUpdates(function () {
+	      EventPluginHub.enqueueEvents(event);
+	      EventPluginHub.processEventQueue(true);
+	    });
+	  };
+	}
+	
+	function buildSimulators() {
+	  ReactTestUtils.Simulate = {};
+	
+	  var eventType;
+	  for (eventType in EventPluginRegistry.eventNameDispatchConfigs) {
+	    /**
+	     * @param {!Element|ReactDOMComponent} domComponentOrNode
+	     * @param {?object} eventData Fake event data to use in SyntheticEvent.
+	     */
+	    ReactTestUtils.Simulate[eventType] = makeSimulator(eventType);
+	  }
+	}
+	
+	// Rebuild ReactTestUtils.Simulate whenever event plugins are injected
+	var oldInjectEventPluginOrder = EventPluginHub.injection.injectEventPluginOrder;
+	EventPluginHub.injection.injectEventPluginOrder = function () {
+	  oldInjectEventPluginOrder.apply(this, arguments);
+	  buildSimulators();
+	};
+	var oldInjectEventPlugins = EventPluginHub.injection.injectEventPluginsByName;
+	EventPluginHub.injection.injectEventPluginsByName = function () {
+	  oldInjectEventPlugins.apply(this, arguments);
+	  buildSimulators();
+	};
+	
+	buildSimulators();
+	
+	/**
+	 * Exports:
+	 *
+	 * - `ReactTestUtils.SimulateNative.click(Element/ReactDOMComponent)`
+	 * - `ReactTestUtils.SimulateNative.mouseMove(Element/ReactDOMComponent)`
+	 * - `ReactTestUtils.SimulateNative.mouseIn/ReactDOMComponent)`
+	 * - `ReactTestUtils.SimulateNative.mouseOut(Element/ReactDOMComponent)`
+	 * - ... (All keys from `EventConstants.topLevelTypes`)
+	 *
+	 * Note: Top level event types are a subset of the entire set of handler types
+	 * (which include a broader set of "synthetic" events). For example, onDragDone
+	 * is a synthetic event. Except when testing an event plugin or React's event
+	 * handling code specifically, you probably want to use ReactTestUtils.Simulate
+	 * to dispatch synthetic events.
+	 */
+	
+	function makeNativeSimulator(eventType) {
+	  return function (domComponentOrNode, nativeEventData) {
+	    var fakeNativeEvent = new Event(eventType);
+	    _assign(fakeNativeEvent, nativeEventData);
+	    if (ReactTestUtils.isDOMComponent(domComponentOrNode)) {
+	      ReactTestUtils.simulateNativeEventOnDOMComponent(eventType, domComponentOrNode, fakeNativeEvent);
+	    } else if (domComponentOrNode.tagName) {
+	      // Will allow on actual dom nodes.
+	      ReactTestUtils.simulateNativeEventOnNode(eventType, domComponentOrNode, fakeNativeEvent);
+	    }
+	  };
+	}
+	
+	Object.keys(topLevelTypes).forEach(function (eventType) {
+	  // Event type is stored as 'topClick' - we transform that to 'click'
+	  var convenienceName = eventType.indexOf('top') === 0 ? eventType.charAt(3).toLowerCase() + eventType.substr(4) : eventType;
+	  /**
+	   * @param {!Element|ReactDOMComponent} domComponentOrNode
+	   * @param {?Event} nativeEventData Fake native event to use in SyntheticEvent.
+	   */
+	  ReactTestUtils.SimulateNative[convenienceName] = makeNativeSimulator(eventType);
+	});
+	
+	module.exports = ReactTestUtils;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/process/browser.js */ 3)))
+
+/***/ },
+/* 214 */
+/*!*******************************************!*\
+  !*** ./~/react-dom/lib/EventConstants.js ***!
+  \*******************************************/
+/***/ function(module, exports) {
+
+	/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 */
+	
+	'use strict';
+	
+	/**
+	 * Types of raw signals from the browser caught at the top level.
+	 */
+	var topLevelTypes = {
+	  topAbort: null,
+	  topAnimationEnd: null,
+	  topAnimationIteration: null,
+	  topAnimationStart: null,
+	  topBlur: null,
+	  topCanPlay: null,
+	  topCanPlayThrough: null,
+	  topChange: null,
+	  topClick: null,
+	  topCompositionEnd: null,
+	  topCompositionStart: null,
+	  topCompositionUpdate: null,
+	  topContextMenu: null,
+	  topCopy: null,
+	  topCut: null,
+	  topDoubleClick: null,
+	  topDrag: null,
+	  topDragEnd: null,
+	  topDragEnter: null,
+	  topDragExit: null,
+	  topDragLeave: null,
+	  topDragOver: null,
+	  topDragStart: null,
+	  topDrop: null,
+	  topDurationChange: null,
+	  topEmptied: null,
+	  topEncrypted: null,
+	  topEnded: null,
+	  topError: null,
+	  topFocus: null,
+	  topInput: null,
+	  topInvalid: null,
+	  topKeyDown: null,
+	  topKeyPress: null,
+	  topKeyUp: null,
+	  topLoad: null,
+	  topLoadedData: null,
+	  topLoadedMetadata: null,
+	  topLoadStart: null,
+	  topMouseDown: null,
+	  topMouseMove: null,
+	  topMouseOut: null,
+	  topMouseOver: null,
+	  topMouseUp: null,
+	  topPaste: null,
+	  topPause: null,
+	  topPlay: null,
+	  topPlaying: null,
+	  topProgress: null,
+	  topRateChange: null,
+	  topReset: null,
+	  topScroll: null,
+	  topSeeked: null,
+	  topSeeking: null,
+	  topSelectionChange: null,
+	  topStalled: null,
+	  topSubmit: null,
+	  topSuspend: null,
+	  topTextInput: null,
+	  topTimeUpdate: null,
+	  topTouchCancel: null,
+	  topTouchEnd: null,
+	  topTouchMove: null,
+	  topTouchStart: null,
+	  topTransitionEnd: null,
+	  topVolumeChange: null,
+	  topWaiting: null,
+	  topWheel: null
+	};
+	
+	var EventConstants = {
+	  topLevelTypes: topLevelTypes
+	};
+	
+	module.exports = EventConstants;
+
+/***/ },
+/* 215 */
+/*!*************************************************!*\
+  !*** ./~/react-dom/lib/ReactShallowRenderer.js ***!
+  \*************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 */
+	
+	'use strict';
+	
+	var _prodInvariant = __webpack_require__(/*! ./reactProdInvariant */ 35),
+	    _assign = __webpack_require__(/*! object-assign */ 4);
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var React = __webpack_require__(/*! react/lib/React */ 2);
+	var ReactDefaultInjection = __webpack_require__(/*! ./ReactDefaultInjection */ 38);
+	var ReactCompositeComponent = __webpack_require__(/*! ./ReactCompositeComponent */ 119);
+	var ReactReconciler = __webpack_require__(/*! ./ReactReconciler */ 59);
+	var ReactUpdates = __webpack_require__(/*! ./ReactUpdates */ 56);
+	
+	var emptyObject = __webpack_require__(/*! fbjs/lib/emptyObject */ 20);
+	var getNextDebugID = __webpack_require__(/*! ./getNextDebugID */ 127);
+	var invariant = __webpack_require__(/*! fbjs/lib/invariant */ 8);
+	
+	var NoopInternalComponent = function () {
+	  function NoopInternalComponent(element) {
+	    _classCallCheck(this, NoopInternalComponent);
+	
+	    this._renderedOutput = element;
+	    this._currentElement = element;
+	
+	    if (process.env.NODE_ENV !== 'production') {
+	      this._debugID = getNextDebugID();
+	    }
+	  }
+	
+	  NoopInternalComponent.prototype.mountComponent = function mountComponent() {};
+	
+	  NoopInternalComponent.prototype.receiveComponent = function receiveComponent(element) {
+	    this._renderedOutput = element;
+	    this._currentElement = element;
+	  };
+	
+	  NoopInternalComponent.prototype.unmountComponent = function unmountComponent() {};
+	
+	  NoopInternalComponent.prototype.getHostNode = function getHostNode() {
+	    return undefined;
+	  };
+	
+	  NoopInternalComponent.prototype.getPublicInstance = function getPublicInstance() {
+	    return null;
+	  };
+	
+	  return NoopInternalComponent;
+	}();
+	
+	var ShallowComponentWrapper = function (element) {
+	  // TODO: Consolidate with instantiateReactComponent
+	  if (process.env.NODE_ENV !== 'production') {
+	    this._debugID = getNextDebugID();
+	  }
+	
+	  this.construct(element);
+	};
+	_assign(ShallowComponentWrapper.prototype, ReactCompositeComponent, {
+	  _constructComponent: ReactCompositeComponent._constructComponentWithoutOwner,
+	  _instantiateReactComponent: function (element) {
+	    return new NoopInternalComponent(element);
+	  },
+	  _replaceNodeWithMarkup: function () {},
+	  _renderValidatedComponent: ReactCompositeComponent._renderValidatedComponentWithoutOwnerOrContext
+	});
+	
+	function _batchedRender(renderer, element, context) {
+	  var transaction = ReactUpdates.ReactReconcileTransaction.getPooled(true);
+	  renderer._render(element, transaction, context);
+	  ReactUpdates.ReactReconcileTransaction.release(transaction);
+	}
+	
+	var ReactShallowRenderer = function () {
+	  function ReactShallowRenderer() {
+	    _classCallCheck(this, ReactShallowRenderer);
+	
+	    this._instance = null;
+	  }
+	
+	  ReactShallowRenderer.prototype.getMountedInstance = function getMountedInstance() {
+	    return this._instance ? this._instance._instance : null;
+	  };
+	
+	  ReactShallowRenderer.prototype.render = function render(element, context) {
+	    // Ensure we've done the default injections. This might not be true in the
+	    // case of a simple test that only requires React and the TestUtils in
+	    // conjunction with an inline-requires transform.
+	    ReactDefaultInjection.inject();
+	
+	    !React.isValidElement(element) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'ReactShallowRenderer render(): Invalid component element.%s', typeof element === 'function' ? ' Instead of passing a component class, make sure to instantiate ' + 'it by passing it to React.createElement.' : '') : _prodInvariant('12', typeof element === 'function' ? ' Instead of passing a component class, make sure to instantiate ' + 'it by passing it to React.createElement.' : '') : void 0;
+	    !(typeof element.type !== 'string') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'ReactShallowRenderer render(): Shallow rendering works only with custom components, not primitives (%s). Instead of calling `.render(el)` and inspecting the rendered output, look at `el.props` directly instead.', element.type) : _prodInvariant('13', element.type) : void 0;
+	
+	    if (!context) {
+	      context = emptyObject;
+	    }
+	    ReactUpdates.batchedUpdates(_batchedRender, this, element, context);
+	
+	    return this.getRenderOutput();
+	  };
+	
+	  ReactShallowRenderer.prototype.getRenderOutput = function getRenderOutput() {
+	    return this._instance && this._instance._renderedComponent && this._instance._renderedComponent._renderedOutput || null;
+	  };
+	
+	  ReactShallowRenderer.prototype.unmount = function unmount() {
+	    if (this._instance) {
+	      ReactReconciler.unmountComponent(this._instance, false);
+	    }
+	  };
+	
+	  ReactShallowRenderer.prototype._render = function _render(element, transaction, context) {
+	    if (this._instance) {
+	      ReactReconciler.receiveComponent(this._instance, element, transaction, context);
+	    } else {
+	      var instance = new ShallowComponentWrapper(element);
+	      ReactReconciler.mountComponent(instance, transaction, null, null, context, 0);
+	      this._instance = instance;
+	    }
+	  };
+	
+	  return ReactShallowRenderer;
+	}();
+	
+	module.exports = ReactShallowRenderer;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/process/browser.js */ 3)))
+
+/***/ },
+/* 216 */
+/*!****************************************************!*\
+  !*** ./~/react/lib/ReactTransitionChildMapping.js ***!
+  \****************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 */
+	
+	'use strict';
+	
+	var flattenChildren = __webpack_require__(/*! ./flattenChildren */ 217);
+	
+	var ReactTransitionChildMapping = {
+	  /**
+	   * Given `this.props.children`, return an object mapping key to child. Just
+	   * simple syntactic sugar around flattenChildren().
+	   *
+	   * @param {*} children `this.props.children`
+	   * @param {number=} selfDebugID Optional debugID of the current internal instance.
+	   * @return {object} Mapping of key to child
+	   */
+	  getChildMapping: function (children, selfDebugID) {
+	    if (!children) {
+	      return children;
+	    }
+	
+	    if (process.env.NODE_ENV !== 'production') {
+	      return flattenChildren(children, selfDebugID);
+	    }
+	
+	    return flattenChildren(children);
+	  },
+	
+	  /**
+	   * When you're adding or removing children some may be added or removed in the
+	   * same render pass. We want to show *both* since we want to simultaneously
+	   * animate elements in and out. This function takes a previous set of keys
+	   * and a new set of keys and merges them with its best guess of the correct
+	   * ordering. In the future we may expose some of the utilities in
+	   * ReactMultiChild to make this easy, but for now React itself does not
+	   * directly have this concept of the union of prevChildren and nextChildren
+	   * so we implement it here.
+	   *
+	   * @param {object} prev prev children as returned from
+	   * `ReactTransitionChildMapping.getChildMapping()`.
+	   * @param {object} next next children as returned from
+	   * `ReactTransitionChildMapping.getChildMapping()`.
+	   * @return {object} a key set that contains all keys in `prev` and all keys
+	   * in `next` in a reasonable order.
+	   */
+	  mergeChildMappings: function (prev, next) {
+	    prev = prev || {};
+	    next = next || {};
+	
+	    function getValueForKey(key) {
+	      if (next.hasOwnProperty(key)) {
+	        return next[key];
+	      } else {
+	        return prev[key];
+	      }
+	    }
+	
+	    // For each key of `next`, the list of keys to insert before that key in
+	    // the combined list
+	    var nextKeysPending = {};
+	
+	    var pendingKeys = [];
+	    for (var prevKey in prev) {
+	      if (next.hasOwnProperty(prevKey)) {
+	        if (pendingKeys.length) {
+	          nextKeysPending[prevKey] = pendingKeys;
+	          pendingKeys = [];
+	        }
+	      } else {
+	        pendingKeys.push(prevKey);
+	      }
+	    }
+	
+	    var i;
+	    var childMapping = {};
+	    for (var nextKey in next) {
+	      if (nextKeysPending.hasOwnProperty(nextKey)) {
+	        for (i = 0; i < nextKeysPending[nextKey].length; i++) {
+	          var pendingNextKey = nextKeysPending[nextKey][i];
+	          childMapping[nextKeysPending[nextKey][i]] = getValueForKey(pendingNextKey);
+	        }
+	      }
+	      childMapping[nextKey] = getValueForKey(nextKey);
+	    }
+	
+	    // Finally, add the keys which didn't appear before any key in `next`
+	    for (i = 0; i < pendingKeys.length; i++) {
+	      childMapping[pendingKeys[i]] = getValueForKey(pendingKeys[i]);
+	    }
+	
+	    return childMapping;
+	  }
+	};
+	
+	module.exports = ReactTransitionChildMapping;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/process/browser.js */ 3)))
+
+/***/ },
+/* 217 */
+/*!****************************************!*\
+  !*** ./~/react/lib/flattenChildren.js ***!
+  \****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * 
+	 */
+	
+	'use strict';
+	
+	var KeyEscapeUtils = __webpack_require__(/*! ./KeyEscapeUtils */ 17);
+	var traverseAllChildren = __webpack_require__(/*! ./traverseAllChildren */ 15);
+	var warning = __webpack_require__(/*! fbjs/lib/warning */ 11);
+	
+	var ReactComponentTreeHook;
+	
+	if (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 'test') {
+	  // Temporary hack.
+	  // Inline requires don't work well with Jest:
+	  // https://github.com/facebook/react/issues/7240
+	  // Remove the inline requires when we don't need them anymore:
+	  // https://github.com/facebook/react/pull/7178
+	  ReactComponentTreeHook = __webpack_require__(/*! ./ReactComponentTreeHook */ 26);
+	}
+	
+	/**
+	 * @param {function} traverseContext Context passed through traversal.
+	 * @param {?ReactComponent} child React child component.
+	 * @param {!string} name String name of key path to child.
+	 * @param {number=} selfDebugID Optional debugID of the current internal instance.
+	 */
+	function flattenSingleChildIntoContext(traverseContext, child, name, selfDebugID) {
+	  // We found a component instance.
+	  if (traverseContext && typeof traverseContext === 'object') {
+	    var result = traverseContext;
+	    var keyUnique = result[name] === undefined;
+	    if (process.env.NODE_ENV !== 'production') {
+	      if (!ReactComponentTreeHook) {
+	        ReactComponentTreeHook = __webpack_require__(/*! ./ReactComponentTreeHook */ 26);
+	      }
+	      if (!keyUnique) {
+	        process.env.NODE_ENV !== 'production' ? warning(false, 'flattenChildren(...): Encountered two children with the same key, ' + '`%s`. Child keys must be unique; when two children share a key, only ' + 'the first child will be used.%s', KeyEscapeUtils.unescape(name), ReactComponentTreeHook.getStackAddendumByID(selfDebugID)) : void 0;
+	      }
+	    }
+	    if (keyUnique && child != null) {
+	      result[name] = child;
+	    }
+	  }
+	}
+	
+	/**
+	 * Flattens children that are typically specified as `props.children`. Any null
+	 * children will not be included in the resulting object.
+	 * @return {!object} flattened children keyed by name.
+	 */
+	function flattenChildren(children, selfDebugID) {
+	  if (children == null) {
+	    return children;
+	  }
+	  var result = {};
+	
+	  if (process.env.NODE_ENV !== 'production') {
+	    traverseAllChildren(children, function (traverseContext, child, name) {
+	      return flattenSingleChildIntoContext(traverseContext, child, name, selfDebugID);
+	    }, result);
+	  } else {
+	    traverseAllChildren(children, flattenSingleChildIntoContext, result);
+	  }
+	  return result;
+	}
+	
+	module.exports = flattenChildren;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/process/browser.js */ 3)))
+
+/***/ },
+/* 218 */
+/*!*****************************************************!*\
+  !*** ./~/react/lib/ReactCSSTransitionGroupChild.js ***!
+  \*****************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 */
+	
+	'use strict';
+	
+	var React = __webpack_require__(/*! ./React */ 2);
+	var ReactAddonsDOMDependencies = __webpack_require__(/*! ./ReactAddonsDOMDependencies */ 211);
+	
+	var CSSCore = __webpack_require__(/*! fbjs/lib/CSSCore */ 219);
+	var ReactTransitionEvents = __webpack_require__(/*! ./ReactTransitionEvents */ 220);
+	
+	var onlyChild = __webpack_require__(/*! ./onlyChild */ 31);
+	
+	var TICK = 17;
+	
+	var ReactCSSTransitionGroupChild = React.createClass({
+	  displayName: 'ReactCSSTransitionGroupChild',
+	
+	  propTypes: {
+	    name: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.shape({
+	      enter: React.PropTypes.string,
+	      leave: React.PropTypes.string,
+	      active: React.PropTypes.string
+	    }), React.PropTypes.shape({
+	      enter: React.PropTypes.string,
+	      enterActive: React.PropTypes.string,
+	      leave: React.PropTypes.string,
+	      leaveActive: React.PropTypes.string,
+	      appear: React.PropTypes.string,
+	      appearActive: React.PropTypes.string
+	    })]).isRequired,
+	
+	    // Once we require timeouts to be specified, we can remove the
+	    // boolean flags (appear etc.) and just accept a number
+	    // or a bool for the timeout flags (appearTimeout etc.)
+	    appear: React.PropTypes.bool,
+	    enter: React.PropTypes.bool,
+	    leave: React.PropTypes.bool,
+	    appearTimeout: React.PropTypes.number,
+	    enterTimeout: React.PropTypes.number,
+	    leaveTimeout: React.PropTypes.number
+	  },
+	
+	  transition: function (animationType, finishCallback, userSpecifiedDelay) {
+	    var node = ReactAddonsDOMDependencies.getReactDOM().findDOMNode(this);
+	
+	    if (!node) {
+	      if (finishCallback) {
+	        finishCallback();
+	      }
+	      return;
+	    }
+	
+	    var className = this.props.name[animationType] || this.props.name + '-' + animationType;
+	    var activeClassName = this.props.name[animationType + 'Active'] || className + '-active';
+	    var timeout = null;
+	
+	    var endListener = function (e) {
+	      if (e && e.target !== node) {
+	        return;
+	      }
+	
+	      clearTimeout(timeout);
+	
+	      CSSCore.removeClass(node, className);
+	      CSSCore.removeClass(node, activeClassName);
+	
+	      ReactTransitionEvents.removeEndEventListener(node, endListener);
+	
+	      // Usually this optional callback is used for informing an owner of
+	      // a leave animation and telling it to remove the child.
+	      if (finishCallback) {
+	        finishCallback();
+	      }
+	    };
+	
+	    CSSCore.addClass(node, className);
+	
+	    // Need to do this to actually trigger a transition.
+	    this.queueClassAndNode(activeClassName, node);
+	
+	    // If the user specified a timeout delay.
+	    if (userSpecifiedDelay) {
+	      // Clean-up the animation after the specified delay
+	      timeout = setTimeout(endListener, userSpecifiedDelay);
+	      this.transitionTimeouts.push(timeout);
+	    } else {
+	      // DEPRECATED: this listener will be removed in a future version of react
+	      ReactTransitionEvents.addEndEventListener(node, endListener);
+	    }
+	  },
+	
+	  queueClassAndNode: function (className, node) {
+	    this.classNameAndNodeQueue.push({
+	      className: className,
+	      node: node
+	    });
+	
+	    if (!this.timeout) {
+	      this.timeout = setTimeout(this.flushClassNameAndNodeQueue, TICK);
+	    }
+	  },
+	
+	  flushClassNameAndNodeQueue: function () {
+	    if (this.isMounted()) {
+	      this.classNameAndNodeQueue.forEach(function (obj) {
+	        CSSCore.addClass(obj.node, obj.className);
+	      });
+	    }
+	    this.classNameAndNodeQueue.length = 0;
+	    this.timeout = null;
+	  },
+	
+	  componentWillMount: function () {
+	    this.classNameAndNodeQueue = [];
+	    this.transitionTimeouts = [];
+	  },
+	
+	  componentWillUnmount: function () {
+	    if (this.timeout) {
+	      clearTimeout(this.timeout);
+	    }
+	    this.transitionTimeouts.forEach(function (timeout) {
+	      clearTimeout(timeout);
+	    });
+	
+	    this.classNameAndNodeQueue.length = 0;
+	  },
+	
+	  componentWillAppear: function (done) {
+	    if (this.props.appear) {
+	      this.transition('appear', done, this.props.appearTimeout);
+	    } else {
+	      done();
+	    }
+	  },
+	
+	  componentWillEnter: function (done) {
+	    if (this.props.enter) {
+	      this.transition('enter', done, this.props.enterTimeout);
+	    } else {
+	      done();
+	    }
+	  },
+	
+	  componentWillLeave: function (done) {
+	    if (this.props.leave) {
+	      this.transition('leave', done, this.props.leaveTimeout);
+	    } else {
+	      done();
+	    }
+	  },
+	
+	  render: function () {
+	    return onlyChild(this.props.children);
+	  }
+	});
+	
+	module.exports = ReactCSSTransitionGroupChild;
+
+/***/ },
+/* 219 */
+/*!*******************************!*\
+  !*** ./~/fbjs/lib/CSSCore.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+	
+	/**
+	 * Copyright (c) 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @typechecks
+	 */
+	
+	var invariant = __webpack_require__(/*! ./invariant */ 8);
+	
+	/**
+	 * The CSSCore module specifies the API (and implements most of the methods)
+	 * that should be used when dealing with the display of elements (via their
+	 * CSS classes and visibility on screen. It is an API focused on mutating the
+	 * display and not reading it as no logical state should be encoded in the
+	 * display of elements.
+	 */
+	
+	/* Slow implementation for browsers that don't natively support .matches() */
+	function matchesSelector_SLOW(element, selector) {
+	  var root = element;
+	  while (root.parentNode) {
+	    root = root.parentNode;
+	  }
+	
+	  var all = root.querySelectorAll(selector);
+	  return Array.prototype.indexOf.call(all, element) !== -1;
+	}
+	
+	var CSSCore = {
+	
+	  /**
+	   * Adds the class passed in to the element if it doesn't already have it.
+	   *
+	   * @param {DOMElement} element the element to set the class on
+	   * @param {string} className the CSS className
+	   * @return {DOMElement} the element passed in
+	   */
+	  addClass: function addClass(element, className) {
+	    !!/\s/.test(className) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'CSSCore.addClass takes only a single class name. "%s" contains ' + 'multiple classes.', className) : invariant(false) : void 0;
+	
+	    if (className) {
+	      if (element.classList) {
+	        element.classList.add(className);
+	      } else if (!CSSCore.hasClass(element, className)) {
+	        element.className = element.className + ' ' + className;
+	      }
+	    }
+	    return element;
+	  },
+	
+	  /**
+	   * Removes the class passed in from the element
+	   *
+	   * @param {DOMElement} element the element to set the class on
+	   * @param {string} className the CSS className
+	   * @return {DOMElement} the element passed in
+	   */
+	  removeClass: function removeClass(element, className) {
+	    !!/\s/.test(className) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'CSSCore.removeClass takes only a single class name. "%s" contains ' + 'multiple classes.', className) : invariant(false) : void 0;
+	
+	    if (className) {
+	      if (element.classList) {
+	        element.classList.remove(className);
+	      } else if (CSSCore.hasClass(element, className)) {
+	        element.className = element.className.replace(new RegExp('(^|\\s)' + className + '(?:\\s|$)', 'g'), '$1').replace(/\s+/g, ' ') // multiple spaces to one
+	        .replace(/^\s*|\s*$/g, ''); // trim the ends
+	      }
+	    }
+	    return element;
+	  },
+	
+	  /**
+	   * Helper to add or remove a class from an element based on a condition.
+	   *
+	   * @param {DOMElement} element the element to set the class on
+	   * @param {string} className the CSS className
+	   * @param {*} bool condition to whether to add or remove the class
+	   * @return {DOMElement} the element passed in
+	   */
+	  conditionClass: function conditionClass(element, className, bool) {
+	    return (bool ? CSSCore.addClass : CSSCore.removeClass)(element, className);
+	  },
+	
+	  /**
+	   * Tests whether the element has the class specified.
+	   *
+	   * @param {DOMNode|DOMWindow} element the element to check the class on
+	   * @param {string} className the CSS className
+	   * @return {boolean} true if the element has the class, false if not
+	   */
+	  hasClass: function hasClass(element, className) {
+	    !!/\s/.test(className) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'CSS.hasClass takes only a single class name.') : invariant(false) : void 0;
+	    if (element.classList) {
+	      return !!className && element.classList.contains(className);
+	    }
+	    return (' ' + element.className + ' ').indexOf(' ' + className + ' ') > -1;
+	  },
+	
+	  /**
+	   * Tests whether the element matches the selector specified
+	   *
+	   * @param {DOMNode|DOMWindow} element the element that we are querying
+	   * @param {string} selector the CSS selector
+	   * @return {boolean} true if the element matches the selector, false if not
+	   */
+	  matchesSelector: function matchesSelector(element, selector) {
+	    var matchesImpl = element.matches || element.webkitMatchesSelector || element.mozMatchesSelector || element.msMatchesSelector || function (s) {
+	      return matchesSelector_SLOW(element, s);
+	    };
+	    return matchesImpl.call(element, selector);
+	  }
+	
+	};
+	
+	module.exports = CSSCore;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/process/browser.js */ 3)))
+
+/***/ },
+/* 220 */
+/*!**********************************************!*\
+  !*** ./~/react/lib/ReactTransitionEvents.js ***!
+  \**********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 */
+	
+	'use strict';
+	
+	var ExecutionEnvironment = __webpack_require__(/*! fbjs/lib/ExecutionEnvironment */ 48);
+	
+	var getVendorPrefixedEventName = __webpack_require__(/*! react-dom/lib/getVendorPrefixedEventName */ 107);
+	
+	var endEvents = [];
+	
+	function detectEvents() {
+	  var animEnd = getVendorPrefixedEventName('animationend');
+	  var transEnd = getVendorPrefixedEventName('transitionend');
+	
+	  if (animEnd) {
+	    endEvents.push(animEnd);
+	  }
+	
+	  if (transEnd) {
+	    endEvents.push(transEnd);
+	  }
+	}
+	
+	if (ExecutionEnvironment.canUseDOM) {
+	  detectEvents();
+	}
+	
+	// We use the raw {add|remove}EventListener() call because EventListener
+	// does not know how to remove event listeners and we really should
+	// clean up. Also, these events are not triggered in older browsers
+	// so we should be A-OK here.
+	
+	function addEventListener(node, eventName, eventListener) {
+	  node.addEventListener(eventName, eventListener, false);
+	}
+	
+	function removeEventListener(node, eventName, eventListener) {
+	  node.removeEventListener(eventName, eventListener, false);
+	}
+	
+	var ReactTransitionEvents = {
+	  addEndEventListener: function (node, eventListener) {
+	    if (endEvents.length === 0) {
+	      // If CSS transitions are not supported, trigger an "end animation"
+	      // event immediately.
+	      window.setTimeout(eventListener, 0);
+	      return;
+	    }
+	    endEvents.forEach(function (endEvent) {
+	      addEventListener(node, endEvent, eventListener);
+	    });
+	  },
+	
+	  removeEndEventListener: function (node, eventListener) {
+	    if (endEvents.length === 0) {
+	      return;
+	    }
+	    endEvents.forEach(function (endEvent) {
+	      removeEventListener(node, endEvent, eventListener);
+	    });
+	  }
+	};
+	
+	module.exports = ReactTransitionEvents;
+
+/***/ },
+/* 221 */
+/*!******************************!*\
   !*** ./_src/_app/style.scss ***!
   \******************************/
 /***/ function(module, exports, __webpack_require__) {
@@ -23023,10 +28425,10 @@
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/sass-loader!./style.scss */ 185);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/sass-loader!./style.scss */ 222);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 187)(content, {});
+	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 225)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -23043,24 +28445,24 @@
 	}
 
 /***/ },
-/* 185 */
+/* 222 */
 /*!*************************************************************!*\
   !*** ./~/css-loader!./~/sass-loader!./_src/_app/style.scss ***!
   \*************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 186)();
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 223)();
 	// imports
-	
+	exports.i(__webpack_require__(/*! -!./../../~/css-loader!./react-search.css */ 224), "");
 	
 	// module
-	exports.push([module.id, "@charset \"UTF-8\";\n/* STYLESCREEN FOR LISTO APPLICATION\n\nAuthors: Martin Bucher, David Haas, Marcel Bühler\n\nCopyright 2016. All rights reserved.\n\n*/\n/* http://meyerweb.com/eric/tools/css/reset/\n   v2.0 | 20110126\n   License: none (public domain)\n*/\nhtml, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font-size: 100%;\n  font: inherit;\n  vertical-align: baseline; }\n\n/* HTML5 display-role reset for older browsers */\narticle, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {\n  display: block; }\n\nbody {\n  line-height: 1; }\n\nol, ul {\n  list-style: none; }\n\nblockquote, q {\n  quotes: none; }\n\nblockquote:before, blockquote:after {\n  content: '';\n  content: none; }\n\nq:before, q:after {\n  content: '';\n  content: none; }\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\n/* Colors */\n/* General */\nbody {\n  background-color: #354B61;\n  font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Fira Sans\", \"Droid Sans\", \"Helvetica Neue\", serif; }\n\n.nav, .seachfield, .content_wrapper, .item, .searchfield input {\n  box-sizing: border-box; }\n\n/* Navigation */\n.nav_wrapper {\n  background-color: #ffffff;\n  border-bottom: #e7e7e7;\n  overflow: hidden; }\n\n.nav {\n  width: 86.6666666666%;\n  overflow: hidden;\n  margin: 0 auto; }\n\n.nav ul {\n  display: inline; }\n\n.nav ul li {\n  float: left;\n  width: 33.333333333%;\n  list-style: none;\n  font-size: 1em;\n  margin: 1em 0; }\n\n.menu span {\n  display: inline-block;\n  border: 2px solid #c2c2c2;\n  padding: 0.618em 1em;\n  -webkit-border-radius: 5px;\n  border-radius: 5px;\n  cursor: pointer; }\n\n.logo {\n  text-align: center; }\n\n.logo span {\n  display: inline-block;\n  padding: 0.618em 1em; }\n\n.collaborate {\n  cursor: pointer;\n  text-align: right; }\n\n.collaborate span {\n  display: inline-block;\n  padding: 0.618em 1em; }\n\n/* Main */\n.content_wrapper {\n  width: 90%;\n  margin: 0 auto; }\n\n.searchfield {\n  width: 100%; }\n\n.searchfield input {\n  width: 96.6666666666%;\n  margin: 1em 1.6666666667% 0.618em;\n  font-size: 1.618em;\n  padding: 0.6em 1em;\n  -webkit-border-radius: 5px;\n  border-radius: 5px;\n  border: #e7e7e7;\n  background-color: #243342; }\n\n.item {\n  width: 30%;\n  float: left;\n  margin: 1.6666666667%;\n  padding: 2em;\n  background-color: #ffffff;\n  border: 1px solid #e7e7e7;\n  -webkit-border-radius: 5px;\n  border-radius: 5px;\n  text-align: center; }\n\n.item h1 {\n  font-size: 1.618em;\n  margin-bottom: 0.309em; }\n\n.activeData, .frequentData, .allData, .searchData {\n  overflow: hidden;\n  width: 100%;\n  margin-bottom: 2em; }\n\n.frequentData h1, .allData h1 {\n  font-size: 1.2em;\n  margin-bottom: 1.618em;\n  letter-spacing: 2px;\n  color: #fff;\n  text-transform: uppercase;\n  font-weight: bold; }\n", ""]);
+	exports.push([module.id, "@charset \"UTF-8\";\n/* STYLESCREEN FOR LISTO APPLICATION\n\nAuthors: Martin Bucher, David Haas, Marcel Bühler\n\nCopyright 2016. All rights reserved.\n\n*/\n/* http://meyerweb.com/eric/tools/css/reset/\n   v2.0 | 20110126\n   License: none (public domain)\n*/\nhtml, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font-size: 100%;\n  font: inherit;\n  vertical-align: baseline; }\n\n/* HTML5 display-role reset for older browsers */\narticle, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {\n  display: block; }\n\nbody {\n  line-height: 1; }\n\nol, ul {\n  list-style: none; }\n\nblockquote, q {\n  quotes: none; }\n\nblockquote:before, blockquote:after {\n  content: '';\n  content: none; }\n\nq:before, q:after {\n  content: '';\n  content: none; }\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\n/* Colors */\n/* General */\nbody {\n  background-color: #354B61;\n  background-color: #ffffff;\n  font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Fira Sans\", \"Droid Sans\", \"Helvetica Neue\", serif; }\n\n.nav, .seachfield, .content_wrapper, .item_wrapper, .searchfield input {\n  box-sizing: border-box; }\n\n/* NavBar at the top */\n.nav_wrapper_top {\n  background-color: #E97C60;\n  width: 100%;\n  border-bottom: 1px solid #d2d2d2;\n  overflow: hidden; }\n\n.nav_top {\n  width: 91.6666666666%;\n  overflow: hidden;\n  margin: 0 auto; }\n\n.nav_top p {\n  text-align: center;\n  font-size: 1.618em;\n  padding: 1em;\n  color: #fff; }\n\n/* Navigation at the bottom */\n.nav_wrapper {\n  background-color: #ffffff;\n  position: fixed;\n  bottom: 0;\n  width: 100%;\n  border-top: 1px solid #d2d2d2; }\n\n.nav {\n  width: 91.6666666666%;\n  overflow: hidden;\n  margin: 0 auto; }\n\n.nav ul {\n  display: inline; }\n\n.nav ul li {\n  float: left;\n  width: 33.333333333%;\n  text-align: center;\n  list-style: none;\n  font-size: 1em;\n  margin: 1em 0;\n  color: #264653; }\n\n.menu span {\n  cursor: pointer; }\n\n.collaborate span {\n  cursor: pointer; }\n\n/* Main */\n.content_wrapper {\n  width: 95%;\n  margin: 0 auto; }\n\n.searchfield {\n  width: 100%; }\n\n.searchfield input {\n  width: 96.6666666666%;\n  margin: 1em 1.6666666667% 0.618em;\n  font-size: 1.618em;\n  padding: 0.6em 1em;\n  -webkit-border-radius: 5px;\n  border-radius: 5px;\n  border: 1px solid #ddd;\n  color: #e2e2e2; }\n\n.item_wrapper {\n  width: 30%;\n  float: left;\n  margin: 1.6666666667%;\n  padding: 1.5em 0.5em 1.25em;\n  background-color: #ebebeb;\n  border: 1px solid #ddd;\n  -webkit-border-radius: 5px;\n  border-radius: 5px;\n  text-align: center;\n  -webkit-box-shadow: 0 3px 5px 2px rgba(221, 221, 221, 0.8);\n  box-shadow: 0 3px 5px 2px rgba(221, 221, 221, 0.8);\n  -webkit-transition: all 0.3s ease-in;\n  -moz-transition: all 0.3s ease-in;\n  -ms-transition: all 0.3s ease-in;\n  -o-transition: all 0.3s ease-in;\n  transition: all 0.3s ease-in; }\n\n.item {\n  width: 100%; }\n\n.item h1 {\n  font-size: 1.1em;\n  color: #333;\n  margin-bottom: 0.309em; }\n\n.item h2 {\n  font-style: italic;\n  color: #86db85; }\n\n.item img {\n  height: 7em;\n  padding: 1em 0 0; }\n\n.fakeButton {\n  position: absolute;\n  color: transparent;\n  width: 6em;\n  height: 5em;\n  margin-top: -5em; }\n\nh2.emptyComment {\n  color: transparent; }\n\n.activeData, .frequentData, .allData, .searchData {\n  overflow: hidden;\n  width: 100%;\n  margin-bottom: 2em; }\n\n.overlayMenu {\n  position: fixed;\n  z-index: 1;\n  top: 0;\n  width: 100vw;\n  background-color: black;\n  opacity: 0.9;\n  height: calc(100vh - 3em); }\n\n.overlayMenu ul {\n  margin-top: 2em;\n  width: 80%;\n  overflow: hidden;\n  margin: 0 auto; }\n\n.overlayMenu ul li {\n  color: #e2e2e2;\n  font-size: 1.618em;\n  margin: 1.618em 0 0;\n  line-height: 1.2; }\n\n.overlayMenu ul li.menuTitle {\n  margin-bottom: 1em; }\n\n.overlayMenu ul li.menuNewList {\n  margin-top: 3em;\n  font-size: 1em;\n  border: 1px dashed #e2e2e2;\n  padding: 0.618em 1em;\n  -webkit-border-radius: 5px;\n  border-radius: 5px;\n  display: inline-block; }\n\n.green {\n  color: green; }\n\n.fading {\n  opacity: 1;\n  animation: fade 2s linear; }\n\n.popup_wrapper {\n  position: fixed;\n  width: 100vw;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5); }\n\n.popup_box {\n  width: 70vw;\n  margin: 6em auto;\n  padding: 2em;\n  height: auto;\n  background-color: #FFFFFF;\n  -webkit-border-radius: 10px;\n  border-radius: 10px;\n  overflow: hidden; }\n\n.popup_box.popup_settings {\n  padding: 2em 2em 6em; }\n\n.popup_box h1 {\n  font-size: 1.618em;\n  text-align: center;\n  margin-bottom: 1.618em; }\n\n.team_wrapper {\n  width: 70%;\n  margin: 0 auto 4em; }\n\n.team_person {\n  width: 100%;\n  display: block;\n  padding-bottom: 1em;\n  overflow: hidden; }\n\n.team_person img {\n  float: left;\n  width: 25%; }\n\n.team_person p {\n  float: left;\n  margin-left: 10%;\n  width: 65%;\n  margin-top: 1.5em; }\n\n.popup_box button {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  width: 100%;\n  font-size: 1.309em;\n  padding: 1em 0;\n  margin: 0;\n  text-align: center;\n  background: none;\n  -webkit-appearance: none;\n  border: none;\n  background-color: #e9bfb4;\n  -webkit-border-bottom-left-radius: 10px;\n  -webkit-border-bottom-right-radius: 10px;\n  border-bottom-left-radius: 10px;\n  border-bottom-right-radius: 10px;\n  border-top: 2px solid #E97C60; }\n\n.settings_wrapper {\n  width: 100%;\n  overflow: hidden;\n  margin-bottom: 1em;\n  font-size: 1em; }\n\n.settings_wrapper p {\n  margin-bottom: 1em; }\n\n.settings_wrapper input {\n  width: 90%;\n  font-size: 1em;\n  padding: 0.618em 1em; }\n\n.activeData .item_wrapper {\n  background-color: #CCD3CF;\n  border-color: #c2c8c5; }\n\n.wasAdded {\n  background-color: #CCD3CF;\n  border-color: #c2c8c5; }\n\n.example-enter {\n  opacity: 0.01; }\n\n.example-enter.example-enter-active {\n  opacity: 1;\n  transition: opacity 500ms ease-in; }\n\n.example-leave {\n  opacity: 1; }\n\n.example-leave.example-leave-active {\n  opacity: 0.01;\n  transition: opacity 300ms ease-in; }\n\n@-webkit-keyframes bounceInUp {\n  from, 60%, 75%, 90%, to {\n    -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);\n    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1); }\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 3000px, 0);\n    transform: translate3d(0, 3000px, 0); }\n  60% {\n    opacity: 1;\n    -webkit-transform: translate3d(0, -20px, 0);\n    transform: translate3d(0, -20px, 0); }\n  75% {\n    -webkit-transform: translate3d(0, 10px, 0);\n    transform: translate3d(0, 10px, 0); }\n  90% {\n    -webkit-transform: translate3d(0, -5px, 0);\n    transform: translate3d(0, -5px, 0); }\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0); } }\n\n@keyframes bounceInUp {\n  from, 60%, 75%, 90%, to {\n    -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);\n    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1); }\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 3000px, 0);\n    transform: translate3d(0, 3000px, 0); }\n  60% {\n    opacity: 1;\n    -webkit-transform: translate3d(0, -20px, 0);\n    transform: translate3d(0, -20px, 0); }\n  75% {\n    -webkit-transform: translate3d(0, 10px, 0);\n    transform: translate3d(0, 10px, 0); }\n  90% {\n    -webkit-transform: translate3d(0, -5px, 0);\n    transform: translate3d(0, -5px, 0); }\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0); } }\n\n.bounceInUp {\n  -webkit-animation-name: bounceInUp;\n  animation-name: bounceInUp;\n  -webkit-animation-duration: .5s;\n  animation-duration: .5s;\n  -webkit-animation-fill-mode: both;\n  animation-fill-mode: both; }\n\n@-webkit-keyframes slideInLeft {\n  from {\n    -webkit-transform: translate3d(-100%, 0, 0);\n    transform: translate3d(-100%, 0, 0);\n    visibility: visible; }\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0); } }\n\n@keyframes slideInLeft {\n  from {\n    -webkit-transform: translate3d(-100%, 0, 0);\n    transform: translate3d(-100%, 0, 0);\n    visibility: visible; }\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0); } }\n\n.slideInLeft {\n  -webkit-animation-name: slideInLeft;\n  animation-name: slideInLeft;\n  -webkit-animation-duration: .5s;\n  animation-duration: .5s;\n  -webkit-animation-fill-mode: both;\n  animation-fill-mode: both; }\n\n@-webkit-keyframes pop-in {\n  0% {\n    opacity: 0; }\n  1% {\n    -webkit-transform: scale(0.9) translateY(30px); }\n  80% {\n    -webkit-transform: scale(1.05); }\n  100% {\n    -webkit-transform: translateY(0);\n    -webkit-transform: scale(1); } }\n\n@-moz-keyframes pop-in {\n  0% {\n    opacity: 0; }\n  1% {\n    -moz-transform: scale(0.9) translateY(30px); }\n  80% {\n    -moz-transform: scale(1.05); }\n  100% {\n    -moz-transform: translateY(0);\n    -moz-transform: scale(1); } }\n\n@-o-keyframes pop-in {\n  0% {\n    opacity: 0; }\n  1% {\n    -o-transform: scale(0.9) translateY(30px); }\n  80% {\n    -o-transform: scale(1.05); }\n  100% {\n    -o-transform: translateY(0);\n    -o-transform: scale(1); } }\n\n@keyframes pop-in {\n  0% {\n    opacity: 0; }\n  1% {\n    transform: scale(0.9) translateY(30px); }\n  80% {\n    transform: scale(1.05); }\n  100% {\n    transform: translateY(0);\n    transform: scale(1); } }\n\n.popIn {\n  -webkit-animation-name: pop-in;\n  animation-name: pop-in;\n  -webkit-animation-duration: .5s;\n  animation-duration: .5s;\n  -webkit-animation-fill-mode: both;\n  animation-fill-mode: both; }\n", ""]);
 	
 	// exports
 
 
 /***/ },
-/* 186 */
+/* 223 */
 /*!**************************************!*\
   !*** ./~/css-loader/lib/css-base.js ***!
   \**************************************/
@@ -23119,7 +28521,24 @@
 
 
 /***/ },
-/* 187 */
+/* 224 */
+/*!***************************************************!*\
+  !*** ./~/css-loader!./_src/_app/react-search.css ***!
+  \***************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 223)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".autocomplete {\n  margin: 0;\n  position: relative;\n}\n.autocomplete__input {\n  border: 0 !important;\n  background: transparent !important;\n  border-radius: 0;\n  box-shadow: none;\n  font-size: 1.5rem;\n  height: 25px;\n  line-height: normal;\n  margin: 1px 0;\n  outline: 0;\n  padding: 0;\n  position: relative;\n  width: 100%;\n}\n.autocomplete__input--hidden {\n  display: none;\n}\n.autocomplete__items {\n  margin: 0;\n  padding: 0.4rem;\n  width: 96.6666666666%;\n  margin: 1em 1.6666666667% 0.618em;\n  font-size: 1.618em;\n  padding: 0;\n}\n.autocomplete__item {\n  cursor: pointer;\n  display: flex;\n  list-style: none;\n  margin: 0;\n  margin-bottom: 0.3rem;\n  padding: 0.5rem;\n}\n.autocomplete__item--selected, .autocomplete__item:hover, .autocomplete__item:visited {\n  background-color: #243342;\n  -webkit-border-radius: 5px;\n  border-radius: 5px;\n  border: #e7e7e7;\n  color: #e2e2e2;\n}\n.autocomplete__item--disabled {\n  background-color: white;\n  color: buttonface;\n  opacity: 0.5;\n}\n.autocomplete__item--disabled:hover {\n  background-color: white;\n  color: buttonface;\n}\n.autocomplete__item span {\n  flex: 1;\n  font-size: 1.5rem;\n  word-wrap: break-word;\n}\n.autocomplete__item__dropdown {\n  margin: -0.4rem;\n}\n.autocomplete__menu {\n  background: white;\n  box-shadow: 0.1rem 0.1rem 3rem rgba(0, 0, 0, 0.25);\n  display: block;\n  line-height: 1.5em;\n  max-height: 30rem;\n  overflow-x: hidden;\n  overflow-y: auto;\n  padding: 0.5em;\n  position: absolute;\n  text-decoration: none;\n  width: 100%;\n  visibility: visible;\n  z-index: 100;\n}\n.autocomplete__menu--wrap {\n  position: relative;\n  width: 100%;\n}\n.autocomplete__menu--hidden {\n  visibility: hidden;\n}\n.autocomplete__dropdown {\n  background: none !important;\n  flex: 0 !important;\n  float: right;\n  padding-left: 0.5rem;\n  padding-right: 0.5rem;\n  margin-top: -0.2rem;\n}\n.autocomplete__dropdown:before {\n  content: '\\25BE';\n}\n.autocomplete__close {\n  background: none !important;\n  flex: 0 !important;\n  float: right;\n  padding: 0 0.5rem;\n}\n.autocomplete__close:before {\n  content: '\\D7';\n}\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 225 */
 /*!*************************************!*\
   !*** ./~/style-loader/addStyles.js ***!
   \*************************************/

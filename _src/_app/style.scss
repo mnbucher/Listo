@@ -55,6 +55,9 @@ $navy: #354B61;
 $darknavy: #243342;
 $lightnavy: #8aa4be;
 
+$orange: #E97C60;
+$lightorange: #e9bfb4;
+
 /* General */
 
 body {
@@ -71,7 +74,7 @@ body {
 /* NavBar at the top */
 
 .nav_wrapper_top {
-  background-color: #E97C60;
+  background-color: $orange;
   width: 100%;
   border-bottom: 1px solid #d2d2d2;
   overflow: hidden;
@@ -156,7 +159,7 @@ body {
   width: 30%;
   float: left;
   margin: 1.6666666667%;
-  padding: 1.5em 1em 1.25em;
+  padding: 1.5em 0.5em 1.25em;
   background-color: #ebebeb;
   border: 1px solid #ddd;
   -webkit-border-radius: 5px;
@@ -164,6 +167,11 @@ body {
   text-align: center;
   -webkit-box-shadow: 0 3px 5px 2px rgba(221,221,221,0.8);
   box-shadow: 0 3px 5px 2px rgba(221,221,221,0.8);
+  -webkit-transition: all 0.3s ease-in;
+  -moz-transition: all 0.3s ease-in;
+  -ms-transition: all 0.3s ease-in;
+  -o-transition: all 0.3s ease-in;
+  transition: all 0.3s ease-in;
 }
 
 .item {
@@ -189,14 +197,14 @@ body {
 
 .fakeButton {
   position: absolute;
-  color: #ebebeb;
+  color: rgba(0,0,0,0);
   width: 6em;
   height: 5em;
   margin-top: -5em;
 }
 
 h2.emptyComment {
-  color: #ebebeb;
+  color: rgba(0,0,0,0);
 }
 
 .activeData, .frequentData, .allData, .searchData {
@@ -269,13 +277,114 @@ h2.emptyComment {
 }
 
 .popup_box {
-  width: 80vw;
-  margin: 10em auto;
+  width: 70vw;
+  margin: 6em auto;
   padding: 2em;
-  height: 50vh;
+  height: auto;
   background-color: #FFFFFF;
   -webkit-border-radius: 10px;
   border-radius: 10px;
+  overflow: hidden;
+}
+
+.popup_box.popup_settings {
+  padding: 2em 2em 6em;
+}
+
+.popup_box h1 {
+  font-size: 1.618em;
+  text-align: center;
+  margin-bottom: 1.618em;
+}
+
+.team_wrapper {
+  width: 70%;
+  margin: 0 auto 4em;
+}
+
+.team_person {
+  width: 100%;
+  display: block;
+  padding-bottom: 1em;
+  overflow: hidden;
+}
+
+.team_person img {
+  float: left;
+  width: 25%;
+}
+
+.team_person p {
+  float: left;
+  margin-left: 10%;
+  width: 65%;
+  margin-top: 1.5em;
+}
+
+.popup_box button {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  font-size: 1.309em;
+  padding: 1em 0;
+  margin: 0;
+  text-align: center;
+  background: none;
+  -webkit-appearance: none;
+  border: none;
+  background-color: $lightorange;
+  -webkit-border-bottom-left-radius: 10px;
+  -webkit-border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top: 2px solid $orange;
+}
+
+.settings_wrapper {
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 1em;
+  font-size: 1em;
+}
+
+.settings_wrapper p {
+  margin-bottom: 1em;
+}
+
+.settings_wrapper input {
+  width: 90%;
+  font-size: 1em;
+  padding: 0.618em 1em;
+}
+
+.activeData .item_wrapper {
+  background-color: #CCD3CF;
+  border-color: #c2c8c5;
+}
+
+.wasAdded {
+  background-color: #CCD3CF;
+  border-color: #c2c8c5;
+}
+
+.example-enter {
+  opacity: 0.01;
+}
+
+.example-enter.example-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.example-leave {
+  opacity: 1;
+}
+
+.example-leave.example-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
 }
 
 @-webkit-keyframes bounceInUp {
@@ -384,6 +493,40 @@ h2.emptyComment {
 .slideInLeft {
   -webkit-animation-name: slideInLeft;
   animation-name: slideInLeft;
+  -webkit-animation-duration: .5s;
+  animation-duration: .5s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+@-webkit-keyframes pop-in {
+	0% { opacity: 0; }
+	1% { -webkit-transform: scale(0.9) translateY(30px); }
+	80% { -webkit-transform: scale(1.05); }
+	100% { -webkit-transform: translateY(0); -webkit-transform: scale(1);}
+}
+@-moz-keyframes pop-in {
+	0% { opacity: 0; }
+	1% { -moz-transform: scale(0.9) translateY(30px); }
+	80% { -moz-transform: scale(1.05); }
+	100% { -moz-transform: translateY(0); -moz-transform: scale(1);}
+}
+@-o-keyframes pop-in {
+	0% { opacity: 0; }
+	1% { -o-transform: scale(0.9) translateY(30px); }
+	80% { -o-transform: scale(1.05); }
+	100% { -o-transform: translateY(0); -o-transform: scale(1) }
+}
+@keyframes pop-in {
+	0% { opacity: 0; }
+	1% { transform: scale(0.9) translateY(30px); }
+	80% { transform: scale(1.05); }
+	100% { transform: translateY(0); transform: scale(1) }
+}
+
+.popIn {
+  -webkit-animation-name: pop-in;
+  animation-name: pop-in;
   -webkit-animation-duration: .5s;
   animation-duration: .5s;
   -webkit-animation-fill-mode: both;

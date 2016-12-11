@@ -1,9 +1,11 @@
 import React from 'react';
-import {render} from 'react-dom';
+import ReactDOM from 'react-dom';
 import Firebase from 'firebase';
 import ListoSearch from './search.jsx';
 import Modal from 'react-modal';
 import Settings from './settings.jsx';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
 // Stylesheets
 require('./style.scss');
 
@@ -31,29 +33,6 @@ class NavTop extends React.Component {
                 <p>🎉 New Year's Eve</p>
             </div>
         </div>
-    );
-  }
-}
-
-class Team extends React.Component {
-
-  constructor(props){
-    super(props);
-    this.closePopup = this.closePopup.bind(this);
-  }
-
-  closePopup(e){
-    this.props.closePopup();
-  }
-
-  render(){
-    return(
-      <div className="popup_wrapper">
-        <div className="popup_box bounceInUp">
-          <h1>Your Team</h1>
-          <button onClick={this.closePopup}>Close</button>
-        </div>
-      </div>
     );
   }
 }
@@ -115,43 +94,45 @@ class NavBottom extends React.Component {
     }
 }
 
-/*
-<<Modal
-    isOpen={this.state.modalIsOpen}
-    onRequestClose={this.closeModal}
-    contentLabel="Example Modal"
->
-    <button onClick={this.closeModal}>close</button>
-</Modal>*/
+class Team extends React.Component {
 
-class Listing extends React.Component {
+  constructor(props){
+    super(props);
+    this.closePopup = this.closePopup.bind(this);
+  }
 
-    constructor(props) {
-        super(props);
-    }
+  closePopup(e){
+    this.props.closePopup();
+  }
 
-    render() {
-        var allElements = [];
-
-        /* Iterate through array and add DOM element for each item */
-        for (var i = 0; i < this.props.items.length; i++) {
-            allElements.push(
-                <Item item={this.props.items[i]} key={this.props.items[i].id} category={this.props.category}/>
-            );
-        }
-
-        if (!this.props.items || this.props.items.length == 0) {
-            return (null);
-        }
-        else {
-            return (
-                <div className={this.props.category}>
-                    {allElements}
-                </div>
-            );
-        }
-
-    }
+  render(){
+    return(
+      <div className="popup_wrapper">
+        <div className="popup_box bounceInUp">
+          <h1>The Funky Kitchen Club</h1>
+          <div className="team_wrapper">
+            <div className="team_person">
+              <img src="../basil_menz.png" />
+              <p>You</p>
+            </div>
+            <div className="team_person">
+              <img src="../oliver_fischer.png" />
+              <p>Marcel Bühler</p>
+            </div>
+            <div className="team_person">
+              <img src="../simeon_bieri.png" />
+              <p>David Haas</p>
+            </div>
+            <div className="team_person">
+              <img src="../new_member.png" />
+              <p>+ Add Member</p>
+            </div>
+          </div>
+          <button onClick={this.closePopup}>Close</button>
+        </div>
+      </div>
+    );
+  }
 }
 
 class DetailPage extends React.Component {
@@ -167,7 +148,6 @@ class DetailPage extends React.Component {
             </div>
         );
     }
-
 }
 
 class Item extends React.Component {
@@ -185,6 +165,7 @@ class Item extends React.Component {
         this.state = {
             showDetail: false,
             modalIsOpen: false,
+            wasAdded: false
         };
 
     }
@@ -209,9 +190,14 @@ class Item extends React.Component {
         if (e.ctrlKey) {// Ctrl key has been pressed -> simulate long click
             this.openModal();
         } else {
-
-            if (this.props.category.match("searchData|allData")) {
-                this.addItemToActiveList(this.props.item.id);
+            if (this.props.category.match("searchData")) {
+                if(!this.props.alreadyAdded){
+                  this.setState({ wasAdded: true });
+                  this.addItemToActiveList(this.props.item);
+                }
+                else if(this.props.alreadyAdded || this.state.wasAdded){
+                  this.deleteItemFromActiveList(this.props.item.id);
+                }
             }
             else {
                 this.deleteItemFromActiveList(this.props.item.id);
@@ -219,27 +205,30 @@ class Item extends React.Component {
         }
     }
 
-    addItemToActiveList(itemID) {
-        console.log(item.id);
+    addItemToActiveList(item) {
+        //var key = this.firebaseRef.push().key;
+        this.firebaseRef.child("activeItems/" + item.id).set({
+          "name": item.name,
+          "id": item.id,
+          "url": item.url,
+          "comment": item.comment ? item.comment : "",
+        });
     }
 
     deleteItemFromActiveList(itemID) {
-        var c = confirm("Wills du dieses Element wirklich löschen? (Wag es ja nicht...) ");
-        if (c) {
-            console.log(itemID);
-            if (itemID) {
-                this.firebaseRef.child("activeItems/" + itemID).remove();
-            }
+        if (itemID) {
+            this.firebaseRef.child("activeItems/" + itemID).remove();
         }
     }
 
     fakeButton(e) {
+        this.openModal();
         this.setState({showDetail: true});
     }
 
     render() {
         return (
-            <div className="item_wrapper">
+            <div className={(this.state.wasAdded || this.props.alreadyAdded) ? "item_wrapper popIn wasAdded" : "item_wrapper popIn"}>
                 {this.state.showDetail ? <DetailPage item={this.props.item}/> : null}
                 <div className="item" onClick={this.handleEventClick}>
                     <h1>{this.props.item.name}</h1>
@@ -269,6 +258,54 @@ class Item extends React.Component {
     }
 }
 
+class Listing extends React.Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        var allElements = [];
+
+        /* Iterate through array and add DOM element for each item */
+        for (var i = 0; i < this.props.items.length; i++) {
+           if(this.props.category == "searchData") {
+             var alreadyAdded = false;
+              for(var j=0; j<this.props.activeData.length ;j++){
+                if(this.props.activeData[j].name == this.props.items[i].name){
+                  alreadyAdded = true;
+                }
+              }
+              allElements.push(
+                <Item item={this.props.items[i]} key={"search_" + this.props.items[i].id} category={this.props.category} alreadyAdded={alreadyAdded} />
+              );
+            }
+            else {
+              allElements.push(
+                <Item item={this.props.items[i]} key={"active_" + this.props.items[i].id} category={this.props.category}/>
+              );
+            }
+        }
+
+        if (!this.props.items || this.props.items.length == 0) {
+            return (null);
+        }
+
+        else {
+            return (
+                <div className={this.props.category}>
+                  <ReactCSSTransitionGroup
+                    transitionName="example"
+                    transitionEnterTimeout={500}
+                    transitionLeaveTimeout={300}>
+                    {allElements}
+                  </ReactCSSTransitionGroup>
+                </div>
+            );
+        }
+    }
+}
+
 class Main extends React.Component {
 
     constructor(props) {
@@ -285,7 +322,6 @@ class Main extends React.Component {
         this.onChangeSearch = this.onChangeSearch.bind(this);
         this.getActiveData = this.getActiveData.bind(this);
         this.getAllData = this.getAllData.bind(this);
-        this.onChangeSearch = this.onChangeSearch.bind(this);
     }
 
     componentWillMount() {
@@ -400,10 +436,8 @@ class Main extends React.Component {
 
                 <div className="searchfield">
                 <input className="serachBar" placeholder="Search..." onChange={this.onChangeSearch} />
-                <Listing items={this.state.searchData} category="searchData"/>
+                <Listing items={this.state.searchData} category="searchData" activeData={this.state.activeData} />
                 </div>
-
-                {/* <ListoSearch /> */}
 
                 <div id="content_optional_wrapper">
 
@@ -442,4 +476,4 @@ class App extends React.Component {
     }
 }
 
-render(<App/>, document.getElementById('app'));
+ReactDOM.render(<App/>, document.getElementById('app'));

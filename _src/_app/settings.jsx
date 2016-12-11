@@ -26,15 +26,15 @@ export default class Settings extends React.Component {
   render(){
     return(
       <div className="popup_wrapper">
-        <div className="popup_box bounceInUp">
-             <h2>Settings</h2>
-             <div className="row">
-                 <div className="col-xs-12">Username</div>
-                 <Username value={this.state.userName} />
+        <div className="popup_box bounceInUp popup_settings">
+             <h1>Settings</h1>
+             <div className="settings_wrapper">
+                <p>Name:</p>
+                <input value="Jamie Oliver"/>
              </div>
-             <div className="row">
-                 <div className="col-xs-12">Choose your preferred item ordering: </div>
-                 <div className="col-xs-12"><Select  options={this.orderOptions} value={this.state.activeOrderOption} /></div>
+             <div className="settings_wrapper">
+                 <p>Choose your preferred item ordering: </p>
+                 <Select  options={this.orderOptions} value={this.state.activeOrderOption} />
              </div>
              <button onClick={this.closePopup}>Close</button>
         </div>

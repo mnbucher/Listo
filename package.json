@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack -d --watch --watch-poll",
+    "dev": "webpack -d --watch",
     "build": "webpack -p"
   },
   "author": "",

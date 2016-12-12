@@ -30,7 +30,7 @@ class NavTop extends React.Component {
     return (
         <div className="nav_wrapper_top">
             <div className="nav_top">
-                <p>🎉 New Year's Eve</p>
+                <p>? New Year's Eve   <button type="button" className="btn btn-default btn-lg"><i className="glyphicon glyphicon-arrow-left"/></button></p>
             </div>
         </div>
     );
@@ -245,17 +245,21 @@ class Item extends React.Component {
                     onRequestClose={this.closeModal}
                     contentLabel="Example Modal"
                 >
+      <div className="popup_wrapper">
+        <div className="popup_box bounceInUp">
                     <div className="container">
-                        <div className="col-xs-12"><h2 ref="subtitle">Details {this.props.item.name}</h2></div>
+                        <div className="col-xs-12"><h1><p>Details</p><p>{this.props.item.name}</p></h1></div>
                     {/* fill here all other aspects */}
-                    <div className="col-xs-6"><span className="label">fat:</span></div><div className="col-xs-6">{this.props.item.fat}</div>
-                    <div className="col-xs-6"><span className="label">salt:</span></div><div className="col-xs-6">{this.props.item.salt}</div>
-                    <div className="col-xs-6"><span className="label">sugar:</span></div><div className="col-xs-6">{this.props.item.sugar}</div>
-                    <div className="col-xs-6"><span className="label">glutenfree:</span></div><div className="col-xs-6">{this.state.strings[this.props.item.glutenfree]}</div>
-                    <div className="col-xs-6"><span className="label">vegan:</span></div><div className="col-xs-6">{this.state.strings[this.props.item.vegan]}</div>
+                    <div className="col-xs-6"><span className="">fat:</span></div><div className="col-xs-6">{this.props.item.fat}</div>
+                    <div className="col-xs-6"><span className="">salt:</span></div><div className="col-xs-6">{this.props.item.salt}</div>
+                    <div className="col-xs-6"><span className="">sugar:</span></div><div className="col-xs-6">{this.props.item.sugar}</div>
+                    <div className="col-xs-6"><span className="">glutenfree:</span></div><div className="col-xs-6">{this.state.strings[this.props.item.glutenfree]}</div>
+                    <div className="col-xs-6"><span className="">vegan:</span></div><div className="col-xs-6">{this.state.strings[this.props.item.vegan]}</div>
                     <div className="col-xs-12"><img src={this.props.item.url} width="150px"/></div>
-                    <button className="btn btn-secondary" onClick={this.closeModal}>close</button>
+                    <button onClick={this.closeModal}>Close</button>
                         </div>
+            </div>
+          </div>
                 </Modal>
 
             </div>

@@ -195,6 +195,7 @@ class Item extends React.Component {
             if(!this.props.alreadyAdded){
               this.setState({ wasAdded: true });
               this.addItemToActiveList(this.props.item);
+                this.props.closeSearch();
             }
             else if(this.props.alreadyAdded || this.state.wasAdded){
               this.deleteItemFromActiveList(this.props.item.id);
@@ -288,7 +289,7 @@ class Listing extends React.Component {
                 }
               }
               allElements.push(
-                <Item item={this.props.items[i]} key={"search_" + this.props.items[i].id} category={this.props.category} alreadyAdded={alreadyAdded} />
+                <Item closeSearch={this.props.closeSearch} item={this.props.items[i]} key={"search_" + this.props.items[i].id} category={this.props.category} alreadyAdded={alreadyAdded} />
               );
             }
             else {
@@ -333,6 +334,7 @@ class Main extends React.Component {
         this.onChangeSearch = this.onChangeSearch.bind(this);
         this.getActiveData = this.getActiveData.bind(this);
         this.getAllData = this.getAllData.bind(this);
+        this.closeSearch = this.closeSearch.bind(this);
     }
 
     componentWillMount() {
@@ -347,6 +349,11 @@ class Main extends React.Component {
 
     resolve() {
         console.log('test');
+    }
+
+    closeSearch(){
+        this.state.searchData = [];
+        document.getElementById('searchBar').value = "";
     }
 
     /* Get all items that the user have to buy */
@@ -446,8 +453,8 @@ class Main extends React.Component {
             <div className="content_wrapper">
 
                 <div className="searchfield">
-                <input className="serachBar" placeholder="Search..." onChange={this.onChangeSearch} />
-                <Listing items={this.state.searchData} category="searchData" activeData={this.state.activeData} />
+                <input id="searchBar" className="serachBar" placeholder="Search..." onChange={this.onChangeSearch} />
+                <Listing closeSearch={this.closeSearch} items={this.state.searchData} category="searchData" activeData={this.state.activeData} />
                 </div>
 
                 <div id="content_optional_wrapper">

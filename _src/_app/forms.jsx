@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactBootstrapToggle from 'react-bootstrap-toggle';
 
 class Input extends React.Component {
     /* inherit from this class in order to use the fading in and out checkmark
@@ -81,6 +82,20 @@ export class Username extends Input {
                 <input placeholder="username" name="username" value={this.props.value} type="text"></input>
                 {this.state.checkmarkVisible ? <span className="glyphicon glyphicon-ok green"></span> : null}
             </div>
+        )
+    }
+}
+
+export class Checkbox extends Input {
+    render() {
+        return (
+                        <div className="form-group">
+
+                            <input type="checkbox" name={this.props.key} id={this.props.key} onChange={this.handleChange} />&nbsp;
+                            <label for={this.props.key}>{this.props.label}</label>
+                            {this.state.checkmarkVisible ? <span className="glyphicon glyphicon-ok green"></span> : null}
+                        </div>
+
         )
     }
 }

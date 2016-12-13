@@ -75,7 +75,7 @@
 	
 	var _settings2 = _interopRequireDefault(_settings);
 	
-	var _reactAddonsCssTransitionGroup = __webpack_require__(/*! react-addons-css-transition-group */ 208);
+	var _reactAddonsCssTransitionGroup = __webpack_require__(/*! react-addons-css-transition-group */ 209);
 	
 	var _reactAddonsCssTransitionGroup2 = _interopRequireDefault(_reactAddonsCssTransitionGroup);
 	
@@ -88,7 +88,7 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	// Stylesheets
-	__webpack_require__(/*! ./style.scss */ 221);
+	__webpack_require__(/*! ./style.scss */ 222);
 	
 	var Menu = function (_React$Component) {
 	    _inherits(Menu, _React$Component);
@@ -162,7 +162,12 @@
 	                    _react2.default.createElement(
 	                        'p',
 	                        null,
-	                        '\uD83C\uDF89 New Year\'s Eve'
+	                        '? New Year\'s Eve   ',
+	                        _react2.default.createElement(
+	                            'button',
+	                            { type: 'button', className: 'btn btn-default btn-lg' },
+	                            _react2.default.createElement('i', { className: 'glyphicon glyphicon-arrow-left' })
+	                        )
 	                    )
 	                )
 	            );
@@ -438,6 +443,7 @@
 	                if (!this.props.alreadyAdded) {
 	                    this.setState({ wasAdded: true });
 	                    this.addItemToActiveList(this.props.item);
+	                    this.props.closeSearch();
 	                } else if (this.props.alreadyAdded || this.state.wasAdded) {
 	                    this.deleteItemFromActiveList(this.props.item.id);
 	                }
@@ -510,96 +516,112 @@
 	                    },
 	                    _react2.default.createElement(
 	                        'div',
-	                        { className: 'container' },
+	                        { className: 'popup_wrapper' },
 	                        _react2.default.createElement(
 	                            'div',
-	                            { className: 'col-xs-12' },
+	                            { className: 'popup_box bounceInUp' },
 	                            _react2.default.createElement(
-	                                'h2',
-	                                { ref: 'subtitle' },
-	                                'Details ',
-	                                this.props.item.name
+	                                'div',
+	                                { className: 'container' },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-xs-12' },
+	                                    _react2.default.createElement(
+	                                        'h1',
+	                                        null,
+	                                        _react2.default.createElement(
+	                                            'p',
+	                                            null,
+	                                            'Details'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'p',
+	                                            null,
+	                                            this.props.item.name
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-xs-6' },
+	                                    _react2.default.createElement(
+	                                        'span',
+	                                        { className: '' },
+	                                        'fat:'
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-xs-6' },
+	                                    this.props.item.fat
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-xs-6' },
+	                                    _react2.default.createElement(
+	                                        'span',
+	                                        { className: '' },
+	                                        'salt:'
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-xs-6' },
+	                                    this.props.item.salt
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-xs-6' },
+	                                    _react2.default.createElement(
+	                                        'span',
+	                                        { className: '' },
+	                                        'sugar:'
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-xs-6' },
+	                                    this.props.item.sugar
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-xs-6' },
+	                                    _react2.default.createElement(
+	                                        'span',
+	                                        { className: '' },
+	                                        'glutenfree:'
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-xs-6' },
+	                                    this.state.strings[this.props.item.glutenfree]
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-xs-6' },
+	                                    _react2.default.createElement(
+	                                        'span',
+	                                        { className: '' },
+	                                        'vegan:'
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-xs-6' },
+	                                    this.state.strings[this.props.item.vegan]
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-xs-12' },
+	                                    _react2.default.createElement('img', { src: this.props.item.url, width: '150px' })
+	                                ),
+	                                _react2.default.createElement(
+	                                    'button',
+	                                    { onClick: this.closeModal },
+	                                    'Close'
+	                                )
 	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-xs-6' },
-	                            _react2.default.createElement(
-	                                'span',
-	                                { className: 'label' },
-	                                'fat:'
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-xs-6' },
-	                            this.props.item.fat
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-xs-6' },
-	                            _react2.default.createElement(
-	                                'span',
-	                                { className: 'label' },
-	                                'salt:'
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-xs-6' },
-	                            this.props.item.salt
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-xs-6' },
-	                            _react2.default.createElement(
-	                                'span',
-	                                { className: 'label' },
-	                                'sugar:'
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-xs-6' },
-	                            this.props.item.sugar
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-xs-6' },
-	                            _react2.default.createElement(
-	                                'span',
-	                                { className: 'label' },
-	                                'glutenfree:'
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-xs-6' },
-	                            this.state.strings[this.props.item.glutenfree]
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-xs-6' },
-	                            _react2.default.createElement(
-	                                'span',
-	                                { className: 'label' },
-	                                'vegan:'
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-xs-6' },
-	                            this.state.strings[this.props.item.vegan]
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-xs-12' },
-	                            _react2.default.createElement('img', { src: this.props.item.url, width: '150px' })
-	                        ),
-	                        _react2.default.createElement(
-	                            'button',
-	                            { className: 'btn btn-secondary', onClick: this.closeModal },
-	                            'close'
 	                        )
 	                    )
 	                )
@@ -633,7 +655,7 @@
 	                            alreadyAdded = true;
 	                        }
 	                    }
-	                    allElements.push(_react2.default.createElement(Item, { item: this.props.items[i], key: "search_" + this.props.items[i].id, category: this.props.category, alreadyAdded: alreadyAdded }));
+	                    allElements.push(_react2.default.createElement(Item, { closeSearch: this.props.closeSearch, item: this.props.items[i], key: "search_" + this.props.items[i].id, category: this.props.category, alreadyAdded: alreadyAdded }));
 	                } else {
 	                    allElements.push(_react2.default.createElement(Item, { item: this.props.items[i], key: "active_" + this.props.items[i].id, category: this.props.category }));
 	                }
@@ -680,6 +702,7 @@
 	        _this8.onChangeSearch = _this8.onChangeSearch.bind(_this8);
 	        _this8.getActiveData = _this8.getActiveData.bind(_this8);
 	        _this8.getAllData = _this8.getAllData.bind(_this8);
+	        _this8.closeSearch = _this8.closeSearch.bind(_this8);
 	        return _this8;
 	    }
 	
@@ -699,6 +722,12 @@
 	        key: 'resolve',
 	        value: function resolve() {
 	            console.log('test');
+	        }
+	    }, {
+	        key: 'closeSearch',
+	        value: function closeSearch() {
+	            this.state.searchData = [];
+	            document.getElementById('searchBar').value = "";
 	        }
 	
 	        /* Get all items that the user have to buy */
@@ -805,8 +834,8 @@
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'searchfield' },
-	                    _react2.default.createElement('input', { className: 'serachBar', placeholder: 'Search...', onChange: this.onChangeSearch }),
-	                    _react2.default.createElement(Listing, { items: this.state.searchData, category: 'searchData', activeData: this.state.activeData })
+	                    _react2.default.createElement('input', { id: 'searchBar', className: 'serachBar', placeholder: 'Search...', onChange: this.onChangeSearch }),
+	                    _react2.default.createElement(Listing, { closeSearch: this.closeSearch, items: this.state.searchData, category: 'searchData', activeData: this.state.activeData })
 	                ),
 	                _react2.default.createElement(
 	                    'div',
@@ -26076,7 +26105,7 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -26096,72 +26125,92 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var Settings = function (_React$Component) {
-	  _inherits(Settings, _React$Component);
+	    _inherits(Settings, _React$Component);
 	
-	  function Settings(props) {
-	    _classCallCheck(this, Settings);
+	    function Settings(props) {
+	        _classCallCheck(this, Settings);
 	
-	    var _this = _possibleConstructorReturn(this, (Settings.__proto__ || Object.getPrototypeOf(Settings)).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (Settings.__proto__ || Object.getPrototypeOf(Settings)).call(this, props));
 	
-	    _this.orderOptions = [{ value: 'manual', label: 'manual', description: 'You manually select the order (see below).' }, { value: 'automatic', label: 'automatic', description: 'The order is automatically adjusted when you enter a shop. For example, when you enter a COOP supermarket, the items are displayed in the correct order.' }, { value: 'alphabetical', label: 'alphabetical', description: 'Items are ordered in alphabetical order (ascending).' }], _this.state = {
-	      activeOrderOption: 'alphabetical',
-	      userName: '',
-	      preferences: ['vegan', 'vegetarian', 'lactose intolerant']
-	    };
-	    _this.closePopup = _this.closePopup.bind(_this);
-	    return _this;
-	  }
-	
-	  _createClass(Settings, [{
-	    key: 'closePopup',
-	    value: function closePopup(e) {
-	      this.props.closePopup();
+	        _this.orderOptions = [{ value: 'manual', label: 'manual', description: 'You manually select the order (see below).' }, {
+	            value: 'automatic',
+	            label: 'automatic',
+	            description: 'The order is automatically adjusted when you enter a shop. For example, when you enter a COOP supermarket, the items are displayed in the correct order.'
+	        }, {
+	            value: 'alphabetical',
+	            label: 'alphabetical',
+	            description: 'Items are ordered in alphabetical order (ascending).'
+	        }], _this.state = {
+	            activeOrderOption: 'alphabetical',
+	            userName: '',
+	            preferences: ['vegan', 'vegetarian', 'lactose intolerant']
+	        };
+	        _this.closePopup = _this.closePopup.bind(_this);
+	        return _this;
 	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'popup_wrapper' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'popup_box bounceInUp popup_settings' },
-	          _react2.default.createElement(
-	            'h1',
-	            null,
-	            'Settings'
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'settings_wrapper' },
-	            _react2.default.createElement(
-	              'p',
-	              null,
-	              'Name:'
-	            ),
-	            _react2.default.createElement('input', { value: 'Jamie Oliver' })
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'settings_wrapper' },
-	            _react2.default.createElement(
-	              'p',
-	              null,
-	              'Choose your preferred item ordering: '
-	            ),
-	            _react2.default.createElement(_forms.Select, { options: this.orderOptions, value: this.state.activeOrderOption })
-	          ),
-	          _react2.default.createElement(
-	            'button',
-	            { onClick: this.closePopup },
-	            'Close'
-	          )
-	        )
-	      );
-	    }
-	  }]);
 	
-	  return Settings;
+	    _createClass(Settings, [{
+	        key: 'closePopup',
+	        value: function closePopup(e) {
+	            this.props.closePopup();
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'popup_wrapper' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'popup_box bounceInUp popup_settings' },
+	                    _react2.default.createElement(
+	                        'h1',
+	                        null,
+	                        'Settings'
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'settings_wrapper' },
+	                        _react2.default.createElement(
+	                            'p',
+	                            null,
+	                            'Name:'
+	                        ),
+	                        _react2.default.createElement('input', { value: 'Jamie Oliver' })
+	                    ),
+	                    _react2.default.createElement('br', null),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'settings_wrapper' },
+	                        _react2.default.createElement(
+	                            'p',
+	                            null,
+	                            'Choose your preferred item ordering:'
+	                        ),
+	                        _react2.default.createElement(_forms.Select, { options: this.orderOptions, value: this.state.activeOrderOption })
+	                    ),
+	                    _react2.default.createElement('br', null),
+	                    _react2.default.createElement(
+	                        'p',
+	                        null,
+	                        'Are you...'
+	                    ),
+	                    _react2.default.createElement('br', null),
+	                    _react2.default.createElement(_forms.Checkbox, { key: 'vegan', label: '...vegan?' }),
+	                    _react2.default.createElement(_forms.Checkbox, { key: 'vegetarian', label: '...vegetarian?' }),
+	                    _react2.default.createElement(_forms.Checkbox, { key: 'glutenfree', label: '...gluten intolerant?' }),
+	                    _react2.default.createElement(_forms.Checkbox, { key: 'lactose', label: '...lactose intolerant??' }),
+	                    _react2.default.createElement(
+	                        'button',
+	                        { onClick: this.closePopup },
+	                        'Close'
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+	
+	    return Settings;
 	}(_react2.default.Component);
 	
 	exports.default = Settings;
@@ -26173,18 +26222,22 @@
   \*****************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.Username = exports.Select = undefined;
+	exports.Checkbox = exports.Username = exports.Select = undefined;
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(/*! react */ 1);
 	
 	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactBootstrapToggle = __webpack_require__(/*! react-bootstrap-toggle */ 208);
+	
+	var _reactBootstrapToggle2 = _interopRequireDefault(_reactBootstrapToggle);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -26207,9 +26260,9 @@
 	        var _this = _possibleConstructorReturn(this, (Input.__proto__ || Object.getPrototypeOf(Input)).call(this, props));
 	
 	        _this.checkmark = _react2.default.createElement(
-	            "span",
-	            { className: "fading" },
-	            _react2.default.createElement("span", { className: "glyphicon glyphicon-ok green" })
+	            'span',
+	            { className: 'fading' },
+	            _react2.default.createElement('span', { className: 'glyphicon glyphicon-ok green' })
 	        );
 	        _this.state = {
 	            checkmarkVisible: false
@@ -26222,18 +26275,18 @@
 	    }
 	
 	    _createClass(Input, [{
-	        key: "confirmChange",
+	        key: 'confirmChange',
 	        value: function confirmChange() {
 	            this.setState({ checkmarkVisible: true });
 	            setTimeout(this.hideCheckmark, 5000);
 	        }
 	    }, {
-	        key: "hideCheckmark",
+	        key: 'hideCheckmark',
 	        value: function hideCheckmark() {
 	            this.setState({ checkmarkVisible: false });
 	        }
 	    }, {
-	        key: "handleChange",
+	        key: 'handleChange',
 	        value: function handleChange(event) {
 	            this.confirmChange();
 	        }
@@ -26263,38 +26316,38 @@
 	    }
 	
 	    _createClass(Select, [{
-	        key: "handleChange",
+	        key: 'handleChange',
 	        value: function handleChange(event) {
 	            this.setState({ value: event.target.value });
 	            this.confirmChange();
 	        }
 	    }, {
-	        key: "getSelectOptions",
+	        key: 'getSelectOptions',
 	        value: function getSelectOptions() {
 	            return this.props.options.map(function (object, i) {
 	                return _react2.default.createElement(
-	                    "option",
+	                    'option',
 	                    { key: object.value },
 	                    object.label
 	                );
 	            });
 	        }
 	    }, {
-	        key: "render",
+	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
-	                "div",
+	                'div',
 	                null,
 	                _react2.default.createElement(
-	                    "label",
+	                    'label',
 	                    null,
 	                    _react2.default.createElement(
-	                        "p",
+	                        'p',
 	                        null,
 	                        this.props.label
 	                    ),
 	                    _react2.default.createElement(
-	                        "select",
+	                        'select',
 	                        { value: this.state.value, onChange: this.handleChange },
 	                        this.getSelectOptions()
 	                    ),
@@ -26317,31 +26370,283 @@
 	    }
 	
 	    _createClass(Username, [{
-	        key: "render",
+	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
-	                "div",
+	                'div',
 	                null,
-	                _react2.default.createElement("input", { placeholder: "username", name: "username", value: this.props.value, type: "text" }),
-	                this.state.checkmarkVisible ? _react2.default.createElement("span", { className: "glyphicon glyphicon-ok green" }) : null
+	                _react2.default.createElement('input', { placeholder: 'username', name: 'username', value: this.props.value, type: 'text' }),
+	                this.state.checkmarkVisible ? _react2.default.createElement('span', { className: 'glyphicon glyphicon-ok green' }) : null
 	            );
 	        }
 	    }]);
 	
 	    return Username;
 	}(Input);
+	
+	var Checkbox = exports.Checkbox = function (_Input3) {
+	    _inherits(Checkbox, _Input3);
+	
+	    function Checkbox() {
+	        _classCallCheck(this, Checkbox);
+	
+	        return _possibleConstructorReturn(this, (Checkbox.__proto__ || Object.getPrototypeOf(Checkbox)).apply(this, arguments));
+	    }
+	
+	    _createClass(Checkbox, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'form-group' },
+	                _react2.default.createElement('input', { type: 'checkbox', name: this.props.key, id: this.props.key, onChange: this.handleChange }),
+	                '\xA0',
+	                _react2.default.createElement(
+	                    'label',
+	                    { 'for': this.props.key },
+	                    this.props.label
+	                ),
+	                this.state.checkmarkVisible ? _react2.default.createElement('span', { className: 'glyphicon glyphicon-ok green' }) : null
+	            );
+	        }
+	    }]);
+	
+	    return Checkbox;
+	}(Input);
 
 /***/ },
 /* 208 */
+/*!****************************************************************!*\
+  !*** ./~/react-bootstrap-toggle/lib/react-bootstrap-toggle.js ***!
+  \****************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var PADDING = {
+	  RIGHT: 'padding-right',
+	  LEFT: 'padding-left',
+	  TOP: 'padding-top',
+	  BOTTOM: 'padding-bottom'
+	};
+	
+	var MARGIN = {
+	  RIGHT: 'margin-right',
+	  LEFT: 'margin-left',
+	  TOP: 'margin-top',
+	  BOTTOM: 'margin-bottom'
+	};
+	
+	var getStyle = function getStyle(el, str) {
+	  return parseInt(getComputedStyle(el).getPropertyValue(str), 10);
+	};
+	
+	var getTextNodeBoundingClientRect = function getTextNodeBoundingClientRect(node) {
+	  node = node.length ? node[node.length - 1] : node;
+	  if (document.createRange) {
+	    var range = document.createRange();
+	    if (range.getBoundingClientRect) {
+	      range.selectNodeContents(node);
+	      return range.getBoundingClientRect();
+	    }
+	  }
+	  return 0;
+	};
+	
+	var getDimension = function getDimension(node) {
+	  var margin = {},
+	      padding = {
+	    right: getStyle(node, PADDING.RIGHT),
+	    left: getStyle(node, PADDING.LEFT),
+	    top: getStyle(node, PADDING.TOP),
+	    bottom: getStyle(node, PADDING.BOTTOM)
+	  };
+	
+	  if (node.childElementCount) {
+	    var child = node.childNodes[0];
+	    margin.height = getStyle(child, MARGIN.BOTTOM) + getStyle(child, MARGIN.TOP);
+	    margin.width = getStyle(child, MARGIN.LEFT) + getStyle(child, MARGIN.RIGHT);
+	
+	    return {
+	      width: (child.scrollWidth || child.offsetWidth) + margin.width + padding.left + padding.right,
+	      height: (child.scrollHeight || child.offsetHeight) + margin.height + padding.top + padding.bottom
+	    };
+	  }
+	
+	  var range = getTextNodeBoundingClientRect(node.childNodes);
+	
+	  return {
+	    width: range.width + padding.right + padding.left,
+	    height: range.height + padding.bottom + padding.top
+	  };
+	};
+	
+	var ReactBootstrapToggle = function (_React$Component) {
+	  _inherits(ReactBootstrapToggle, _React$Component);
+	
+	  function ReactBootstrapToggle(props) {
+	    _classCallCheck(this, ReactBootstrapToggle);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ReactBootstrapToggle).call(this, props));
+	
+	    _this.state = { width: null, height: null };
+	    return _this;
+	  }
+	
+	  _createClass(ReactBootstrapToggle, [{
+	    key: 'onClick',
+	    value: function onClick() {
+	      if (this.props.disabled) return;
+	      this.props.onChange && this.props.onChange(!this.state.active);
+	      this.setState({ active: !this.state.active });
+	    }
+	  }, {
+	    key: 'setDimensions',
+	    value: function setDimensions(props) {
+	      var onDim = getDimension(this.refs.on);
+	      var offDim = getDimension(this.refs.off);
+	
+	      var width = Math.max(onDim.width, offDim.width);
+	      var height = Math.max(onDim.height, offDim.height);
+	      var active = props.active !== undefined ? props.active : this.state.active;
+	      this.setState({
+	        width: props.width || width,
+	        height: props.height || height,
+	        active: active
+	      });
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.setDimensions(this.props);
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(props) {
+	      this.setDimensions(props);
+	    }
+	  }, {
+	    key: 'getSizeClass',
+	    value: function getSizeClass() {
+	      if (this.props.size === 'large') return 'btn-lg';
+	      if (this.props.size === 'small') return 'btn-sm';
+	      if (this.props.size === 'mini') return 'btn-xs';
+	      return '';
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var onstyle = 'btn-' + this.props.onstyle;
+	      var offstyle = 'btn-' + this.props.offstyle;
+	      var toggleOn = 'toggle-on';
+	      var toggleOff = 'toggle-off';
+	      var sizeClass = this.getSizeClass();
+	      var activeClass = 'btn toggle ' + sizeClass + ' ' + onstyle;
+	      var inactiveClass = 'btn toggle ' + sizeClass + ' ' + offstyle + ' off';
+	      var onStyleClass = 'btn ' + toggleOn + ' ' + sizeClass + ' ' + onstyle;
+	      var offStyleClass = 'btn ' + toggleOff + ' ' + sizeClass + ' ' + offstyle;
+	
+	      var style = {
+	        width: this.state.width,
+	        height: this.state.height
+	      };
+	
+	      return _react2.default.createElement(
+	        'div',
+	        {
+	          ref: 'switcher',
+	          disabled: this.props.disabled,
+	          className: this.state.active ? activeClass : inactiveClass,
+	          onClick: this.onClick.bind(this),
+	          style: style },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'toggle-group' },
+	          _react2.default.createElement(
+	            'label',
+	            { ref: 'on', className: onStyleClass },
+	            this.props.on
+	          ),
+	          _react2.default.createElement(
+	            'label',
+	            { ref: 'off', className: offStyleClass },
+	            this.props.off
+	          ),
+	          _react2.default.createElement('span', { ref: 'toggle', className: 'toggle-handle btn btn-default' })
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return ReactBootstrapToggle;
+	}(_react2.default.Component);
+	
+	exports.default = ReactBootstrapToggle;
+	
+	
+	ReactBootstrapToggle.propTypes = {
+	  // Holds the className for label one
+	  onstyle: _react2.default.PropTypes.string,
+	  // Holds the className for label two
+	  offstyle: _react2.default.PropTypes.string,
+	  // Height prop
+	  height: _react2.default.PropTypes.string,
+	  // Width prop
+	  width: _react2.default.PropTypes.string,
+	  // The on and off elements defaults to 'On' and 'Off'
+	  on: _react2.default.PropTypes.node,
+	  off: _react2.default.PropTypes.node,
+	  // The initial state of the component
+	  active: _react2.default.PropTypes.bool,
+	  // Sets the button to disabled
+	  disabled: _react2.default.PropTypes.bool,
+	  // Set the size of the button defaults to normal
+	  size: _react2.default.PropTypes.string,
+	  // The onChange event, returns the state as the argument
+	  onChange: _react2.default.PropTypes.func
+	};
+	
+	ReactBootstrapToggle.defaultProps = {
+	  onstyle: 'primary',
+	  offstyle: 'default',
+	  width: '',
+	  height: '',
+	  on: 'On',
+	  off: 'Off',
+	  disabled: false,
+	  size: 'normal',
+	  active: true
+	};
+
+/***/ },
+/* 209 */
 /*!******************************************************!*\
   !*** ./~/react-addons-css-transition-group/index.js ***!
   \******************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(/*! react/lib/ReactCSSTransitionGroup */ 209);
+	module.exports = __webpack_require__(/*! react/lib/ReactCSSTransitionGroup */ 210);
 
 /***/ },
-/* 209 */
+/* 210 */
 /*!************************************************!*\
   !*** ./~/react/lib/ReactCSSTransitionGroup.js ***!
   \************************************************/
@@ -26369,8 +26674,8 @@
 	
 	var React = __webpack_require__(/*! ./React */ 2);
 	
-	var ReactTransitionGroup = __webpack_require__(/*! ./ReactTransitionGroup */ 210);
-	var ReactCSSTransitionGroupChild = __webpack_require__(/*! ./ReactCSSTransitionGroupChild */ 218);
+	var ReactTransitionGroup = __webpack_require__(/*! ./ReactTransitionGroup */ 211);
+	var ReactCSSTransitionGroupChild = __webpack_require__(/*! ./ReactCSSTransitionGroupChild */ 219);
 	
 	function createTransitionTimeoutPropValidator(transitionType) {
 	  var timeoutPropName = 'transition' + transitionType + 'Timeout';
@@ -26453,7 +26758,7 @@
 	module.exports = ReactCSSTransitionGroup;
 
 /***/ },
-/* 210 */
+/* 211 */
 /*!*********************************************!*\
   !*** ./~/react/lib/ReactTransitionGroup.js ***!
   \*********************************************/
@@ -26480,8 +26785,8 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var React = __webpack_require__(/*! ./React */ 2);
-	var ReactAddonsDOMDependencies = __webpack_require__(/*! ./ReactAddonsDOMDependencies */ 211);
-	var ReactTransitionChildMapping = __webpack_require__(/*! ./ReactTransitionChildMapping */ 216);
+	var ReactAddonsDOMDependencies = __webpack_require__(/*! ./ReactAddonsDOMDependencies */ 212);
+	var ReactTransitionChildMapping = __webpack_require__(/*! ./ReactTransitionChildMapping */ 217);
 	
 	var emptyFunction = __webpack_require__(/*! fbjs/lib/emptyFunction */ 12);
 	
@@ -26711,7 +27016,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../process/browser.js */ 3)))
 
 /***/ },
-/* 211 */
+/* 212 */
 /*!***************************************************!*\
   !*** ./~/react/lib/ReactAddonsDOMDependencies.js ***!
   \***************************************************/
@@ -26741,8 +27046,8 @@
 	};
 	
 	if (process.env.NODE_ENV !== 'production') {
-	  var ReactPerf = __webpack_require__(/*! react-dom/lib/ReactPerf */ 212);
-	  var ReactTestUtils = __webpack_require__(/*! react-dom/lib/ReactTestUtils */ 213);
+	  var ReactPerf = __webpack_require__(/*! react-dom/lib/ReactPerf */ 213);
+	  var ReactTestUtils = __webpack_require__(/*! react-dom/lib/ReactTestUtils */ 214);
 	
 	  exports.getReactPerf = function () {
 	    return ReactPerf;
@@ -26755,7 +27060,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../process/browser.js */ 3)))
 
 /***/ },
-/* 212 */
+/* 213 */
 /*!**************************************!*\
   !*** ./~/react-dom/lib/ReactPerf.js ***!
   \**************************************/
@@ -27264,7 +27569,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../process/browser.js */ 3)))
 
 /***/ },
-/* 213 */
+/* 214 */
 /*!*******************************************!*\
   !*** ./~/react-dom/lib/ReactTestUtils.js ***!
   \*******************************************/
@@ -27285,7 +27590,7 @@
 	var _prodInvariant = __webpack_require__(/*! ./reactProdInvariant */ 35),
 	    _assign = __webpack_require__(/*! object-assign */ 4);
 	
-	var EventConstants = __webpack_require__(/*! ./EventConstants */ 214);
+	var EventConstants = __webpack_require__(/*! ./EventConstants */ 215);
 	var EventPluginHub = __webpack_require__(/*! ./EventPluginHub */ 42);
 	var EventPluginRegistry = __webpack_require__(/*! ./EventPluginRegistry */ 43);
 	var EventPropagators = __webpack_require__(/*! ./EventPropagators */ 41);
@@ -27296,7 +27601,7 @@
 	var ReactInstanceMap = __webpack_require__(/*! ./ReactInstanceMap */ 116);
 	var ReactUpdates = __webpack_require__(/*! ./ReactUpdates */ 56);
 	var SyntheticEvent = __webpack_require__(/*! ./SyntheticEvent */ 53);
-	var ReactShallowRenderer = __webpack_require__(/*! ./ReactShallowRenderer */ 215);
+	var ReactShallowRenderer = __webpack_require__(/*! ./ReactShallowRenderer */ 216);
 	
 	var findDOMNode = __webpack_require__(/*! ./findDOMNode */ 172);
 	var invariant = __webpack_require__(/*! fbjs/lib/invariant */ 8);
@@ -27684,7 +27989,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../process/browser.js */ 3)))
 
 /***/ },
-/* 214 */
+/* 215 */
 /*!*******************************************!*\
   !*** ./~/react-dom/lib/EventConstants.js ***!
   \*******************************************/
@@ -27783,7 +28088,7 @@
 	module.exports = EventConstants;
 
 /***/ },
-/* 215 */
+/* 216 */
 /*!*************************************************!*\
   !*** ./~/react-dom/lib/ReactShallowRenderer.js ***!
   \*************************************************/
@@ -27926,7 +28231,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../process/browser.js */ 3)))
 
 /***/ },
-/* 216 */
+/* 217 */
 /*!****************************************************!*\
   !*** ./~/react/lib/ReactTransitionChildMapping.js ***!
   \****************************************************/
@@ -27944,7 +28249,7 @@
 	
 	'use strict';
 	
-	var flattenChildren = __webpack_require__(/*! ./flattenChildren */ 217);
+	var flattenChildren = __webpack_require__(/*! ./flattenChildren */ 218);
 	
 	var ReactTransitionChildMapping = {
 	  /**
@@ -28037,7 +28342,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../process/browser.js */ 3)))
 
 /***/ },
-/* 217 */
+/* 218 */
 /*!****************************************!*\
   !*** ./~/react/lib/flattenChildren.js ***!
   \****************************************/
@@ -28121,7 +28426,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../process/browser.js */ 3)))
 
 /***/ },
-/* 218 */
+/* 219 */
 /*!*****************************************************!*\
   !*** ./~/react/lib/ReactCSSTransitionGroupChild.js ***!
   \*****************************************************/
@@ -28140,10 +28445,10 @@
 	'use strict';
 	
 	var React = __webpack_require__(/*! ./React */ 2);
-	var ReactAddonsDOMDependencies = __webpack_require__(/*! ./ReactAddonsDOMDependencies */ 211);
+	var ReactAddonsDOMDependencies = __webpack_require__(/*! ./ReactAddonsDOMDependencies */ 212);
 	
-	var CSSCore = __webpack_require__(/*! fbjs/lib/CSSCore */ 219);
-	var ReactTransitionEvents = __webpack_require__(/*! ./ReactTransitionEvents */ 220);
+	var CSSCore = __webpack_require__(/*! fbjs/lib/CSSCore */ 220);
+	var ReactTransitionEvents = __webpack_require__(/*! ./ReactTransitionEvents */ 221);
 	
 	var onlyChild = __webpack_require__(/*! ./onlyChild */ 31);
 	
@@ -28295,7 +28600,7 @@
 	module.exports = ReactCSSTransitionGroupChild;
 
 /***/ },
-/* 219 */
+/* 220 */
 /*!*******************************!*\
   !*** ./~/fbjs/lib/CSSCore.js ***!
   \*******************************/
@@ -28425,7 +28730,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../process/browser.js */ 3)))
 
 /***/ },
-/* 220 */
+/* 221 */
 /*!**********************************************!*\
   !*** ./~/react/lib/ReactTransitionEvents.js ***!
   \**********************************************/
@@ -28505,7 +28810,7 @@
 	module.exports = ReactTransitionEvents;
 
 /***/ },
-/* 221 */
+/* 222 */
 /*!******************************!*\
   !*** ./_src/_app/style.scss ***!
   \******************************/
@@ -28514,10 +28819,10 @@
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/sass-loader!./style.scss */ 222);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/sass-loader!./style.scss */ 223);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 225)(content, {});
+	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 226)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -28534,24 +28839,24 @@
 	}
 
 /***/ },
-/* 222 */
+/* 223 */
 /*!*************************************************************!*\
   !*** ./~/css-loader!./~/sass-loader!./_src/_app/style.scss ***!
   \*************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 223)();
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 224)();
 	// imports
-	exports.i(__webpack_require__(/*! -!./../../~/css-loader!./react-search.css */ 224), "");
+	exports.i(__webpack_require__(/*! -!./../../~/css-loader!./react-search.css */ 225), "");
 	
 	// module
-	exports.push([module.id, "@charset \"UTF-8\";\n/* STYLESCREEN FOR LISTO APPLICATION\n\nAuthors: Martin Bucher, David Haas, Marcel Bühler\n\nCopyright 2016. All rights reserved.\n\n*/\n/* http://meyerweb.com/eric/tools/css/reset/\n   v2.0 | 20110126\n   License: none (public domain)\n*/\nhtml, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font-size: 100%;\n  font: inherit;\n  vertical-align: baseline; }\n\n/* HTML5 display-role reset for older browsers */\narticle, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {\n  display: block; }\n\nbody {\n  line-height: 1; }\n\nol, ul {\n  list-style: none; }\n\nblockquote, q {\n  quotes: none; }\n\nblockquote:before, blockquote:after {\n  content: '';\n  content: none; }\n\nq:before, q:after {\n  content: '';\n  content: none; }\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\n/* Colors */\n/* General */\nbody {\n  background-color: #354B61;\n  background-color: #ffffff;\n  font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Fira Sans\", \"Droid Sans\", \"Helvetica Neue\", serif; }\n\n.nav, .seachfield, .content_wrapper, .item_wrapper, .searchfield input {\n  box-sizing: border-box; }\n\n/* NavBar at the top */\n.nav_wrapper_top {\n  background-color: #E97C60;\n  width: 100%;\n  border-bottom: 1px solid #d2d2d2;\n  overflow: hidden; }\n\n.nav_top {\n  width: 91.6666666666%;\n  overflow: hidden;\n  margin: 0 auto; }\n\n.nav_top p {\n  text-align: center;\n  font-size: 1.618em;\n  padding: 1em;\n  color: #fff; }\n\n/* Navigation at the bottom */\n.nav_wrapper {\n  background-color: #ffffff;\n  position: fixed;\n  bottom: 0;\n  width: 100%;\n  border-top: 1px solid #d2d2d2; }\n\n.nav {\n  width: 91.6666666666%;\n  overflow: hidden;\n  margin: 0 auto; }\n\n.nav ul {\n  display: inline; }\n\n.nav ul li {\n  float: left;\n  width: 33.333333333%;\n  text-align: center;\n  list-style: none;\n  font-size: 1em;\n  margin: 1em 0;\n  color: #264653; }\n\n.menu span {\n  cursor: pointer; }\n\n.collaborate span {\n  cursor: pointer; }\n\n/* Main */\n.content_wrapper {\n  width: 95%;\n  margin: 0 auto; }\n\n.searchfield {\n  width: 100%; }\n\n.searchfield input {\n  width: 96.6666666666%;\n  margin: 1em 1.6666666667% 0.618em;\n  font-size: 1.618em;\n  padding: 0.6em 1em;\n  -webkit-border-radius: 5px;\n  border-radius: 5px;\n  border: 1px solid #ddd;\n  color: #e2e2e2; }\n\n.item_wrapper {\n  width: 30%;\n  float: left;\n  margin: 1.6666666667%;\n  padding: 1.5em 0.5em 1.25em;\n  background-color: #ebebeb;\n  border: 1px solid #ddd;\n  -webkit-border-radius: 5px;\n  border-radius: 5px;\n  text-align: center;\n  -webkit-box-shadow: 0 3px 5px 2px rgba(221, 221, 221, 0.8);\n  box-shadow: 0 3px 5px 2px rgba(221, 221, 221, 0.8);\n  -webkit-transition: all 0.3s ease-in;\n  -moz-transition: all 0.3s ease-in;\n  -ms-transition: all 0.3s ease-in;\n  -o-transition: all 0.3s ease-in;\n  transition: all 0.3s ease-in; }\n\n.item {\n  width: 100%; }\n\n.item h1 {\n  font-size: 1.1em;\n  color: #333;\n  margin-bottom: 0.309em; }\n\n.item h2 {\n  font-style: italic;\n  color: #86db85; }\n\n.item img {\n  height: 7em;\n  padding: 1em 0 0; }\n\n.fakeButton {\n  position: absolute;\n  color: transparent;\n  width: 6em;\n  height: 5em;\n  margin-top: -5em; }\n\nh2.emptyComment {\n  color: transparent; }\n\n.activeData, .frequentData, .allData, .searchData {\n  overflow: hidden;\n  width: 100%;\n  margin-bottom: 2em; }\n\n.overlayMenu {\n  position: fixed;\n  z-index: 1;\n  top: 0;\n  width: 100vw;\n  background-color: black;\n  opacity: 0.9;\n  height: calc(100vh - 3em); }\n\n.overlayMenu ul {\n  margin-top: 2em;\n  width: 80%;\n  overflow: hidden;\n  margin: 0 auto; }\n\n.overlayMenu ul li {\n  color: #e2e2e2;\n  font-size: 1.618em;\n  margin: 1.618em 0 0;\n  line-height: 1.2; }\n\n.overlayMenu ul li.menuTitle {\n  margin-bottom: 1em; }\n\n.overlayMenu ul li.menuNewList {\n  margin-top: 3em;\n  font-size: 1em;\n  border: 1px dashed #e2e2e2;\n  padding: 0.618em 1em;\n  -webkit-border-radius: 5px;\n  border-radius: 5px;\n  display: inline-block; }\n\n.green {\n  color: green; }\n\n.fading {\n  opacity: 1;\n  animation: fade 2s linear; }\n\n.popup_wrapper {\n  position: fixed;\n  width: 100vw;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5); }\n\n.popup_box {\n  width: 70vw;\n  margin: 6em auto;\n  padding: 2em;\n  height: auto;\n  background-color: #FFFFFF;\n  -webkit-border-radius: 10px;\n  border-radius: 10px;\n  overflow: hidden; }\n\n.popup_box.popup_settings {\n  padding: 2em 2em 6em; }\n\n.popup_box h1 {\n  font-size: 1.618em;\n  text-align: center;\n  margin-bottom: 1.618em; }\n\n.team_wrapper {\n  width: 70%;\n  margin: 0 auto 4em; }\n\n.team_person {\n  width: 100%;\n  display: block;\n  padding-bottom: 1em;\n  overflow: hidden; }\n\n.team_person img {\n  float: left;\n  width: 25%; }\n\n.team_person p {\n  float: left;\n  margin-left: 10%;\n  width: 65%;\n  margin-top: 1.5em; }\n\n.popup_box button {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  width: 100%;\n  font-size: 1.309em;\n  padding: 1em 0;\n  margin: 0;\n  text-align: center;\n  background: none;\n  -webkit-appearance: none;\n  border: none;\n  background-color: #e9bfb4;\n  -webkit-border-bottom-left-radius: 10px;\n  -webkit-border-bottom-right-radius: 10px;\n  border-bottom-left-radius: 10px;\n  border-bottom-right-radius: 10px;\n  border-top: 2px solid #E97C60; }\n\n.settings_wrapper {\n  width: 100%;\n  overflow: hidden;\n  margin-bottom: 1em;\n  font-size: 1em; }\n\n.settings_wrapper p {\n  margin-bottom: 1em; }\n\n.settings_wrapper input {\n  width: 90%;\n  font-size: 1em;\n  padding: 0.618em 1em; }\n\n.activeData .item_wrapper {\n  background-color: #CCD3CF;\n  border-color: #c2c8c5; }\n\n.wasAdded {\n  background-color: #CCD3CF;\n  border-color: #c2c8c5; }\n\n.example-enter {\n  opacity: 0.01; }\n\n.example-enter.example-enter-active {\n  opacity: 1;\n  transition: opacity 500ms ease-in; }\n\n.example-leave {\n  opacity: 1; }\n\n.example-leave.example-leave-active {\n  opacity: 0.01;\n  transition: opacity 300ms ease-in; }\n\n@-webkit-keyframes bounceInUp {\n  from, 60%, 75%, 90%, to {\n    -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);\n    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1); }\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 3000px, 0);\n    transform: translate3d(0, 3000px, 0); }\n  60% {\n    opacity: 1;\n    -webkit-transform: translate3d(0, -20px, 0);\n    transform: translate3d(0, -20px, 0); }\n  75% {\n    -webkit-transform: translate3d(0, 10px, 0);\n    transform: translate3d(0, 10px, 0); }\n  90% {\n    -webkit-transform: translate3d(0, -5px, 0);\n    transform: translate3d(0, -5px, 0); }\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0); } }\n\n@keyframes bounceInUp {\n  from, 60%, 75%, 90%, to {\n    -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);\n    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1); }\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 3000px, 0);\n    transform: translate3d(0, 3000px, 0); }\n  60% {\n    opacity: 1;\n    -webkit-transform: translate3d(0, -20px, 0);\n    transform: translate3d(0, -20px, 0); }\n  75% {\n    -webkit-transform: translate3d(0, 10px, 0);\n    transform: translate3d(0, 10px, 0); }\n  90% {\n    -webkit-transform: translate3d(0, -5px, 0);\n    transform: translate3d(0, -5px, 0); }\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0); } }\n\n.bounceInUp {\n  -webkit-animation-name: bounceInUp;\n  animation-name: bounceInUp;\n  -webkit-animation-duration: .5s;\n  animation-duration: .5s;\n  -webkit-animation-fill-mode: both;\n  animation-fill-mode: both; }\n\n@-webkit-keyframes slideInLeft {\n  from {\n    -webkit-transform: translate3d(-100%, 0, 0);\n    transform: translate3d(-100%, 0, 0);\n    visibility: visible; }\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0); } }\n\n@keyframes slideInLeft {\n  from {\n    -webkit-transform: translate3d(-100%, 0, 0);\n    transform: translate3d(-100%, 0, 0);\n    visibility: visible; }\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0); } }\n\n.slideInLeft {\n  -webkit-animation-name: slideInLeft;\n  animation-name: slideInLeft;\n  -webkit-animation-duration: .5s;\n  animation-duration: .5s;\n  -webkit-animation-fill-mode: both;\n  animation-fill-mode: both; }\n\n@-webkit-keyframes pop-in {\n  0% {\n    opacity: 0; }\n  1% {\n    -webkit-transform: scale(0.9) translateY(30px); }\n  80% {\n    -webkit-transform: scale(1.05); }\n  100% {\n    -webkit-transform: translateY(0);\n    -webkit-transform: scale(1); } }\n\n@-moz-keyframes pop-in {\n  0% {\n    opacity: 0; }\n  1% {\n    -moz-transform: scale(0.9) translateY(30px); }\n  80% {\n    -moz-transform: scale(1.05); }\n  100% {\n    -moz-transform: translateY(0);\n    -moz-transform: scale(1); } }\n\n@-o-keyframes pop-in {\n  0% {\n    opacity: 0; }\n  1% {\n    -o-transform: scale(0.9) translateY(30px); }\n  80% {\n    -o-transform: scale(1.05); }\n  100% {\n    -o-transform: translateY(0);\n    -o-transform: scale(1); } }\n\n@keyframes pop-in {\n  0% {\n    opacity: 0; }\n  1% {\n    transform: scale(0.9) translateY(30px); }\n  80% {\n    transform: scale(1.05); }\n  100% {\n    transform: translateY(0);\n    transform: scale(1); } }\n\n.popIn {\n  -webkit-animation-name: pop-in;\n  animation-name: pop-in;\n  -webkit-animation-duration: .5s;\n  animation-duration: .5s;\n  -webkit-animation-fill-mode: both;\n  animation-fill-mode: both; }\n\nspan.label {\n  font-weight: 200;\n  color: black; }\n", ""]);
+	exports.push([module.id, "@charset \"UTF-8\";\n/* STYLESCREEN FOR LISTO APPLICATION\n\nAuthors: Martin Bucher, David Haas, Marcel Bühler\n\nCopyright 2016. All rights reserved.\n\n*/\n/* http://meyerweb.com/eric/tools/css/reset/\n   v2.0 | 20110126\n   License: none (public domain)\n*/\nhtml, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font-size: 100%;\n  font: inherit;\n  vertical-align: baseline; }\n\n/* HTML5 display-role reset for older browsers */\narticle, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {\n  display: block; }\n\nbody {\n  line-height: 1; }\n\nol, ul {\n  list-style: none; }\n\nblockquote, q {\n  quotes: none; }\n\nblockquote:before, blockquote:after {\n  content: '';\n  content: none; }\n\nq:before, q:after {\n  content: '';\n  content: none; }\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\n/* Colors */\n/* General */\nbody {\n  background-color: #354B61;\n  background-color: #ffffff;\n  font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Fira Sans\", \"Droid Sans\", \"Helvetica Neue\", serif; }\n\n.nav, .seachfield, .content_wrapper, .item_wrapper, .searchfield input {\n  box-sizing: border-box; }\n\n/* NavBar at the top */\n.nav_wrapper_top {\n  background-color: #E97C60;\n  width: 100%;\n  border-bottom: 1px solid #d2d2d2;\n  overflow: hidden; }\n\n.nav_top {\n  width: 91.6666666666%;\n  overflow: hidden;\n  margin: 0 auto; }\n\n.nav_top p {\n  text-align: center;\n  font-size: 1.618em;\n  padding: 1em;\n  color: #fff; }\n\n/* Navigation at the bottom */\n.nav_wrapper {\n  background-color: #ffffff;\n  position: fixed;\n  bottom: 0;\n  width: 100%;\n  border-top: 1px solid #d2d2d2; }\n\n.nav {\n  width: 91.6666666666%;\n  overflow: hidden;\n  margin: 0 auto; }\n\n.nav ul {\n  display: inline; }\n\n.nav ul li {\n  float: left;\n  width: 33.333333333%;\n  text-align: center;\n  list-style: none;\n  font-size: 1em;\n  margin: 1em 0;\n  color: #264653; }\n\n.menu span {\n  cursor: pointer; }\n\n.collaborate span {\n  cursor: pointer; }\n\n/* Main */\n.content_wrapper {\n  width: 95%;\n  margin: 0 auto; }\n\n.searchfield {\n  width: 100%; }\n\n.searchfield input {\n  width: 96.6666666666%;\n  margin: 1em 1.6666666667% 0.618em;\n  font-size: 1.618em;\n  padding: 0.6em 1em;\n  -webkit-border-radius: 5px;\n  border-radius: 5px;\n  border: 1px solid #ddd;\n  color: #e2e2e2; }\n\n.item_wrapper {\n  width: 30%;\n  float: left;\n  margin: 1.6666666667%;\n  padding: 1.5em 0.5em 1.25em;\n  background-color: #ebebeb;\n  border: 1px solid #ddd;\n  -webkit-border-radius: 5px;\n  border-radius: 5px;\n  text-align: center;\n  -webkit-box-shadow: 0 3px 5px 2px rgba(221, 221, 221, 0.8);\n  box-shadow: 0 3px 5px 2px rgba(221, 221, 221, 0.8);\n  -webkit-transition: all 0.3s ease-in;\n  -moz-transition: all 0.3s ease-in;\n  -ms-transition: all 0.3s ease-in;\n  -o-transition: all 0.3s ease-in;\n  transition: all 0.3s ease-in; }\n\n.item {\n  width: 100%; }\n\n.item:hover {\n  color: rgba(0, 0, 0, 0.9); }\n\n.item h1 {\n  font-size: 1.1em;\n  color: #333;\n  margin-bottom: 0.309em; }\n\n.item h2 {\n  font-style: italic;\n  color: #86db85; }\n\n.item img {\n  height: 7em;\n  padding: 1em 0 0; }\n\n.fakeButton {\n  position: absolute;\n  color: transparent;\n  width: 6em;\n  height: 5em;\n  margin-top: -5em; }\n\nh2.emptyComment {\n  color: transparent; }\n\n.activeData, .frequentData, .allData, .searchData {\n  overflow: hidden;\n  width: 100%;\n  margin-bottom: 2em; }\n\n.overlayMenu {\n  position: fixed;\n  z-index: 1;\n  top: 0;\n  width: 100vw;\n  background-color: black;\n  opacity: 0.9;\n  height: calc(100vh - 3em); }\n\n.overlayMenu ul {\n  margin-top: 2em;\n  width: 80%;\n  overflow: hidden;\n  margin: 0 auto; }\n\n.overlayMenu ul li {\n  color: #e2e2e2;\n  font-size: 1.618em;\n  margin: 1.618em 0 0;\n  line-height: 1.2; }\n\n.overlayMenu ul li.menuTitle {\n  margin-bottom: 1em; }\n\n.overlayMenu ul li.menuNewList {\n  margin-top: 3em;\n  font-size: 1em;\n  border: 1px dashed #e2e2e2;\n  padding: 0.618em 1em;\n  -webkit-border-radius: 5px;\n  border-radius: 5px;\n  display: inline-block; }\n\n.green {\n  color: green; }\n\n.fading {\n  opacity: 1;\n  animation: fade 2s linear; }\n\n.popup_wrapper {\n  position: fixed;\n  width: 100vw;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5); }\n\n.popup_box {\n  width: 70vw;\n  margin: 6em auto;\n  padding: 2em;\n  height: auto;\n  background-color: #FFFFFF;\n  -webkit-border-radius: 10px;\n  border-radius: 10px;\n  overflow: hidden; }\n\n.popup_box.popup_settings {\n  padding: 2em 2em 6em; }\n\n.popup_box h1 {\n  font-size: 1.618em;\n  text-align: center;\n  margin-bottom: 1.618em; }\n\n.team_wrapper {\n  width: 70%;\n  margin: 0 auto 4em; }\n\n.team_person {\n  width: 100%;\n  display: block;\n  padding-bottom: 1em;\n  overflow: hidden; }\n\n.team_person img {\n  float: left;\n  width: 25%; }\n\n.team_person p {\n  float: left;\n  margin-left: 10%;\n  width: 65%;\n  margin-top: 1.5em; }\n\n.popup_box button {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  width: 100%;\n  font-size: 1.309em;\n  padding: 1em 0;\n  margin: 0;\n  text-align: center;\n  background: none;\n  -webkit-appearance: none;\n  border: none;\n  background-color: #e9bfb4;\n  -webkit-border-bottom-left-radius: 10px;\n  -webkit-border-bottom-right-radius: 10px;\n  border-bottom-left-radius: 10px;\n  border-bottom-right-radius: 10px;\n  border-top: 2px solid #E97C60; }\n\n.settings_wrapper {\n  width: 100%;\n  overflow: hidden;\n  margin-bottom: 1em;\n  font-size: 1em; }\n\n.settings_wrapper p {\n  margin-bottom: 1em; }\n\n.settings_wrapper input {\n  width: 90%;\n  font-size: 1em;\n  padding: 0.618em 1em; }\n\n.activeData .item_wrapper {\n  background-color: #CCD3CF;\n  border-color: #c2c8c5; }\n\n.wasAdded {\n  background-color: #CCD3CF;\n  border-color: #c2c8c5; }\n\n.example-enter {\n  opacity: 0.01; }\n\n.example-enter.example-enter-active {\n  opacity: 1;\n  transition: opacity 500ms ease-in; }\n\n.example-leave {\n  opacity: 1; }\n\n.example-leave.example-leave-active {\n  opacity: 0.01;\n  transition: opacity 300ms ease-in; }\n\n@-webkit-keyframes bounceInUp {\n  from, 60%, 75%, 90%, to {\n    -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);\n    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1); }\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 3000px, 0);\n    transform: translate3d(0, 3000px, 0); }\n  60% {\n    opacity: 1;\n    -webkit-transform: translate3d(0, -20px, 0);\n    transform: translate3d(0, -20px, 0); }\n  75% {\n    -webkit-transform: translate3d(0, 10px, 0);\n    transform: translate3d(0, 10px, 0); }\n  90% {\n    -webkit-transform: translate3d(0, -5px, 0);\n    transform: translate3d(0, -5px, 0); }\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0); } }\n\n@keyframes bounceInUp {\n  from, 60%, 75%, 90%, to {\n    -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);\n    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1); }\n  from {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 3000px, 0);\n    transform: translate3d(0, 3000px, 0); }\n  60% {\n    opacity: 1;\n    -webkit-transform: translate3d(0, -20px, 0);\n    transform: translate3d(0, -20px, 0); }\n  75% {\n    -webkit-transform: translate3d(0, 10px, 0);\n    transform: translate3d(0, 10px, 0); }\n  90% {\n    -webkit-transform: translate3d(0, -5px, 0);\n    transform: translate3d(0, -5px, 0); }\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0); } }\n\n.bounceInUp {\n  -webkit-animation-name: bounceInUp;\n  animation-name: bounceInUp;\n  -webkit-animation-duration: .5s;\n  animation-duration: .5s;\n  -webkit-animation-fill-mode: both;\n  animation-fill-mode: both; }\n\n@-webkit-keyframes slideInLeft {\n  from {\n    -webkit-transform: translate3d(-100%, 0, 0);\n    transform: translate3d(-100%, 0, 0);\n    visibility: visible; }\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0); } }\n\n@keyframes slideInLeft {\n  from {\n    -webkit-transform: translate3d(-100%, 0, 0);\n    transform: translate3d(-100%, 0, 0);\n    visibility: visible; }\n  to {\n    -webkit-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0); } }\n\n.slideInLeft {\n  -webkit-animation-name: slideInLeft;\n  animation-name: slideInLeft;\n  -webkit-animation-duration: .5s;\n  animation-duration: .5s;\n  -webkit-animation-fill-mode: both;\n  animation-fill-mode: both; }\n\n@-webkit-keyframes pop-in {\n  0% {\n    opacity: 0; }\n  1% {\n    -webkit-transform: scale(0.9) translateY(30px); }\n  80% {\n    -webkit-transform: scale(1.05); }\n  100% {\n    -webkit-transform: translateY(0);\n    -webkit-transform: scale(1); } }\n\n@-moz-keyframes pop-in {\n  0% {\n    opacity: 0; }\n  1% {\n    -moz-transform: scale(0.9) translateY(30px); }\n  80% {\n    -moz-transform: scale(1.05); }\n  100% {\n    -moz-transform: translateY(0);\n    -moz-transform: scale(1); } }\n\n@-o-keyframes pop-in {\n  0% {\n    opacity: 0; }\n  1% {\n    -o-transform: scale(0.9) translateY(30px); }\n  80% {\n    -o-transform: scale(1.05); }\n  100% {\n    -o-transform: translateY(0);\n    -o-transform: scale(1); } }\n\n@keyframes pop-in {\n  0% {\n    opacity: 0; }\n  1% {\n    transform: scale(0.9) translateY(30px); }\n  80% {\n    transform: scale(1.05); }\n  100% {\n    transform: translateY(0);\n    transform: scale(1); } }\n\n.popIn {\n  -webkit-animation-name: pop-in;\n  animation-name: pop-in;\n  -webkit-animation-duration: .5s;\n  animation-duration: .5s;\n  -webkit-animation-fill-mode: both;\n  animation-fill-mode: both; }\n\nspan.label {\n  font-weight: 200;\n  color: black; }\n\n.white {\n  color: white; }\n\nlabel {\n  font-weight: 200; }\n\n/* round Checkbox */\n/* The switch - the box around the slider */\n.switch {\n  position: relative;\n  display: inline-block;\n  width: 60px;\n  height: 34px; }\n\n/* Hide default HTML checkbox */\n.switch input {\n  display: none; }\n\n/* The slider */\n.slider {\n  position: absolute;\n  cursor: pointer;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: #ccc;\n  -webkit-transition: .4s;\n  transition: .4s; }\n\n.slider:before {\n  position: absolute;\n  content: \"\";\n  height: 26px;\n  width: 26px;\n  left: 4px;\n  bottom: 4px;\n  background-color: white;\n  -webkit-transition: .4s;\n  transition: .4s; }\n\ninput:checked + .slider {\n  background-color: #2196F3; }\n\ninput:focus + .slider {\n  box-shadow: 0 0 1px #2196F3; }\n\ninput:checked + .slider:before {\n  -webkit-transform: translateX(26px);\n  -ms-transform: translateX(26px);\n  transform: translateX(26px); }\n\n/* Rounded sliders */\n.slider.round {\n  border-radius: 34px; }\n\n.slider.round:before {\n  border-radius: 50%; }\n\n/* end round checkbox */\n", ""]);
 	
 	// exports
 
 
 /***/ },
-/* 223 */
+/* 224 */
 /*!**************************************!*\
   !*** ./~/css-loader/lib/css-base.js ***!
   \**************************************/
@@ -28610,13 +28915,13 @@
 
 
 /***/ },
-/* 224 */
+/* 225 */
 /*!***************************************************!*\
   !*** ./~/css-loader!./_src/_app/react-search.css ***!
   \***************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 223)();
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 224)();
 	// imports
 	
 	
@@ -28627,7 +28932,7 @@
 
 
 /***/ },
-/* 225 */
+/* 226 */
 /*!*************************************!*\
   !*** ./~/style-loader/addStyles.js ***!
   \*************************************/

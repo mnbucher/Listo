@@ -361,12 +361,14 @@ h2.emptyComment {
 
 .activeData .item_wrapper {
   background-color: #CCD3CF;
-  border-color: #c2c8c5;
+  background-color: #e9dec6;
+  border-color: #cdc7b5;
 }
 
 .wasAdded {
   background-color: #CCD3CF;
-  border-color: #c2c8c5;
+  background-color: #e9dec6;
+  border-color: #cdc7b5;
 }
 
 .example-enter {
@@ -385,6 +387,14 @@ h2.emptyComment {
 .example-leave.example-leave-active {
   opacity: 0.01;
   transition: opacity 300ms ease-in;
+}
+
+@media only screen and (max-width: 600px) {
+
+  .item_wrapper {
+    width: 46.66666666%;
+  }
+
 }
 
 @-webkit-keyframes bounceInUp {

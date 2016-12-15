@@ -37,17 +37,16 @@ export default class Settings extends React.Component {
                 <div className="popup_box bounceInUp popup_settings">
                     <h1>Settings</h1>
                     <div className="settings_wrapper">
-                        <p>Name:</p>
+                        <p>Name</p>
                         <input value="Jamie Oliver"/>
                     </div>
                     <br/>
                     <div className="settings_wrapper">
-                        <p>Choose your preferred item ordering:</p>
-                            <Select options={this.orderOptions} value={this.state.activeOrderOption}/>
-
+                        <p>Preferred item ordering</p>
+                        <Select options={this.orderOptions} value={this.state.activeOrderOption}/>
                     </div>
                     <br/>
-                    <p>Are you...</p><br/>
+                    <p className="are_you">Are you...</p><br/>
                     <Checkbox key="vegan" label="...vegan?"/>
                     <Checkbox key="vegetarian" label="...vegetarian?"/>
                     <Checkbox key="glutenfree" label="...gluten intolerant?"/>

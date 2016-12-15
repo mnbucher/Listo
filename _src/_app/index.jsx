@@ -30,7 +30,7 @@ class NavTop extends React.Component {
     return (
         <div className="nav_wrapper_top">
             <div className="nav_top">
-                <p>? New Year's Eve   <button type="button" className="btn btn-default btn-lg"><i className="glyphicon glyphicon-arrow-left"/></button></p>
+                <p>🎉 New Year's Eve</p>
             </div>
         </div>
     );
@@ -199,26 +199,22 @@ class Item extends React.Component {
             }
             else if(this.props.alreadyAdded || this.state.wasAdded){
               this.deleteItemFromActiveList(this.props.item.id);
+              this.showStepBackButton(this.props.item);
             }
         }
         else {
-            //this.deleteItemFromActiveList(this.props.item.id);
+            this.deleteItemFromActiveList(this.props.item.id);
+            this.showStepBackButton(this.props.item);
         }
     }
 
     addItemToActiveList(item) {
-        //var key = this.firebaseRef.push().key;
-        this.firebaseRef.child("activeItems/" + item.id).set({
-          "name": item.name,
-          "id": item.id,
-          "url": item.url,
-          "comment": item.comment ? item.comment : "",
-        });
         this.firebaseRef.child("activeItems/" + item.id).set(item);
     }
 
     deleteItemFromActiveList(itemID) {
         if (itemID) {
+            console.log("id:" + itemID);
             this.firebaseRef.child("activeItems/" + itemID).remove();
         }
     }
@@ -226,6 +222,10 @@ class Item extends React.Component {
     fakeButton(e) {
         this.openModal();
         this.setState({showDetail: true});
+    }
+
+    showStepBackButton(item) {
+      this.props.showStepBackButton(item);
     }
 
     render() {
@@ -249,14 +249,14 @@ class Item extends React.Component {
       <div className="popup_wrapper">
         <div className="popup_box bounceInUp">
                     <div className="container">
-                        <div className="col-xs-12"><h1><p>Details</p><p>{this.props.item.name}</p></h1></div>
+                        <div className="col-xs-12"><h1><p className="detail_product">{this.props.item.name}</p></h1></div>
                     {/* fill here all other aspects */}
                     <div className="col-xs-6"><span className="">fat:</span></div><div className="col-xs-6">{this.props.item.fat}</div>
                     <div className="col-xs-6"><span className="">salt:</span></div><div className="col-xs-6">{this.props.item.salt}</div>
                     <div className="col-xs-6"><span className="">sugar:</span></div><div className="col-xs-6">{this.props.item.sugar}</div>
                     <div className="col-xs-6"><span className="">glutenfree:</span></div><div className="col-xs-6">{this.state.strings[this.props.item.glutenfree]}</div>
                     <div className="col-xs-6"><span className="">vegan:</span></div><div className="col-xs-6">{this.state.strings[this.props.item.vegan]}</div>
-                    <div className="col-xs-12"><img src={this.props.item.url} width="150px"/></div>
+                    <div className="col-xs-12 detail_image"><img src={this.props.item.url} width="150px"/></div>
                     <button onClick={this.closeModal}>Close</button>
                         </div>
             </div>
@@ -281,6 +281,7 @@ class Listing extends React.Component {
 
         /* Iterate through array and add DOM element for each item */
         for (var i = 0; i < this.props.items.length; i++) {
+           // Search Data Listing
            if(this.props.category == "searchData") {
              var alreadyAdded = false;
               for(var j=0; j<this.props.activeData.length ;j++){
@@ -289,12 +290,13 @@ class Listing extends React.Component {
                 }
               }
               allElements.push(
-                <Item closeSearch={this.props.closeSearch} item={this.props.items[i]} key={"search_" + this.props.items[i].id} category={this.props.category} alreadyAdded={alreadyAdded} />
+                <Item closeSearch={this.props.closeSearch} item={this.props.items[i]} key={"search_" + this.props.items[i].id} category={this.props.category} alreadyAdded={alreadyAdded} showStepBackButton={this.props.showStepBackButton} />
               );
             }
+            // Active Data Listing
             else {
               allElements.push(
-                <Item item={this.props.items[i]} key={"active_" + this.props.items[i].id} category={this.props.category}/>
+                <Item item={this.props.items[i]} showStepBackButton={this.props.showStepBackButton} key={"active_" + this.props.items[i].id} category={this.props.category}/>
               );
             }
         }
@@ -306,12 +308,7 @@ class Listing extends React.Component {
         else {
             return (
                 <div className={this.props.category}>
-                  <ReactCSSTransitionGroup
-                    transitionName="example"
-                    transitionEnterTimeout={500}
-                    transitionLeaveTimeout={300}>
                     {allElements}
-                  </ReactCSSTransitionGroup>
                 </div>
             );
         }
@@ -335,6 +332,8 @@ class Main extends React.Component {
         this.getActiveData = this.getActiveData.bind(this);
         this.getAllData = this.getAllData.bind(this);
         this.closeSearch = this.closeSearch.bind(this);
+        this.showStepBackButton = this.showStepBackButton.bind(this);
+        this.stepBackAction = this.stepBackAction.bind(this);
     }
 
     componentWillMount() {
@@ -354,6 +353,22 @@ class Main extends React.Component {
     closeSearch(){
         this.state.searchData = [];
         document.getElementById('searchBar').value = "";
+    }
+
+    showStepBackButton(item){
+        this.setState({ showStepBackButtonItem: item });
+        setTimeout(function(){
+          this.setState({ showStepBackButtonItem: null });
+        }.bind(this), 3000);
+    }
+
+    stepBackAction(e){
+      if(this.state.activeData.indexOf(this.state.showStepBackButtonItem) == -1){
+        this.firebaseRef.child("activeItems/" + this.state.showStepBackButtonItem.id).set(this.state.showStepBackButtonItem);
+        this.setState({
+          showStepBackButtonItem: null
+        });
+      }
     }
 
     /* Get all items that the user have to buy */
@@ -452,15 +467,17 @@ class Main extends React.Component {
 
             <div className="content_wrapper">
 
+                {this.state.showStepBackButtonItem ? <button className="back_button bounceInUp" onClick={this.stepBackAction}>↻ Undo</button> : null}
+
                 <div className="searchfield">
                 <input id="searchBar" className="serachBar" placeholder="Search..." onChange={this.onChangeSearch} />
-                <Listing closeSearch={this.closeSearch} items={this.state.searchData} category="searchData" activeData={this.state.activeData} />
+                <Listing closeSearch={this.closeSearch} items={this.state.searchData} category="searchData" activeData={this.state.activeData} showStepBackButton={this.showStepBackButton} />
                 </div>
 
                 <div id="content_optional_wrapper">
 
                     {/* Show active Items */}
-                    {this.state.searchData.length == 0 ? <Listing items={this.state.activeData} category="activeData"/> : null}
+                    {this.state.searchData.length == 0 ? <Listing items={this.state.activeData} category="activeData" showStepBackButton={this.showStepBackButton} /> : null}
 
                 </div>
 

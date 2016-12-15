@@ -21,6 +21,7 @@
     "react": "^15.4.1",
     "react-addons-css-transition-group": "^15.4.1",
     "react-addons-transition-group": "^15.4.1",
+    "react-bootstrap-toggle": "^1.2.19",
     "react-dom": "^15.4.1",
     "react-modal": "~1.6.1",
     "react-search": "^2.0.5",

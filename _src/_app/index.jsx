@@ -30,7 +30,7 @@ class NavTop extends React.Component {
     return (
         <div className="nav_wrapper_top">
             <div className="nav_top">
-                <p>🎉 New Year's Eve</p>
+                <p>? New Year's Eve   <button type="button" className="btn btn-default btn-lg"><i className="glyphicon glyphicon-arrow-left"/></button></p>
             </div>
         </div>
     );
@@ -110,6 +110,7 @@ class Team extends React.Component {
       <div className="popup_wrapper">
         <div className="popup_box bounceInUp">
           <h1>The Funky Kitchen Club</h1>
+          <button onClick={this.closePopup}>Close</button>
           <div className="team_wrapper">
             <div className="team_person">
               <img src="../basil_menz.png" />
@@ -165,7 +166,8 @@ class Item extends React.Component {
         this.state = {
             showDetail: false,
             modalIsOpen: false,
-            wasAdded: false
+            wasAdded: false,
+            strings: {0: 'no', 1: 'yes'}
         };
 
     }
@@ -189,19 +191,18 @@ class Item extends React.Component {
     handleEventClick(e) {
         if (e.ctrlKey) {// Ctrl key has been pressed -> simulate long click
             this.openModal();
-        } else {
-            if (this.props.category.match("searchData")) {
-                if(!this.props.alreadyAdded){
-                  this.setState({ wasAdded: true });
-                  this.addItemToActiveList(this.props.item);
-                }
-                else if(this.props.alreadyAdded || this.state.wasAdded){
-                  this.deleteItemFromActiveList(this.props.item.id);
-                }
+        } else if (this.props.category.match("searchData")) {
+            if(!this.props.alreadyAdded){
+              this.setState({ wasAdded: true });
+              this.addItemToActiveList(this.props.item);
+                this.props.closeSearch();
             }
-            else {
-                this.deleteItemFromActiveList(this.props.item.id);
+            else if(this.props.alreadyAdded || this.state.wasAdded){
+              this.deleteItemFromActiveList(this.props.item.id);
             }
+        }
+        else {
+            //this.deleteItemFromActiveList(this.props.item.id);
         }
     }
 
@@ -213,6 +214,7 @@ class Item extends React.Component {
           "url": item.url,
           "comment": item.comment ? item.comment : "",
         });
+        this.firebaseRef.child("activeItems/" + item.id).set(item);
     }
 
     deleteItemFromActiveList(itemID) {
@@ -243,12 +245,22 @@ class Item extends React.Component {
                     isOpen={this.state.modalIsOpen}
                     onRequestClose={this.closeModal}
                     contentLabel="Example Modal"
-                ><h2 ref="subtitle">Details {this.props.item.name}</h2>
+                >
+      <div className="popup_wrapper">
+        <div className="popup_box bounceInUp">
+                    <div className="container">
+                        <div className="col-xs-12"><h1><p>Details</p><p>{this.props.item.name}</p></h1></div>
                     {/* fill here all other aspects */}
-                    <p>Calories: {this.props.item.Calories}</p>
-                    <p>Other aspect: {this.props.item.aspect2}</p>
-                    <img src={this.props.item.url}/>
-                    <button onClick={this.closeModal}>close</button>
+                    <div className="col-xs-6"><span className="">fat:</span></div><div className="col-xs-6">{this.props.item.fat}</div>
+                    <div className="col-xs-6"><span className="">salt:</span></div><div className="col-xs-6">{this.props.item.salt}</div>
+                    <div className="col-xs-6"><span className="">sugar:</span></div><div className="col-xs-6">{this.props.item.sugar}</div>
+                    <div className="col-xs-6"><span className="">glutenfree:</span></div><div className="col-xs-6">{this.state.strings[this.props.item.glutenfree]}</div>
+                    <div className="col-xs-6"><span className="">vegan:</span></div><div className="col-xs-6">{this.state.strings[this.props.item.vegan]}</div>
+                    <div className="col-xs-12"><img src={this.props.item.url} width="150px"/></div>
+                    <button onClick={this.closeModal}>Close</button>
+                        </div>
+            </div>
+          </div>
                 </Modal>
 
             </div>
@@ -277,7 +289,7 @@ class Listing extends React.Component {
                 }
               }
               allElements.push(
-                <Item item={this.props.items[i]} key={"search_" + this.props.items[i].id} category={this.props.category} alreadyAdded={alreadyAdded} />
+                <Item closeSearch={this.props.closeSearch} item={this.props.items[i]} key={"search_" + this.props.items[i].id} category={this.props.category} alreadyAdded={alreadyAdded} />
               );
             }
             else {
@@ -322,6 +334,7 @@ class Main extends React.Component {
         this.onChangeSearch = this.onChangeSearch.bind(this);
         this.getActiveData = this.getActiveData.bind(this);
         this.getAllData = this.getAllData.bind(this);
+        this.closeSearch = this.closeSearch.bind(this);
     }
 
     componentWillMount() {
@@ -336,6 +349,11 @@ class Main extends React.Component {
 
     resolve() {
         console.log('test');
+    }
+
+    closeSearch(){
+        this.state.searchData = [];
+        document.getElementById('searchBar').value = "";
     }
 
     /* Get all items that the user have to buy */
@@ -435,8 +453,8 @@ class Main extends React.Component {
             <div className="content_wrapper">
 
                 <div className="searchfield">
-                <input className="serachBar" placeholder="Search..." onChange={this.onChangeSearch} />
-                <Listing items={this.state.searchData} category="searchData" activeData={this.state.activeData} />
+                <input id="searchBar" className="serachBar" placeholder="Search..." onChange={this.onChangeSearch} />
+                <Listing closeSearch={this.closeSearch} items={this.state.searchData} category="searchData" activeData={this.state.activeData} />
                 </div>
 
                 <div id="content_optional_wrapper">

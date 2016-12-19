@@ -12,30 +12,8 @@ This project is built with Facebook's React to render the View and with Google's
 3. run ```npm install``` in folder
 4. run ```npm run dev``` for development mode or ```npm run build``` to compile a compressed file
 
-## Setting up Vagrant
+A working example can be found [here](http://listo.lanaya.io)
 
-**On your Main Machine edit your /etc/hosts and add the following entry**
-192.168.13.37 listo.dev
-
-###Vagrant stuff
-*Comes with: node, webpack, bower, gulp, vim, git, nvm*
-
-Mac users:
-```bash
-$ brew cask install virtualbox
-$ brew cask install vagrant
-```
-Marcello:
-1) Install Virtualbox
-2) Install Vagrant: https://www.vagrantup.com/downloads.html
-
-**Afterwards for everyone, in the folder with the VagrantFile**
-```bash
-vagrant up
-vagrant ssh
-cd /vagrant
-npm install
-npm run dev
-```
-
-**You can now access listo.dev:3000**
+##Preview
+<img src="gifs/lists_smaller.gif" width="440"/> <img src="gifs/preferences_smaller.gif" width="440"/> 
+<img src="gifs/sexy_searchbar_smaller.gif" width="440"/> <img src="gifs/share_smaller.gif" width="440"/> 

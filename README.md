@@ -15,5 +15,5 @@ This project is built with Facebook's React to render the View and with Google's
 A working example can be found [here](http://listo.lanaya.io)
 
 ##Preview
-![](gifs/lists_smaller.gif "lists") ![](gifs/preferences_smaller.gif "preferences")
-![](gifs/share_smaller.gif "share") ![](gifs/sexy_searchbar_smaller.gif "searchbar") 
+![](gifs/lists_smaller.gif "lists" =320x180) ![](gifs/preferences_smaller.gif =320x180)
+![](gifs/share_smaller.gif "share" =320x180) ![](gifs/sexy_searchbar_smaller.gif =320x180) 

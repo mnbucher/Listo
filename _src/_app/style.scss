@@ -88,8 +88,8 @@ body {
 
 .nav_top p {
   text-align: center;
-  font-size: 1.618em;
-  padding: 1em;
+  font-size: 1.309em;
+  padding: 2em 0 1em;
   color: #fff;
 }
 
@@ -226,7 +226,7 @@ h2.emptyComment {
   width: 100vw;
   background-color: black;
   opacity: 0.9;
-  height: calc(100vh - 3em);
+  height: calc(100vh - 3.6em);
 }
 
 .overlayMenu ul {
@@ -238,7 +238,7 @@ h2.emptyComment {
 
 .overlayMenu ul li {
   color: #e2e2e2;
-  font-size: 1.618em;
+  font-size: 1.309em;
   margin: 1.618em 0 0;
   line-height: 1.2;
 }
@@ -273,6 +273,7 @@ h2.emptyComment {
 
 .popup_wrapper {
   position: fixed;
+  overflow: scroll;
   width: 100vw;
   top: 0;
   left: 0;
@@ -283,8 +284,8 @@ h2.emptyComment {
 }
 
 .popup_box {
-  width: 70vw;
-  margin: 3em auto;
+  width: 90vw;
+  margin: 2em auto;
   padding: 2em;
   height: auto;
   background-color: #FFFFFF;
@@ -294,17 +295,17 @@ h2.emptyComment {
 }
 
 .popup_box.popup_settings {
-  padding: 2em 2em 6em;
+  padding: 1.5em 2em 6em;
 }
 
 .popup_box h1 {
   font-size: 1.618em;
   text-align: center;
-  margin-bottom: 1.618em;
+  margin-bottom: 1em;
 }
 
 .team_wrapper {
-  width: 70%;
+  width: 90%;
   margin: 0 auto 4em;
 }
 
@@ -356,7 +357,7 @@ h2.emptyComment {
 }
 
 .settings_wrapper p {
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
 }
 
 .settings_wrapper input {

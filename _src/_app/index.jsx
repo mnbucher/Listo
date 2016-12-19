@@ -109,23 +109,23 @@ class Team extends React.Component {
     return(
       <div className="popup_wrapper">
         <div className="popup_box bounceInUp">
-          <h1>The Funky Kitchen Club</h1>
+          <h1>Cooking Bros</h1>
           <button onClick={this.closePopup}>Close</button>
           <div className="team_wrapper">
             <div className="team_person">
-              <img src="../basil_menz.png" />
+              <img src="basil_menz.png" />
               <p>You</p>
             </div>
             <div className="team_person">
-              <img src="../oliver_fischer.png" />
+              <img src="oliver_fischer.png" />
               <p>Marcel Bühler</p>
             </div>
             <div className="team_person">
-              <img src="../simeon_bieri.png" />
+              <img src="simeon_bieri.png" />
               <p>David Haas</p>
             </div>
             <div className="team_person">
-              <img src="../new_member.png" />
+              <img src="new_member.png" />
               <p>+ Add Member</p>
             </div>
           </div>

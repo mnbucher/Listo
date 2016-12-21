@@ -18,6 +18,6 @@ A working example can be found [here](http://listo.lanaya.io)
 
 <img src="gifs/listo_final.jpg" width="100%"/> 
 
-## Some User Experience
+## Some Interactions
 <img src="gifs/lists_smaller.gif" width="440"/> <img src="gifs/preferences_smaller.gif" width="440"/> 
 <img src="gifs/sexy_searchbar_smaller.gif" width="440"/> <img src="gifs/share_smaller.gif" width="440"/> 

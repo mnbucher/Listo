@@ -14,9 +14,9 @@ This project is built with Facebook's React to render the View and with Google's
 
 A working example can be found [here](http://listo.lanaya.io)
 
-## How the app looks like
+## Final Project
 
-<img src="gifs/preview.jpg" width="100%"/> 
+<img src="gifs/listo_final.jpg" width="100%"/> 
 
 ## Some Interactions
 <img src="gifs/lists_smaller.gif" width="440"/> <img src="gifs/preferences_smaller.gif" width="440"/> 

@@ -1,9 +1,9 @@
 # Listo
-Project for the Human-Computer Interaction (HCI) lecture in Autumns Semester 2016 @ University of Zurich
+Project for the Human-Computer Interaction (HCI) lecture during Fall Semester 2016 @ University of Zurich (UZH)
 
 ## Frameworks
 
-This project is built with Facebook's React to render the View and with Google's Firebase as a Database. The react stuff is in the file index.jsx, which is written in JSX and ES2015. All this is compiled with Babel to normal Javascript and bundled with Webpack to a single JS file.
+This project is built with Facebook's React to render the View and with Google's Firebase as a Database. The Webapp is therefore written in Javascript with JSX and ES2015.
 
 ## How to use this project
 
@@ -16,8 +16,4 @@ A working example can be found [here](http://listo.lanaya.io)
 
 ## Final Project
 
-<img src="gifs/listo_final.jpg" width="100%"/> 
-
-## Some Interactions
-<img src="gifs/lists_smaller.gif" width="440"/> <img src="gifs/preferences_smaller.gif" width="440"/> 
-<img src="gifs/sexy_searchbar_smaller.gif" width="440"/> <img src="gifs/share_smaller.gif" width="440"/> 
+<img src="gifs/listo_final.jpg" width="100%"/>
